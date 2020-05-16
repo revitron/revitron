@@ -9,4 +9,10 @@ A python wrapper for the Revit API to be used as a pyRevit extension
 ![GitHub top language](https://img.shields.io/github/languages/top/revitron/revitron)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/revitron/revitron)
 
+## Install
+
+This library has to be used as a pyRevit extensions. It can be installed using the pyRevit CLI as follows:
+
+    pyrevit extend lib revitron https://github.com/revitron/revitron.git --dest=path\to\extensions
+
 &copy; 2020 Marc Anton Dahmen
