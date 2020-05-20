@@ -24,18 +24,21 @@ class Param:
             
     @staticmethod
     def bind(category, paramName, paramType):
-        
+    
         if Param.isBoundToCategory(category, paramName):
             return True
+    
+        paramFile = revitron.APP.OpenSharedParameterFile()    
+        group = None
         
-        tempFile = 'C:\\temp\\SharedParameter{}.txt'.format(paramName)
-        if os.path.isfile(tempFile):
-            os.remove(tempFile)
-        open(tempFile, 'a').close()
-        origSharedParametersFile = str(revitron.APP.SharedParametersFilename)
-        revitron.APP.SharedParametersFilename = tempFile
-        paramFile = revitron.APP.OpenSharedParameterFile()
-        group = paramFile.Groups.Create('apiCreated')
+        for item in paramFile.Groups:
+            if item.Name == '__API':
+                group = item
+                break
+        
+        if not group:
+            group = paramFile.Groups.Create('__API')
+            
         ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(paramName, paramType)
         definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
         cat = revitron.DOC.Settings.Categories.get_Item(category)
@@ -43,5 +46,4 @@ class Param:
         categories.Insert(cat)
         binding = revitron.APP.Create.NewInstanceBinding(categories)
         revitron.DOC.ParameterBindings.Insert(definition, binding)
-        revitron.APP.SharedParametersFilename = origSharedParametersFile
         
