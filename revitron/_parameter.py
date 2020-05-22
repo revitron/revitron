@@ -15,21 +15,19 @@ class Parameter:
         Returns:
             boolean -- Returns True if parameter is bound already
         """
-        try:
-            for param in revitron.Filter().byClass(revitron.DB.SharedParameterElement).getElements():
-                
-                if Parameter.GetDefinition().Name == paramName:
-                    definition = Parameter.GetDefinition()
-                    break
+        definition = None
+        
+        for param in revitron.Filter().byClass(revitron.DB.SharedParameterElement).getElements():
+            if param.GetDefinition().Name == paramName:
+                definition = param.GetDefinition()
+                break
             
-            if definition:
-                binding = revitron.DOC.ParameterBindings[definition]
-                
-                for cat in binding.Categories:
-                    if cat.Name == category:
-                        return True
-        except:
-            return False
+        if definition:
+            binding = revitron.DOC.ParameterBindings[definition]
+            for cat in binding.Categories:
+                if cat.Name == category:
+                    return True
+        
             
     @staticmethod
     def bind(category, paramName, paramType = 'Text'):
@@ -44,7 +42,7 @@ class Parameter:
         """
         if Parameter.isBoundToCategory(category, paramName):
             return True
-    
+
         paramFile = revitron.APP.OpenSharedParameterFile()    
         group = None
         definition = None
