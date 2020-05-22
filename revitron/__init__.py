@@ -2,6 +2,7 @@ from _element import *
 from _filter import *
 from _parameter import *
 from _selection import *
+from _transaction import *
 import Autodesk.Revit.DB
 
 DOC = __revit__.ActiveUIDocument.Document
