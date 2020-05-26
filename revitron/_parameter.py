@@ -167,7 +167,7 @@ class Parameter:
         return 0.0
     
     
-    def set(value):
+    def set(self, value):
         """
         Set a parameter value for an element.
 
