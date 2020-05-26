@@ -1,4 +1,5 @@
 from _element import *
+from _document import *
 from _filter import *
 from _parameter import *
 from _selection import *
