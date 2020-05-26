@@ -6,9 +6,13 @@ from _selection import *
 from _transaction import *
 import Autodesk.Revit.DB
 
-DOC = __revit__.ActiveUIDocument.Document
-UIDOC = __revit__.ActiveUIDocument
-APP = DOC.Application
+try:
+    DOC = __revit__.ActiveUIDocument.Document
+    UIDOC = __revit__.ActiveUIDocument
+    APP = DOC.Application
+except:
+    pass
+
 DB = Autodesk.Revit.DB
 
 class _(Element):
