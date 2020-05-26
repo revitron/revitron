@@ -3,10 +3,22 @@ import os
 
 class Parameter:
     
+    
+    def __init__(self, element, name):
+        """
+        Init a new parameter instance.
+
+        Arguments:
+            element {object} -- Revit element
+            name {string} -- The parameter name
+        """
+        self.parameter = element.LookupParameter(name)
+    
+    
     @staticmethod
     def isBoundToCategory(category, paramName):
         """
-        Test if a parameter is bound to a given category
+        Test if a parameter is bound to a given category.
 
         Arguments:
             category {string} -- The category name
@@ -28,11 +40,11 @@ class Parameter:
                 if cat.Name == category:
                     return True
         
-            
+        
     @staticmethod
     def bind(category, paramName, paramType = 'Text'):
         """
-        Bind a new parameter to a category
+        Bind a new parameter to a category.
 
         Arguments:
             category {string} -- The built-in category 
@@ -70,19 +82,98 @@ class Parameter:
         categories.Insert(cat)
         binding = revitron.APP.Create.NewInstanceBinding(categories)
         revitron.DOC.ParameterBindings.Insert(definition, binding)
+    
+    
+    def exists(self):
+        """
+        Checks if a parameter exists.add()
+
+        Returns:
+            boolean -- True if existing
+        """
+        return (self.parameter != None)
         
-    @staticmethod
-    def set(element, paramName, value):
+       
+    def hasValue(self):
+        """
+        Checks if parameter has a value.add()
+
+        Returns:
+            boolean -- True if the parameter has a value
+        """
+        if self.exists():
+            return (self.parameter.HasValue)
+    
+    
+    def get(self):
+        """
+        Get a parameter value.
+        """
+        switcher = {
+            'String': self.getString,
+            'ValueString': self.getValueString,
+            'Integer': self.getInteger,
+            'Double': self.getDouble
+        }
+        value = switcher.get(str(self.parameter.StorageType))
+        return value()
+        
+    
+    def getString(self):
+        """
+        Return the parameter value as string.
+
+        Returns:
+            string -- The value
+        """
+        if self.hasValue():
+            return self.parameter.AsString()
+        return ''
+    
+    
+    def getValueString(self):
+        """
+        Return the parameter value as value string.
+
+        Returns:
+            string -- The value
+        """
+        if self.hasValue():
+            return self.parameter.AsValueString()
+        return ''
+    
+    
+    def getInteger(self):
+        """
+        Return the parameter value as integer.
+
+        Returns:
+            integer -- The value
+        """
+        if self.hasValue():
+            return self.parameter.AsInteger()
+        return 0
+    
+    
+    def getDouble(self):
+        """
+        Return the parameter value as double.
+
+        Returns:
+            double -- The value
+        """
+        if self.hasValue():
+            return self.parameter.AsDouble()
+        return 0.0
+    
+    
+    def set(value):
         """
         Set a parameter value for an element.
 
         Arguments:
-            element {object} -- The element
-            paraName {string} -- The parameter name
             value {string} -- The value
         """
-        param = element.LookupParameter(paramName)
-        if param != None and not param.IsReadOnly:
-            param.Set(value)
+        if self.parameter != None and not self.parameter.IsReadOnly:
+            self.parameter.Set(value)
  
-        
