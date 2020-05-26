@@ -4,16 +4,16 @@ class Element:
     
     el = None
     
-    def __init__(self, el):
-        self.el = el
+    def __init__(self, element):
+        self.element = element
     
     def getClassName(self):
-        return self.el.__class__.__name__
+        return self.element.__class__.__name__
     
     def get(self, paramName):
-        return revitron.Parameter(self.el, paramName).get()
+        return revitron.Parameter(self.element, paramName).get()
     
     def set(self, paramName, value, paramType = 'Text'):
-        revitron.Parameter.bind(self.el.Category.Name, paramName, paramType)
-        revitron.Parameter(self.el, paramName).set(value)
+        revitron.Parameter.bind(self.element.Category.Name, paramName, paramType)
+        revitron.Parameter(self.element, paramName).set(value)
         return self
