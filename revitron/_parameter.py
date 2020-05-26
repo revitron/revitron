@@ -107,15 +107,24 @@ class Parameter:
     
     def get(self):
         """
-        Get a parameter value.
+        Return the parameter value.
+
+        Returns:
+            mixed -- The value
         """
+        if self.exists():
+            storageType = str(self.parameter.StorageType)
+        else:
+            storageType = 'String'
+        
         switcher = {
             'String': self.getString,
             'ValueString': self.getValueString,
             'Integer': self.getInteger,
             'Double': self.getDouble
         }
-        value = switcher.get(str(self.parameter.StorageType))
+        
+        value = switcher.get(storageType)
         return value()
         
     
