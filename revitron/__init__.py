@@ -18,7 +18,7 @@ DB = Autodesk.Revit.DB
 
 def _(element):
     """
-    Shorthand function to init a Revitron element instance based on a Revit element category.add()
+    Shorthand function to init a Revitron element instance based on a Revit element category.
 
     Args:
         element (object): The Revit element
