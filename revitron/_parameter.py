@@ -4,28 +4,28 @@ import os
 class Parameter:
     
     
-    def __init__(self, element, name):
+    def __init__(self, element, name):        
         """
         Init a new parameter instance.
 
-        Arguments:
-            element {object} -- Revit element
-            name {string} -- The parameter name
+        Args:
+            element (object): Revit element
+            name (string): The parameter name
         """
         self.parameter = element.LookupParameter(name)
     
     
     @staticmethod
-    def isBoundToCategory(category, paramName):
+    def isBoundToCategory(category, paramName):        
         """
         Test if a parameter is bound to a given category.
 
-        Arguments:
-            category {string} -- The category name
-            paramName {sting} -- The parameter name
+        Args:
+            category (string): The category name
+            paramName (string): The parameter name
 
         Returns:
-            boolean -- Returns True if parameter is bound already
+            boolean: Returns True if parameter is bound already
         """
         definition = None
         
@@ -46,11 +46,10 @@ class Parameter:
         """
         Bind a new parameter to a category.
 
-        Arguments:
-            category {string} -- The built-in category 
-            paramName {string} -- The parameter name
-            paramType {string} -- The parameter type (see here: https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm)
-            
+        Args:
+            category (string): The built-in category 
+            paramName (string): The parameter name
+            paramType (string): The parameter type (see here: https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm)
         """
         if Parameter.isBoundToCategory(category, paramName):
             return True
@@ -77,7 +76,7 @@ class Parameter:
             ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(paramName, pt)
             definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
           
-        cat = revitron.DOC.Settings.Categories.get_Item(category)
+        cat = revitron.Category(category).get()
         categories = revitron.APP.Create.NewCategorySet();
         categories.Insert(cat)
         binding = revitron.APP.Create.NewInstanceBinding(categories)
@@ -89,7 +88,7 @@ class Parameter:
         Checks if a parameter exists.add()
 
         Returns:
-            boolean -- True if existing
+            boolean: True if existing
         """
         return (self.parameter != None)
         
@@ -99,7 +98,7 @@ class Parameter:
         Checks if parameter has a value.add()
 
         Returns:
-            boolean -- True if the parameter has a value
+            boolean: True if the parameter has a value
         """
         if self.exists():
             return (self.parameter.HasValue)
@@ -110,7 +109,7 @@ class Parameter:
         Return the parameter value.
 
         Returns:
-            mixed -- The value
+            mixed: The value
         """
         if self.exists():
             storageType = str(self.parameter.StorageType)
@@ -133,7 +132,7 @@ class Parameter:
         Return the parameter value as string.
 
         Returns:
-            string -- The value
+            string: The value
         """
         if self.hasValue():
             return self.parameter.AsString()
@@ -145,7 +144,7 @@ class Parameter:
         Return the parameter value as value string.
 
         Returns:
-            string -- The value
+            string: The value
         """
         if self.hasValue():
             return self.parameter.AsValueString()
@@ -157,7 +156,7 @@ class Parameter:
         Return the parameter value as integer.
 
         Returns:
-            integer -- The value
+            integer: The value
         """
         if self.hasValue():
             return self.parameter.AsInteger()
@@ -169,7 +168,7 @@ class Parameter:
         Return the parameter value as double.
 
         Returns:
-            double -- The value
+            double: The value
         """
         if self.hasValue():
             return self.parameter.AsDouble()
@@ -180,8 +179,8 @@ class Parameter:
         """
         Set a parameter value for an element.
 
-        Arguments:
-            value {string} -- The value
+        Args:
+            value (string): The value
         """
         if self.parameter != None and not self.parameter.IsReadOnly:
             self.parameter.Set(value)
