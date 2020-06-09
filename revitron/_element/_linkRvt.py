@@ -7,11 +7,15 @@ from _element import Element
 class LinkRvt(Element):
     
     def moveOnDisk(self, search, replace):
+        linkType = self.getType()
+        transaction = revitron.Transaction()
+        linkType.PathType = revitron.DB.PathType.Absolute
+        transaction.commit()
         current = self.getPath()
         new = re.sub(search, replace, current, re.IGNORECASE)
         
         if current != new:
-            linkType = self.getType()
+            
             worksetConfig = revitron.DB.WorksetConfiguration()
             try:
                 os.makedirs(os.path.dirname(new))
