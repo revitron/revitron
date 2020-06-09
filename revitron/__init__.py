@@ -16,5 +16,20 @@ except:
 
 DB = Autodesk.Revit.DB
 
-class _(Element):
-    pass
+def _(element):
+    """
+    Shorthand function to init a Revitron element instance based on a Revit element category.add()
+
+    Args:
+        element (object): The Revit element
+
+    Returns:
+        mixed: A Revitron element instance
+    """    
+    category = revitron.Parameter(element, 'Category').getValueString()
+        
+    switcher = {
+        'RVT Links': LinkRvt(element)
+    }
+    
+    return switcher.get(category, Element(element))
