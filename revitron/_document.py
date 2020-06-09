@@ -3,10 +3,15 @@ import revitron
 
 class Document:
     
-    @staticmethod
-    def isFamily():
+    def __init__(self, doc = None):
+        if doc is not None:
+            self.doc = doc
+        else:
+            self.doc = revitron.DOC
+    
+    def isFamily(self):
         try:
-            if revitron.DOC.FamilyManager is not None:
+            if self.doc.FamilyManager is not None:
                 return True
         except:
             pass
