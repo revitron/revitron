@@ -9,6 +9,9 @@ class Document:
         else:
             self.doc = revitron.DOC
     
+    def getPath(self):
+        return self.doc.PathName
+    
     def isFamily(self):
         try:
             if self.doc.FamilyManager is not None:
