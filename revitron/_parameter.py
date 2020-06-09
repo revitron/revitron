@@ -120,7 +120,8 @@ class Parameter:
             'String': self.getString,
             'ValueString': self.getValueString,
             'Integer': self.getInteger,
-            'Double': self.getDouble
+            'Double': self.getDouble,
+            'ElementId': self.getElementId
         }
         
         value = switcher.get(storageType)
@@ -174,6 +175,16 @@ class Parameter:
             return self.parameter.AsDouble()
         return 0.0
     
+    def getElementId(self):
+        """
+        Return the parameter value as ElementId.
+
+        Returns:
+            object: The value
+        """
+        if self.hasValue():
+            return self.parameter.AsElementId()
+        return 0
     
     def set(self, value):
         """
