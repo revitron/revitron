@@ -27,6 +27,26 @@ class Filter:
         self.collector = self.collector.OfCategory(revitron.Category(name).getBic())
         return self
     
+    def onlyTypes(self):
+        """
+        Reduce to collection to types only.
+
+        Returns:
+            object: The Filter instance
+        """
+        self.collector = self.collector.WhereElementIsElementType()
+        return self
+    
+    def noTypes(self):
+        """
+        Removes all types form collection.
+
+        Returns:
+            object: The Filter instance
+        """
+        self.collector = self.collector.WhereElementIsNotElementType()
+        return self
+    
     def byClass(self, cls):
         """
         Filters the collection by class.add()
