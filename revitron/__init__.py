@@ -1,10 +1,12 @@
 from _element import *
 from _category import *
 from _document import *
+from _externalReference import *
 from _filter import *
 from _parameter import *
 from _selection import *
 from _transaction import *
+from _transmissionData import *
 import Autodesk.Revit.DB
 
 try:
