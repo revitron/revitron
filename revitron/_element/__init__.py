@@ -1,2 +1,2 @@
 from _element import *
-from _linkRvt import *
+from _link import *
