@@ -2,6 +2,7 @@ import revitron
 import re
 import shutil
 import os
+import sys
 
 class TransmissionData:
     
@@ -13,7 +14,11 @@ class TransmissionData:
 
         Args:
             hostPath (string): The path of the host model
-        """        
+        """     
+        if revitron.Document.isOpen(hostPath):
+            print('The host model must be closed to edit transmission data!')
+            sys.exit()
+           
         self.hostPath = revitron.DB.FilePath(hostPath)
         self.data = revitron.DB.TransmissionData.ReadTransmissionData(self.hostPath)
         
