@@ -3,6 +3,7 @@ from _category import *
 from _document import *
 from _externalReference import *
 from _filter import *
+from _link import *
 from _parameter import *
 from _selection import *
 from _transaction import *
