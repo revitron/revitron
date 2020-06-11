@@ -10,17 +10,17 @@ a.reference.internal > span {
 }
 
 .pre,
-.sig-prename.descclassname {
+.descclassname {
     color: #858585;
 }
 
 a.headerlink,
-.sig-name.descname {
-    color: #5687b4;
+.descname {
+    color: #121212;
 }
 
 a.headerlink:hover {
-    background-color: #5687b4;
+    background-color: #888888;
 }
 
 main img {
