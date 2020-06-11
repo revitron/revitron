@@ -1,13 +1,19 @@
-from _element import *
-from _category import *
-from _document import *
-from _externalReference import *
-from _filter import *
-from _link import *
-from _parameter import *
-from _selection import *
-from _transaction import *
-from _transmissionData import *
+"""
+Revitron
+========
+Cool
+"""
+
+from revitron.element import Element
+from revitron.category import Category
+from revitron.document import Document
+from revitron.externalreference import ExternalReference
+from revitron.filter import Filter
+from revitron.link import LinkRvt
+from revitron.parameter import Parameter
+from revitron.selection import Selection
+from revitron.transaction import Transaction
+from revitron.transmissiondata import TransmissionData
 import Autodesk.Revit.DB
 
 try:
@@ -29,7 +35,7 @@ def _(element):
     Returns:
         mixed: A Revitron element instance
     """    
-    category = revitron.Parameter(element, 'Category').getValueString()
+    category = Parameter(element, 'Category').getValueString()
         
     switcher = {
         'RVT Links': LinkRvt(element)

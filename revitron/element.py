@@ -1,7 +1,14 @@
+"""
+Element
+
+
+"""
 import revitron
 
 class Element:
-    
+    """
+    Element
+    """    
     def __init__(self, element):
         """
         Inits a new element instance.
