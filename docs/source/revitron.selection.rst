@@ -1,8 +1,7 @@
-revitron.selection module
-=========================
+revitron.selection
+==================
 
 .. automodule:: revitron.selection
    :members:
    :undoc-members:
    :show-inheritance:
-   :private-members:

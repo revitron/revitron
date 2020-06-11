@@ -1,6 +1,6 @@
 set cwd=%~dp0
 cd %cwd%
 cd docs
-sphinx-apidoc --private --ext-viewcode --ext-githubpages -e -T -M --implicit-namespaces -f -o source/ ../revitron
+sphinx-apidoc --ext-viewcode --templatedir source/_templates/ -eTMf -o source/ ../revitron
 call make html
 cd %cwd%

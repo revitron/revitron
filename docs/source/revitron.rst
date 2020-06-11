@@ -1,11 +1,10 @@
-revitron package
-================
+API Reference
+=============
 
 .. automodule:: revitron
    :members:
    :undoc-members:
    :show-inheritance:
-   :private-members:
 
 Submodules
 ----------

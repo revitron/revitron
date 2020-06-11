@@ -1,8 +1,7 @@
-revitron.externalreference module
-=================================
+revitron.externalreference
+==========================
 
 .. automodule:: revitron.externalreference
    :members:
    :undoc-members:
    :show-inheritance:
-   :private-members:

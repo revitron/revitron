@@ -1,8 +1,7 @@
-revitron.element module
-=======================
+revitron.element
+================
 
 .. automodule:: revitron.element
    :members:
    :undoc-members:
    :show-inheritance:
-   :private-members:

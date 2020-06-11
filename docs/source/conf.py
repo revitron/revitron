@@ -64,7 +64,22 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+#html_theme = 'alabaster'
+
+
+html_theme = "pydata_sphinx_theme"
+html_logo = "_static/revitron.svg"
+
+html_theme_options = {
+    "github_url": "https://github.com/revitron/revitron"
+}
+
+html_context = {
+    "github_user": "revitron",
+    "github_repo": "revitron",
+    "github_version": "master",
+    "doc_path": "docs"
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

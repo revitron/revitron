@@ -1,8 +1,7 @@
-revitron.filter module
-======================
+revitron.filter
+===============
 
 .. automodule:: revitron.filter
    :members:
    :undoc-members:
    :show-inheritance:
-   :private-members:
