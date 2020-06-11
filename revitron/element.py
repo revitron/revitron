@@ -29,7 +29,7 @@ class Element:
     
     def get(self, paramName):
         """
-        Returns a parameter value.add()
+        Returns a parameter value.
 
         Args:
             paramName (string): The name of the parameter
@@ -41,7 +41,7 @@ class Element:
     
     def set(self, paramName, value, paramType = 'Text'):
         """
-        Sets a parameter value.add()
+        Sets a parameter value.
 
         Args:
             paramName (string): The parameter name
