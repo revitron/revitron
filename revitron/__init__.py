@@ -1,7 +1,6 @@
 """
 Revitron
 ========
-Cool
 """
 
 from revitron.element import Element
