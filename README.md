@@ -1,6 +1,6 @@
 ![](svg/revitron-readme.svg)
 
-# ReviTron
+# Revitron
 
 A python wrapper for the Revit API to be used as a pyRevit extension 
 
@@ -15,4 +15,9 @@ This library has to be used as a pyRevit extensions. It can be installed using t
 
     pyrevit extend lib revitron https://github.com/revitron/revitron.git --dest=path\to\extensions
 
-&copy; 2020 Marc Anton Dahmen
+## Docs
+
+The documentation can be found [here](https://revitron.readthedocs.io/en/latest/index.html).     
+
+
+&copy; 2020 Marc Anton Dahmen &mdash; MIT license
