@@ -4,7 +4,7 @@ class Filter:
     
     def __init__(self, viewId = None):
         """
-        Inits a new Filter instance
+        Inits a new Filter instance.
 
         Args:
             viewId (Element ID, optional): The optional view Id. Defaults to None.
@@ -16,7 +16,7 @@ class Filter:
     
     def byCategory(self, name):
         """
-        Filters the collection by a category name - not a built-in category.add()
+        Filters the collection by a category name - not a built-in category.
 
         Args:
             name (string): The category name
@@ -39,7 +39,7 @@ class Filter:
     
     def noTypes(self):
         """
-        Removes all types form collection.
+        Removes all types from collection.
 
         Returns:
             object: The Filter instance
@@ -49,7 +49,7 @@ class Filter:
     
     def byClass(self, cls):
         """
-        Filters the collection by class.add()
+        Filters the collection by class.
 
         Returns:
             object: The Filter instance
@@ -59,7 +59,7 @@ class Filter:
     
     def getElements(self):
         """
-        Get the collection as elements.add()
+        Get the collection as elements.
 
         Returns:
             list: The list of filtered elements
