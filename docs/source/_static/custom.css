@@ -4,6 +4,7 @@ h2,
     color: #333333 !important;
 }
 
+li:not([class]) a:not([class]),
 a.reference.internal,
 a.reference.internal > span {
     color: #555555 !important;
@@ -25,4 +26,9 @@ a.headerlink:hover {
 
 main img {
     margin: 30px 0;
+}
+
+ul.search li {
+    padding: 5px 0;
+    background-image: none;
 }
