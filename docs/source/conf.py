@@ -72,7 +72,7 @@ html_logo = "_static/revitron.svg"
 
 html_theme_options = {
     "external_links": [
-        {"url": "https://github.com/revitron/revitron-ui", "name": "Revitron UI"},
+        {"url": "https://github.com/revitron/revitron-ui", "name": "UI"},
         {"url": "https://github.com/revitron/revitron", "name": "GitHub"}
     ]
 }
