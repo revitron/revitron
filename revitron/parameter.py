@@ -85,7 +85,7 @@ class Parameter:
     
     def exists(self):
         """
-        Checks if a parameter exists.add()
+        Checks if a parameter exists.
 
         Returns:
             boolean: True if existing
@@ -95,7 +95,7 @@ class Parameter:
        
     def hasValue(self):
         """
-        Checks if parameter has a value.add()
+        Checks if parameter has a value.
 
         Returns:
             boolean: True if the parameter has a value
