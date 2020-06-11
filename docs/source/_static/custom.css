@@ -1,0 +1,28 @@
+h1,
+h2,
+.navbar-nav > .active > .nav-link {
+    color: #333333 !important;
+}
+
+a.reference.internal,
+a.reference.internal > span {
+    color: #555555 !important;
+}
+
+.pre,
+.sig-prename.descclassname {
+    color: #858585;
+}
+
+a.headerlink,
+.sig-name.descname {
+    color: #5687b4;
+}
+
+a.headerlink:hover {
+    background-color: #5687b4;
+}
+
+main img {
+    margin: 30px 0;
+}

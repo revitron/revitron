@@ -8,12 +8,15 @@ Revitron
 
 A python wrapper for the Revit API to be used as a pyRevit extension.
 
-.. toctree::
-   :maxdepth: 4
-   
+.. image:: _static/revitron-large.svg
 
+.. toctree::
+   :maxdepth: 2
+
+   concept
+   install
    revitron
-   GitHub <https://github.com/revitron/revitron>
+
 
 Indices and tables
 ------------------

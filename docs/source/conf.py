@@ -71,7 +71,10 @@ html_theme = "pydata_sphinx_theme"
 html_logo = "_static/revitron.svg"
 
 html_theme_options = {
-    "github_url": "https://github.com/revitron/revitron"
+    "external_links": [
+        {"url": "https://github.com/revitron/revitron-ui", "name": "Revitron UI"},
+        {"url": "https://github.com/revitron/revitron", "name": "GitHub"}
+    ]
 }
 
 html_context = {
@@ -85,3 +88,7 @@ html_context = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+html_css_files = [
+    'custom.css',
+]

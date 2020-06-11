@@ -1,5 +1,5 @@
-API Reference
-=============
+Revitron API Reference
+======================
 
 .. automodule:: revitron
    :members:
