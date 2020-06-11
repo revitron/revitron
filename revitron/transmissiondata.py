@@ -10,7 +10,7 @@ class TransmissionData:
     
     def __init__(self, hostPath):
         """
-        Inits a new TransmissionData instance
+        Inits a new TransmissionData instance.
 
         Args:
             hostPath (string): The path of the host model
