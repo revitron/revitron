@@ -4,10 +4,25 @@ h2,
     color: #333333 !important;
 }
 
-li:not([class]) a:not([class]),
+a code.xref,
+a:not([class]),
+a.reference.external,
 a.reference.internal,
 a.reference.internal > span {
     color: #555555 !important;
+}
+
+.nav-item.toc-entry.active a.nav-link.active,
+a:hover code.xref,
+a:not([class]):hover,
+a.reference.external:hover,
+a.reference.internal:hover,
+a.reference.internal:hover > span {
+    color: #121212 !important;
+}
+
+a.reference.external {
+    text-decoration: underline;
 }
 
 .pre,
@@ -17,7 +32,7 @@ a.reference.internal > span {
 
 a.headerlink,
 .descname {
-    color: #121212;
+    color: #222222;
 }
 
 a.headerlink:hover {

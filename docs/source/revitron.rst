@@ -9,16 +9,83 @@ API Reference
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+revitron.category
+-----------------
 
-   revitron.category
-   revitron.document
-   revitron.element
-   revitron.externalreference
-   revitron.filter
-   revitron.link
-   revitron.parameter
-   revitron.selection
-   revitron.transaction
-   revitron.transmissiondata
+.. automodule:: revitron.category
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.document
+-----------------
+
+.. automodule:: revitron.document
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.element
+----------------
+
+.. automodule:: revitron.element
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.externalreference
+--------------------------
+
+.. automodule:: revitron.externalreference
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.filter
+---------------
+
+.. automodule:: revitron.filter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.link
+-------------
+
+.. automodule:: revitron.link
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.parameter
+------------------
+
+.. automodule:: revitron.parameter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.selection
+------------------
+
+.. automodule:: revitron.selection
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.transaction
+--------------------
+
+.. automodule:: revitron.transaction
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+revitron.transmissiondata
+-------------------------
+
+.. automodule:: revitron.transmissiondata
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
