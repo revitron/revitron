@@ -66,22 +66,51 @@ exclude_patterns = []
 #
 #html_theme = 'alabaster'
 
-
-html_theme = "pydata_sphinx_theme"
+html_theme = "sphinx_material"
 html_logo = "_static/revitron.svg"
 
 html_theme_options = {
-    "external_links": [
-        {"url": "https://github.com/revitron/revitron-ui", "name": "UI"},
-        {"url": "https://github.com/revitron/revitron", "name": "GitHub"}
+    
+    # Set the name of the project to appear in the navigation.
+    'nav_title': 'Revitron',
+
+    # Set you GA account ID to enable tracking
+    # 'google_analytics_account': 'UA-XXXXX',
+
+    # Specify a base_url used to generate sitemap.xml. If not
+    # specified, then no sitemap will be built.
+    'base_url': 'https://revitron.readthedocs.io/',
+
+    #'theme_color': '#00ff00',
+    # Set the color and the accent color
+    'color_primary': 'grey',
+    'color_accent': 'amber',
+
+    # Set the repo location to get a badge with stats
+    'repo_url': 'https://github.com/revitron/revitron',
+    'repo_name': 'Revitron',
+
+    # Visible levels of the global TOC; -1 means unlimited
+    'globaltoc_depth': 1,
+    # If False, expand all TOC entries
+    'globaltoc_collapse': True,
+    # If True, show hidden TOC entries
+    'globaltoc_includehidden': True,
+    
+    
+    'heroes': {'index': 'A Python wrapper for the Revit API &mdash; to be used as a pyRevit extension'},
+    
+    'master_doc': False,
+    'nav_links': [
+        {'href': 'index', 'title': 'Revitron Lib', 'internal': True},
+        {'href': 'https://github.com/revitron/revitron-ui', 'title': 'Revitron UI', 'internal': False}
     ]
+    
+    
 }
 
-html_context = {
-    "github_user": "revitron",
-    "github_repo": "revitron",
-    "github_version": "master",
-    "doc_path": "docs"
+html_sidebars = {
+    "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

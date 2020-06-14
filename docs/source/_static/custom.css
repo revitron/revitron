@@ -1,49 +1,51 @@
-h1,
-h2,
-.navbar-nav > .active > .nav-link {
-    color: #333333 !important;
+:root {
+
+    --bg: #222222;
+
 }
 
-a code.xref,
-a:not([class]),
-a.reference.external,
-a.reference.internal,
-a.reference.internal > span {
-    color: #555555 !important;
+button[data-md-color-primary=grey] {
+    background-color: var(--bg);
 }
 
-.nav-item.toc-entry.active a.nav-link.active,
-a:hover code.xref,
-a:not([class]):hover,
-a.reference.external:hover,
-a.reference.internal:hover,
-a.reference.internal:hover > span {
-    color: #121212 !important;
+[data-md-color-primary=grey] .md-typeset a {
+    color: var(--bg);
 }
 
-a.reference.external {
-    text-decoration: underline;
+[data-md-color-primary=grey] .md-header,
+[data-md-color-primary=grey] .md-hero {
+    background-color: var(--bg);
 }
 
-.pre,
-.descclassname {
-    color: #858585;
+[data-md-color-primary=grey] .md-nav__link--active,
+[data-md-color-primary=grey] .md-nav__link:active {
+    color: var(--bg);
 }
 
-a.headerlink,
-.descname {
-    color: #222222;
+[data-md-color-primary=grey] .md-nav__item--nested>.md-nav__link {
+    color: inherit
 }
 
-a.headerlink:hover {
-    background-color: #888888;
+@media only screen and (max-width:59.9375em) {
+
+    [data-md-color-primary=grey] .md-nav__source {
+        background-color: var(--bg);
+    }
+    
 }
 
-main img {
-    margin: 30px 0;
+@media only screen and (max-width:76.1875em) {
+
+    html [data-md-color-primary=grey] .md-nav--primary .md-nav__title--site {
+        background-color: var(--bg);
+    }
+
 }
 
-ul.search li {
-    padding: 5px 0;
-    background-image: none;
+@media only screen and (min-width:76.25em) {
+
+    [data-md-color-primary=grey] .md-tabs {
+        background-color: var(--bg);
+    }
+
 }
