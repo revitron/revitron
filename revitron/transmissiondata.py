@@ -4,9 +4,12 @@ import shutil
 import os
 import sys
 
+
 class TransmissionData:
     
+    
     refs = dict()
+    
     
     def __init__(self, hostPath):
         """
@@ -24,6 +27,7 @@ class TransmissionData:
         
         for refId in self.data.GetAllExternalFileReferenceIds():
             self.refs[refId.IntegerValue] = revitron.ExternalReference(self.data.GetLastSavedReferenceData(refId))
+       
         
     def moveLinksOnDisk(self, source, target):
         """
@@ -63,6 +67,7 @@ class TransmissionData:
                 
         self.write()
         
+        
     def write(self):
         """
         Writes the TransmissionData back to the model.
@@ -70,5 +75,3 @@ class TransmissionData:
         self.data.IsTransmitted = True
         revitron.DB.TransmissionData.WriteTransmissionData(self.hostPath, self.data)
         
-    
-    
