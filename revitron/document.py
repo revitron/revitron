@@ -2,6 +2,7 @@ import revitron
 
 class Document:
     
+    
     def __init__(self, doc = None):
         """
         Inits a new Document instance.
@@ -14,6 +15,7 @@ class Document:
         else:
             self.doc = revitron.DOC
     
+    
     def getPath(self):
         """
         Returns the path to the document.
@@ -22,6 +24,7 @@ class Document:
             string: The path
         """
         return self.doc.PathName
+    
     
     def isFamily(self):
         """
@@ -36,6 +39,7 @@ class Document:
         except:
             pass
         return False
+    
     
     @staticmethod
     def isOpen(path):
