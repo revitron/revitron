@@ -6,6 +6,10 @@
 Revitron 
 ========
 
+.. image:: https://readthedocs.org/projects/revitron/badge/?version=latest
+   :target: https://revitron.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
 .. toctree::
    :maxdepth: 2
 
