@@ -2,6 +2,7 @@ import revitron
 
 class Category:
     
+    
     def __init__(self, name):
         """
         Init a new Category by name.
@@ -11,6 +12,7 @@ class Category:
         """
         self.category = revitron.DOC.Settings.Categories.get_Item(name)
         
+        
     def get(self):
         """
         Returns the category object.
@@ -19,6 +21,7 @@ class Category:
             object: The category object
         """
         return self.category
+    
     
     def getBic(self):
         """
