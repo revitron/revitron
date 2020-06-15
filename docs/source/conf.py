@@ -84,7 +84,7 @@ html_theme_options = {
     #'theme_color': '#00ff00',
     # Set the color and the accent color
     'color_primary': 'grey',
-    'color_accent': 'amber',
+    'color_accent': 'light-blue',
 
     # Set the repo location to get a badge with stats
     'repo_url': 'https://github.com/revitron/revitron',
@@ -96,7 +96,6 @@ html_theme_options = {
     'globaltoc_collapse': True,
     # If True, show hidden TOC entries
     'globaltoc_includehidden': True,
-    
     
     'heroes': {'index': 'A Python wrapper for the Revit API &mdash; to be used as a pyRevit extension'},
     
@@ -112,6 +111,8 @@ html_theme_options = {
 html_sidebars = {
     "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
 }
+
+pygments_style = 'xcode'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
