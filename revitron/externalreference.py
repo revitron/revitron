@@ -2,6 +2,7 @@ import revitron
 
 class ExternalReference:
     
+    
     def __init__(self, ref):
         """
         Inits a new ExternalReference instance.
