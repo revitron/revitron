@@ -210,7 +210,6 @@ class ParameterDefinition:
             name (string): Name
         """        
         it = revitron.DOC.ParameterBindings.ForwardIterator()
-        print(it)
         while it.MoveNext():
             if it.Key.Name == name:
                 self.definition = it.Key
