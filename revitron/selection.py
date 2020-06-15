@@ -3,6 +3,7 @@ import revitron
 
 class Selection:
     
+    
     @staticmethod
     def get():
         """
@@ -12,6 +13,7 @@ class Selection:
             list: The list of selected elements
         """        
         return [revitron.DOC.GetElement(elId) for elId in revitron.UIDOC.Selection.GetElementIds()]
+    
     
     @staticmethod
     def first():
