@@ -10,8 +10,6 @@ Revitron
    :target: https://revitron.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-.. image:: https://raw.githubusercontent.com/revitron/revitron/master/svg/revitron-readme.svg
-
 .. toctree::
    :maxdepth: 2
 
