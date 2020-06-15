@@ -1,14 +1,8 @@
-"""
-Element
-
-
-"""
 import revitron
 
 class Element:
-    """
-    Element
-    """    
+    
+     
     def __init__(self, element):
         """
         Inits a new element instance.
@@ -18,6 +12,7 @@ class Element:
         """        
         self.element = element
     
+    
     def getClassName(self):
         """
         Returns the class name of the element.
@@ -26,6 +21,7 @@ class Element:
             string: The class name
         """        
         return self.element.__class__.__name__
+    
     
     def get(self, paramName):
         """
@@ -38,6 +34,7 @@ class Element:
             mixed: The parameter value
         """        
         return revitron.Parameter(self.element, paramName).get()
+    
     
     def set(self, paramName, value, paramType = 'Text'):
         """
