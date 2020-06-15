@@ -175,6 +175,7 @@ class Parameter:
             return self.parameter.AsDouble()
         return 0.0
     
+    
     def getElementId(self):
         """
         Return the parameter value as ElementId.
@@ -186,6 +187,7 @@ class Parameter:
             return self.parameter.AsElementId()
         return 0
     
+    
     def set(self, value):
         """
         Set a parameter value for an element.
@@ -196,3 +198,30 @@ class Parameter:
         if self.parameter != None and not self.parameter.IsReadOnly:
             self.parameter.Set(value)
  
+
+class ParameterDefinition:
+    
+
+    def __init__(self, name):
+        """
+        Inits a new ParameterDefinition instance by name.
+
+        Args:
+            name (string): Name
+        """        
+        it = revitron.DOC.ParameterBindings.ForwardIterator()
+        print(it)
+        while it.MoveNext():
+            if it.Key.Name == name:
+                self.definition = it.Key
+                self.id = it.Key.Id
+       
+                 
+    def getValueProvider(self):
+        """
+        Returns the value provider for the definition.
+
+        Returns:
+            object: The value provider
+        """        
+        return revitron.DB.ParameterValueProvider(self.id)
