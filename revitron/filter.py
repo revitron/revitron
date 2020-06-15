@@ -1,6 +1,8 @@
 import revitron
 
+
 class Filter:
+    
     
     def __init__(self, viewId = None):
         """
@@ -14,6 +16,7 @@ class Filter:
         else:   
             self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
     
+    
     def applyParameterFilter(self, rule):
         """
         Filters the collection by a parameter value.
@@ -24,6 +27,7 @@ class Filter:
         """        
         parameterFilter = revitron.DB.ElementParameterFilter(rule)
         self.collector = self.collector.WherePasses(parameterFilter)
+
 
     def applyStringFilter(self, paramName, value, evaluator):
         """
@@ -38,6 +42,7 @@ class Filter:
         rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
         self.applyParameterFilter(rule)   
     
+    
     def byCategory(self, name):
         """
         Filters the collection by a category name - not a built-in category.
@@ -51,6 +56,7 @@ class Filter:
         self.collector = self.collector.OfCategory(revitron.Category(name).getBic())
         return self
     
+    
     def byClass(self, cls):
         """
         Filters the collection by class.
@@ -60,6 +66,7 @@ class Filter:
         """        
         self.collector = self.collector.OfClass(cls)
         return self
+    
     
     def byStringContains(self, paramName, value):
         """
@@ -75,6 +82,7 @@ class Filter:
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringContains())
         return self 
     
+    
     def byStringEquals(self, paramName, value):
         """
         Filters the collection by a string that equals a parameter value.
@@ -88,6 +96,7 @@ class Filter:
         """
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringEquals())
         return self    
+    
     
     def byStringBeginsWith(self, paramName, value):
         """
@@ -103,6 +112,7 @@ class Filter:
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringBeginsWith())
         return self 
     
+    
     def byStringEndsWith(self, paramName, value):
         """
         Filters the collection by a string at the end of a parameter.
@@ -117,6 +127,7 @@ class Filter:
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringEndsWith())
         return self 
     
+    
     def onlyTypes(self):
         """
         Reduce to collection to types only.
@@ -127,6 +138,7 @@ class Filter:
         self.collector = self.collector.WhereElementIsElementType()
         return self
     
+    
     def noTypes(self):
         """
         Removes all types from collection.
@@ -136,6 +148,7 @@ class Filter:
         """
         self.collector = self.collector.WhereElementIsNotElementType()
         return self
+    
     
     def getElements(self):
         """
