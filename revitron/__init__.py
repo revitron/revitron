@@ -3,6 +3,7 @@ Revitron
 ========
 """
 
+from revitron._helpers import *
 from revitron.element import Element
 from revitron.category import Category
 from revitron.document import Document
