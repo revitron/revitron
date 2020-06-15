@@ -15,6 +15,7 @@ from revitron.transaction import Transaction
 from revitron.transmissiondata import TransmissionData
 import Autodesk.Revit.DB
 
+
 try:
     DOC = __revit__.ActiveUIDocument.Document
     UIDOC = __revit__.ActiveUIDocument
@@ -22,7 +23,9 @@ try:
 except:
     pass
 
+
 DB = Autodesk.Revit.DB
+
 
 def _(element):
     """
