@@ -1,7 +1,9 @@
 import revitron
 from revitron.element import Element
 
+
 class LinkRvt(Element):
+    
     
     def getPath(self):
         """
@@ -14,6 +16,7 @@ class LinkRvt(Element):
             return revitron.Document(self.element.GetLinkDocument()).getPath()
         except:
             pass
+    
     
     def getType(self):
         """
