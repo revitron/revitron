@@ -10,7 +10,7 @@ from revitron.document import Document
 from revitron.externalreference import ExternalReference
 from revitron.filter import Filter
 from revitron.link import LinkRvt
-from revitron.parameter import Parameter, ParameterDefinition
+from revitron.parameter import *
 from revitron.selection import Selection
 from revitron.transaction import Transaction
 from revitron.transmissiondata import TransmissionData
