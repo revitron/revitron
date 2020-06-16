@@ -8,7 +8,7 @@ A python wrapper for the Revit API to be used as a pyRevit extension
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/revitron/revitron)
 [![Documentation Status](https://readthedocs.org/projects/revitron/badge/?version=latest)](https://revitron.readthedocs.io/en/latest/?badge=latest)
 
-![](svg/revitron-readme.svg)
+![](https://raw.githubusercontent.com/revitron/revitron/master/svg/revitron-readme.svg)
 
 ## Install
 
