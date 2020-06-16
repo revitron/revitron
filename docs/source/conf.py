@@ -84,7 +84,7 @@ html_theme_options = {
     #'theme_color': '#00ff00',
     # Set the color and the accent color
     'color_primary': 'grey',
-    'color_accent': 'light-blue',
+    'color_accent': 'red',
 
     # Set the repo location to get a badge with stats
     'repo_url': 'https://github.com/revitron/revitron',
@@ -97,14 +97,17 @@ html_theme_options = {
     # If True, show hidden TOC entries
     'globaltoc_includehidden': True,
     
-    'heroes': {'index': 'A Python wrapper for the Revit API &mdash; to be used as a pyRevit extension'},
+    'heroes': {
+        'index': 'A Python wrapper for the Revit API &mdash; to be used as a pyRevit extension',
+        'jarvis': 'A project based pyRevit package manager'
+        },
     
     'master_doc': False,
     'nav_links': [
-        {'href': 'index', 'title': 'Revitron Lib', 'internal': True},
-        {'href': 'https://github.com/revitron/revitron-ui', 'title': 'Revitron UI', 'internal': False}
+        {'href': 'revitron', 'title': 'API', 'internal': True},
+        {'href': 'https://github.com/revitron/revitron-ui', 'title': 'UI', 'internal': False},
+        {'href': 'jarvis', 'title': 'Jarvis', 'internal': True},
     ]
-    
     
 }
 
