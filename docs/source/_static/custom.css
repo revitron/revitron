@@ -84,3 +84,20 @@ a > .viewcode-link {
 .sig-prename.descclassname + .sig-name.descname {
     margin-left: -8px;
 }
+
+dl.class,
+dl.method {
+    margin-block-start: 2em;
+    margin-block-end: 2em;
+}
+
+.field-list.simple dt {
+    padding-left: 0 !important;
+}
+
+.field-list.simple dd,
+.field-list.simple dd > p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
