@@ -14,6 +14,7 @@ from revitron.parameter import Parameter, ParameterDefinition
 from revitron.selection import Selection
 from revitron.transaction import Transaction
 from revitron.transmissiondata import TransmissionData
+from revitron.view import *
 import Autodesk.Revit.DB
 
 
