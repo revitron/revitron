@@ -4,6 +4,21 @@
 
 }
 
+.md-header-nav__button.md-logo {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+.md-header-nav__button.md-logo img {
+    height: 32px;
+}
+
+.md-sidebar__inner .md-nav__button.md-logo img {
+    height: 34px;
+    width: 35px;
+    margin-bottom: 0.2em;
+}
+
 button[data-md-color-primary=grey] {
     background-color: var(--bg);
 }
