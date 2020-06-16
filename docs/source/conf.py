@@ -84,7 +84,7 @@ html_theme_options = {
     #'theme_color': '#00ff00',
     # Set the color and the accent color
     'color_primary': 'grey',
-    'color_accent': 'red',
+    'color_accent': 'light-blue',
 
     # Set the repo location to get a badge with stats
     'repo_url': 'https://github.com/revitron/revitron',
