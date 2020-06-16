@@ -105,7 +105,7 @@ html_theme_options = {
     'master_doc': False,
     'nav_links': [
         {'href': 'revitron', 'title': 'API', 'internal': True},
-        {'href': 'https://github.com/revitron/revitron-ui', 'title': 'UI', 'internal': False},
+        {'href': 'revitron-ui', 'title': 'UI', 'internal': True},
         {'href': 'jarvis', 'title': 'Jarvis', 'internal': True},
     ]
     
