@@ -24,7 +24,7 @@ class Filter:
         Args:
             paramName (string): The parameter name
             value (mixed): the value
-        """        
+        """       
         parameterFilter = revitron.DB.ElementParameterFilter(rule)
         self.collector = self.collector.WherePasses(parameterFilter)
 
@@ -38,7 +38,7 @@ class Filter:
             value (mixed): the value
             evaluator (object): The FilterStringRuleEvaluator
         """   
-        valueProvider = revitron.ParameterDefinition(paramName).getValueProvider()
+        valueProvider = revitron.ParameterValueProvider(paramName).get()
         rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
         self.applyParameterFilter(rule)   
     
