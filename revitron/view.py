@@ -12,7 +12,7 @@ class ViewSheetList:
         Args:
             sheets (list): A list with sheets
         """      
-        views = []  
+        self.views = []  
         for sheet in sheets:
             if revitron.Element(sheet).getClassName() == 'ViewSheet':
                 for viewId in sheet.GetAllPlacedViews():
