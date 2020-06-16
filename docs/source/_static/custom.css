@@ -70,6 +70,11 @@ button[data-md-color-primary=grey] {
     border: 1px solid #e8e8e8;
 }
 
+a.reference.external,
+a.reference.internal {
+    text-decoration: underline;
+}
+
 a.viewcode-back {
     display: block;
     margin-bottom: 0.75rem;
