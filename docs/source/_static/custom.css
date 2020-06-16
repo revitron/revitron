@@ -59,3 +59,28 @@ a.viewcode-back {
     display: block;
     margin-bottom: 0.75rem;
 }
+
+a > .viewcode-link {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.sig-prename.descclassname,
+.sig-name.descname,
+.sig-paren,
+.sig-param {
+    color: #121212;
+    background-color: #f8f8f8;
+    border-radius: 0;
+}
+
+.sig-prename.descclassname,
+.sig-name.descname {
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    font-weight: bold;
+}
+
+.sig-prename.descclassname + .sig-name.descname {
+    margin-left: -8px;
+}
