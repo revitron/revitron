@@ -199,28 +199,66 @@ class Parameter:
             self.parameter.Set(value)
  
 
-class ParameterDefinition:
+class ParameterValueProvider:
     
 
     def __init__(self, name):
         """
-        Inits a new ParameterDefinition instance by name.
+        Inits a new ParameterValueProvider instance by name.
 
         Args:
             name (string): Name
-        """        
+        """      
+        self.provider = None
+        paramId = None
         it = revitron.DOC.ParameterBindings.ForwardIterator()
         while it.MoveNext():
             if it.Key.Name == name:
-                self.definition = it.Key
-                self.id = it.Key.Id
-       
-                 
-    def getValueProvider(self):
+                paramId = it.Key.Id
+        if not paramId:
+            try:
+                paramId = BuiltInParameterNameMap().getId(name)  
+            except: 
+                pass   
+        if paramId:
+            self.provider = revitron.DB.ParameterValueProvider(paramId)
+                
+                
+    def get(self):
         """
-        Returns the value provider for the definition.
+        Returns the value provider.
 
         Returns:
             object: The value provider
-        """        
-        return revitron.DB.ParameterValueProvider(self.id)
+        """  
+        return self.provider
+    
+    
+class BuiltInParameterNameMap:
+    
+    
+    def __init__(self):
+        """
+        Inits a new BuiltInParameterNameMap instance.
+        """
+        self.map = dict()
+        for item in dir(revitron.DB.BuiltInParameter):
+            try:
+                bip = getattr(revitron.DB.BuiltInParameter, item)
+                name = revitron.DB.LabelUtils.GetLabelFor(bip)
+                self.map[name] = bip
+            except:
+                pass
+
+    
+    def getId(self, name):
+        """
+        Returns the element id of a built-in parameter by passing tha name that is visible to the user. 
+
+        Args:
+            name (string): The name that is visible to the user
+
+        Returns:
+            ElementId: The element id
+        """
+        return revitron.DB.ElementId(int(self.map[name]))
