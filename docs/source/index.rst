@@ -15,8 +15,9 @@ Revitron
 
    concept
    install
-   jarvis
    revitron
+   revitron-ui
+   jarvis
 
 
 Indices and tables
