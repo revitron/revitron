@@ -15,6 +15,19 @@ class Element:
         else:
             self.element = element
     
+
+    def getBbox(self):
+        """
+        Returns a bounding box for the element.
+
+        Returns:
+            object: The bounding box or false on error
+        """
+        try:
+            return revitron.BoundingBox(self.element)
+        except:
+            return False
+    
     
     def getClassName(self):
         """
