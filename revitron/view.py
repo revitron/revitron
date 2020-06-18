@@ -10,10 +10,12 @@ class ViewSheetList:
         Inits an new ViewSheetList object. 
 
         Args:
-            sheets (list): A list with sheets
+            sheets (list): A list with sheets or sheet ids
         """      
         self.views = []  
         for sheet in sheets:
+            if isinstance(sheet, revitron.DB.ElementId):
+                sheet = revitron.DOC.GetElement(sheet)
             if revitron.Element(sheet).getClassName() == 'ViewSheet':
                 for viewId in sheet.GetAllPlacedViews():
                     item = revitron._helpers.AttrDict()
