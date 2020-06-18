@@ -9,6 +9,14 @@ API Reference
 Submodules
 ----------
 
+revitron.boundingbox
+--------------------
+
+.. automodule:: revitron.boundingbox
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 revitron.category
 -----------------
 
