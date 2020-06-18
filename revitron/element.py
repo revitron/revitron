@@ -8,9 +8,12 @@ class Element:
         Inits a new element instance.
 
         Args:
-            element (object): The Revit element
-        """        
-        self.element = element
+            element (object): The Revit element or an element ID
+        """   
+        if isinstance(element, revitron.DB.ElementId):
+            self.element = revitron.DOC.GetElement(element)   
+        else:
+            self.element = element
     
     
     def getClassName(self):
@@ -35,6 +38,19 @@ class Element:
         """        
         return revitron.Parameter(self.element, paramName).get()
     
+    
+    def getParameter(self, paramName):
+        """
+        Returns a parameter object.
+
+        Args:
+            paramName (string): The name of the parameter
+
+        Returns:
+            object: The parameter object
+        """
+        return revitron.Parameter(self.element, paramName)
+      
     
     def set(self, paramName, value, paramType = 'Text'):
         """
