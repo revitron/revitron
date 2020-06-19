@@ -41,6 +41,14 @@ revitron.element
    :undoc-members:
    :show-inheritance:
 
+revitron.excel
+--------------
+
+.. automodule:: revitron.excel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 revitron.externalreference
 --------------------------
 
