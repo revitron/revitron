@@ -37,7 +37,7 @@ extensions = [
     'sphinx.ext.githubpages'
 ]
 
-autodoc_mock_imports = ['pyrevit', 'Autodesk']
+autodoc_mock_imports = ['pyrevit', 'Autodesk', 'clr', 'System', 'Microsoft']
 
 napoleon_google_docstring = True
 napoleon_include_init_with_doc = True
