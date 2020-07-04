@@ -72,6 +72,24 @@ class TransmissionData:
         self.write()
         
         
+    def replaceInPath(self, search, replace):
+        """
+        Search and replace in all link paths of the document. 
+
+        Args:
+            search (string): The search string
+            replace (string): The replacement string
+        """
+        for _id in self.refs:
+            
+            refId = revitron.DB.ElementId(_id)
+            ref = self.refs[_id]
+            newPath = ref.path.replace(search, replace)
+            self.data.SetDesiredReferenceData(refId, revitron.DB.FilePath(newPath), revitron.DB.PathType.Absolute, True)
+                
+        self.write()
+        
+        
     def write(self):
         """
         Writes the TransmissionData back to the model.
