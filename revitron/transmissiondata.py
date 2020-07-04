@@ -37,7 +37,10 @@ class TransmissionData:
             source (string): The source directory 
             target (string): The target directory
         """
+        source = re.sub(r'\\$', '', source) + os.sep
         source = '^' + re.escape(source)
+        target = re.sub(r'\\$', '', target)
+        target = re.sub(r'\\', os.sep, target)
         
         for _id in self.refs:
             
@@ -47,15 +50,16 @@ class TransmissionData:
             if str(ref.type) in ['RevitLink', 'CADLink']:
                 
                 if re.search(source, ref.path, re.IGNORECASE):
-                    newPath = re.sub(source, target, ref.path, re.IGNORECASE)
+                    newPath = target + os.sep + re.sub(source, '', ref.path, re.IGNORECASE)
                 else:
-                    newPath = re.sub(r'\\\\$', '', target) + '\\' + os.path.basename(ref.path)
+                    newPath = target + os.sep + os.path.basename(ref.path)
                     
                 print(newPath)
                 
                 if newPath != ref.path:
                     try:
                         os.makedirs(os.path.dirname(newPath))
+                        print('Created {}'.format(os.path.dirname(newPath)))
                     except:
                         pass
                     try:
