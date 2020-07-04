@@ -28,6 +28,15 @@ class TransmissionData:
         for refId in self.data.GetAllExternalFileReferenceIds():
             self.refs[refId.IntegerValue] = revitron.ExternalReference(self.data.GetLastSavedReferenceData(refId))
        
+       
+    def listLinks(self):
+        """
+        List all links in the host document.
+        """
+        for _id in self.refs:
+            ref = self.refs[_id]
+            print(ref.path)
+            
         
     def moveLinksOnDisk(self, source, target):
         """
