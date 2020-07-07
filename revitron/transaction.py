@@ -19,4 +19,11 @@ class Transaction:
         Commits the open transaction.
         """        
         self.transaction.Commit()
+        
+    
+    def rollback(self):
+        """
+        Rolls back the open transaction.
+        """
+        self.transaction.RollBack()
     
