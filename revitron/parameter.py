@@ -1,4 +1,6 @@
+#-*- coding: UTF-8 -*-
 import revitron
+import re
 
 
 class Parameter:
@@ -261,4 +263,62 @@ class BuiltInParameterNameMap:
         Returns:
             ElementId: The element id
         """
-        return revitron.DB.ElementId(int(self.map[name]))
+        return revitron.DB.ElementId(int(self.map[name]))    
+    
+class ParameterTemplate:
+    """
+    Create a string based on a parameter template where parameter names are wrapped in :code:`{}` and get substituted with their value::
+    
+        This sheet has the number {Sheet Number} and the name {Sheet Name}
+    """
+    
+    def __init__(self, element, template, sanitize = True):
+        """
+        Inits a new ParameterTemplate instance.
+
+        Args:
+            element (object): A Revit element
+            template (string): A template string
+            sanitize (bool, optional): Optionally sanitize the returned string. Defaults to True.
+        """
+        self.element = element
+        self.template = template
+        self.sanitize = sanitize
+        
+        
+    def reCallback(self, match):
+        """
+        The callback function used by the :code:`get()` method.
+
+        Args:
+            match (object): The regex match object
+
+        Returns:
+            string: The processed string
+        """
+        parameter = match.group(1)
+        string = revitron.Element(self.element).get(parameter)
+        
+        if self.sanitize:
+            string = string.replace('ü', 'ue')
+            string = string.replace('Ü', 'Ue')
+            string = string.replace('ö', 'oe')
+            string = string.replace('Ö', 'Oe')
+            string = string.replace('ä', 'ae')
+            string = string.replace('Ä', 'Ae')
+            string = re.sub('[^a-zA-Z0-9_\-]', '_', string)
+            string = re.sub('_+', '_', string) 
+            string = re.sub('(-_|_-)', '-', string)
+            
+        return string
+    
+    
+    def render(self):
+        """
+        Returns the rendered template string.
+
+        Returns:
+            string: The rendered string
+        """
+        return re.sub('\{(.+?)\}', self.reCallback, self.template)
+        
