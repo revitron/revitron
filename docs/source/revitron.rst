@@ -49,6 +49,14 @@ revitron.excel
    :undoc-members:
    :show-inheritance:
 
+revitron.export
+---------------
+
+.. automodule:: revitron.export
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 revitron.externalreference
 --------------------------
 
