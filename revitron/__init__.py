@@ -7,6 +7,7 @@ from revitron._helpers import *
 from revitron.boundingbox import *
 from revitron.element import Element
 from revitron.excel import *
+from revitron.export import *
 from revitron.category import Category
 from revitron.document import Document
 from revitron.externalreference import ExternalReference
@@ -24,6 +25,7 @@ try:
     DOC = __revit__.ActiveUIDocument.Document
     UIDOC = __revit__.ActiveUIDocument
     APP = DOC.Application
+    ACTIVEVIEW = DOC.ActiveView
 except:
     pass
 
