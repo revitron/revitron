@@ -28,8 +28,15 @@
         sidebar = function() {
 
             var container = document.querySelector('.md-sidebar--secondary .md-nav__list'),
-                classes = document.querySelectorAll('dl.py.class');
+                classes = document.querySelectorAll('dl.py.class'),
+                label = create('label', 'md-nav__title'),
+                moduleName = document.querySelector('.md-content h1').textContent.replace(/[^\w\.]/, '');
 
+            if (classes.length) {
+                label.innerHTML = moduleName;
+                container.parentNode.prepend(label);
+            }
+            
             for (let i = 0; i < classes.length; ++i) {
 
                 var _class = classes[i],    
