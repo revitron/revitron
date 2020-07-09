@@ -121,3 +121,8 @@ dl.method {
     margin-bottom: 0.5em;
 }
 
+dt,
+dl,
+dd {
+    scroll-margin-top: 80px;
+}
