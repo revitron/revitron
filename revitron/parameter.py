@@ -300,15 +300,7 @@ class ParameterTemplate:
         string = revitron.Element(self.element).get(parameter)
         
         if self.sanitize:
-            string = string.replace('ü', 'ue')
-            string = string.replace('Ü', 'Ue')
-            string = string.replace('ö', 'oe')
-            string = string.replace('Ö', 'Oe')
-            string = string.replace('ä', 'ae')
-            string = string.replace('Ä', 'Ae')
-            string = re.sub('[^a-zA-Z0-9_\-]', '_', string)
-            string = re.sub('_+', '_', string) 
-            string = re.sub('(-_|_-)', '-', string)
+            string = revitron.String.sanitize(string)
             
         return string
     
