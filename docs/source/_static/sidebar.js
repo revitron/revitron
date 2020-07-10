@@ -28,14 +28,7 @@
         sidebar = function() {
 
             var container = document.querySelector('.md-sidebar--secondary .md-nav__list'),
-                classes = document.querySelectorAll('dl.py.class'),
-                label = create('label', 'md-nav__title'),
-                moduleName = document.querySelector('.md-content h1').textContent.replace(/[^\w\.]/, '');
-
-            if (classes.length) {
-                label.innerHTML = moduleName;
-                container.parentNode.prepend(label);
-            }
+                classes = document.querySelectorAll('dl.py.class');
             
             for (let i = 0; i < classes.length; ++i) {
 
@@ -46,9 +39,11 @@
                     className = _class.querySelector(':scope > dt > code.sig-name.descname').textContent,
                     liClass = link(_class, className);
 
+                liClass.querySelector(':scope > a').classList.add('module-class');
+
                 methods.forEach(function(_method) {
 
-                    var methodName = _method.querySelector(':scope > dt > code.sig-name.descname').textContent;
+                    var methodName = _method.querySelector(':scope > dt > code.sig-name.descname').textContent + '()';
                     
                     ulMethods.append(link(_method, methodName));
                     
