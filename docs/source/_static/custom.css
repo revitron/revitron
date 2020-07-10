@@ -19,6 +19,10 @@
     margin-bottom: 0.2em;
 }
 
+.md-nav--primary > .md-nav__list > li > .md-nav__list:not([data-md-scrollfix]) > li {
+    padding-left: 1rem;
+}
+
 button[data-md-color-primary=grey] {
     background-color: var(--bg);
 }
@@ -125,4 +129,8 @@ dt,
 dl,
 dd {
     scroll-margin-top: 80px;
+}
+
+.module-class {
+    font-weight: bold;
 }
