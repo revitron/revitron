@@ -1,4 +1,6 @@
+#-*- coding: UTF-8 -*-
 import revitron
+import re
 
 
 class AttrDict(dict):
@@ -25,3 +27,19 @@ class AttrDict(dict):
     def __init__(self, *args, **kwargs):
         dict.__init__(self, *args, **kwargs)
         self.__dict__ = self
+        
+        
+class String:
+    
+    @staticmethod
+    def sanitize(string):
+        string = string.replace('ü', 'ue')
+        string = string.replace('Ü', 'Ue')
+        string = string.replace('ö', 'oe')
+        string = string.replace('Ö', 'Oe')
+        string = string.replace('ä', 'ae')
+        string = string.replace('Ä', 'Ae')
+        string = re.sub('[^a-zA-Z0-9_\-]', '_', string)
+        string = re.sub('_+', '_', string) 
+        string = re.sub('(-_|_-)', '-', string)
+        return string
