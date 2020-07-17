@@ -58,12 +58,12 @@ class PDFExporter:
 
         if not directory:
             directory = self.output
-  	
+      
         path = os.path.join(directory, revitron.ParameterTemplate(sheet, template).render() + '.pdf')
 
         if not os.path.exists(os.path.dirname(path)):
-    		os.makedirs(os.path.dirname(path))
-
+            os.makedirs(os.path.dirname(path))
+        
         transaction = revitron.Transaction()
         
         viewSet = revitron.DB.ViewSet()
