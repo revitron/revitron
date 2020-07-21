@@ -201,39 +201,42 @@ class Parameter:
             self.parameter.Set(value)
  
 
-class ParameterValueProvider:
+class ParameterValueProviders:
     
 
     def __init__(self, name):
         """
-        Inits a new ParameterValueProvider instance by name.
+        Inits a new ParameterValueProviders instance by name. Such an instance consists of a list
+        of value providers matching a parameters with a name visible to the user.
+        Note that this list can have more than one value provider, since a parameter name possible matches 
+        multiple built-in parameters.
 
         Args:
             name (string): Name
         """      
-        self.provider = None
-        paramId = None
+        self.providers = []
+        paramIds = []
         it = revitron.DOC.ParameterBindings.ForwardIterator()
         while it.MoveNext():
             if it.Key.Name == name:
-                paramId = it.Key.Id
-        if not paramId:
+                paramIds.append(it.Key.Id)
+        if not paramIds:
             try:
-                paramId = BuiltInParameterNameMap().getId(name)  
+                paramIds = BuiltInParameterNameMap().get(name)  
             except: 
                 pass   
-        if paramId:
-            self.provider = revitron.DB.ParameterValueProvider(paramId)
-                
-                
+        for paramId in paramIds:    
+            self.providers.append(revitron.DB.ParameterValueProvider(paramId))
+
+         
     def get(self):
         """
-        Returns the value provider.
+        Returns the list of value providers.
 
         Returns:
-            object: The value provider
-        """  
-        return self.provider
+            list: The list of value providers
+        """            
+        return self.providers
     
     
 class BuiltInParameterNameMap:
@@ -241,29 +244,34 @@ class BuiltInParameterNameMap:
     
     def __init__(self):
         """
-        Inits a new BuiltInParameterNameMap instance.
+        Inits a new BuiltInParameterNameMap instance. The map is a dictionary where the key
+        is a parameter name that is visible to the user and the value is a list of built-in parameters 
+        represented by that name.
         """
         self.map = dict()
         for item in dir(revitron.DB.BuiltInParameter):
             try:
                 bip = getattr(revitron.DB.BuiltInParameter, item)
                 name = revitron.DB.LabelUtils.GetLabelFor(bip)
-                self.map[name] = bip
+                if name not in self.map:
+                    self.map[name] = []
+                self.map[name].append(revitron.DB.ElementId(int(bip)))
             except:
                 pass
+            
 
-    
-    def getId(self, name):
+    def get(self, name):
         """
-        Returns the element id of a built-in parameter by passing tha name that is visible to the user. 
+        Return the list of matching built-in parameters for a given name.
 
         Args:
-            name (string): The name that is visible to the user
+            name (string): The parameter name visible to the user
 
         Returns:
-            ElementId: The element id
-        """
-        return revitron.DB.ElementId(int(self.map[name]))    
+            list: The list of built-in parameters
+        """        
+        return self.map[name]
+    
     
 class ParameterTemplate:
     """
