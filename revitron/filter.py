@@ -1,18 +1,24 @@
 import revitron
+from System.Collections.Generic import List
 
 
 class Filter:
     
     
-    def __init__(self, viewId = None):
+    def __init__(self, scope = None):
         """
         Inits a new Filter instance.
 
         Args:
-            viewId (Element ID, optional): The optional view Id. Defaults to None.
-        """                        
-        if viewId:
-            self.collector = revitron.DB.FilteredElementCollector(revitron.DOC, viewId) 
+            scope (Element ID or list of elements, optional): The optional scope. It can be either a view Id or a list of elements Defaults to None.
+        """                    
+        if scope:
+            if type(scope) == list:
+                elementIds = []
+                for element in scope:
+                    elementIds.append(element.Id)
+                scope = List[revitron.DB.ElementId](elementIds) 
+            self.collector = revitron.DB.FilteredElementCollector(revitron.DOC, scope) 
         else:   
             self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
     
