@@ -1,4 +1,5 @@
 import revitron
+from System.Collections.Generic import List
 
 
 class Selection:
@@ -24,3 +25,15 @@ class Selection:
             object: The first element in a list of selected elements
         """
         return Selection.get()[0]
+    
+    
+    @staticmethod
+    def set(ids):
+        """
+        Set the selection to a list of element ids.
+
+        Args:
+            ids (list): A list of element ids
+        """        
+        revitron.UIDOC.Selection.SetElementIds(List[revitron.DB.ElementId](ids))
+        revitron.UIDOC.RefreshActiveView()
