@@ -216,6 +216,9 @@ class ParameterNameList:
         for param in revitron.Filter().byClass(revitron.DB.SharedParameterElement).getElements():
             self.parameters.append(param.GetDefinition().Name)
             
+        for param in revitron.Filter().byClass(revitron.DB.ParameterElement).getElements():
+            self.parameters.append(param.GetDefinition().Name)    
+            
         self.parameters = sorted(list(set(self.parameters)))
         
     def get(self):
