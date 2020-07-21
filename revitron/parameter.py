@@ -201,6 +201,33 @@ class Parameter:
             self.parameter.Set(value)
  
 
+class ParameterNameList:
+    
+
+    def __init__(self):
+        """
+        Inits a new ParameterNameList instance including all parameter names in the document.
+        """                
+        self.parameters = []
+        
+        for name in BuiltInParameterNameMap().map:
+            self.parameters.append(name)
+        
+        for param in revitron.Filter().byClass(revitron.DB.SharedParameterElement).getElements():
+            self.parameters.append(param.GetDefinition().Name)
+            
+        self.parameters = sorted(list(set(self.parameters)))
+        
+    def get(self):
+        """
+        Returns the parameter list.
+
+        Returns:
+            list: The list with all parameters in the document.
+        """        
+        return self.parameters
+
+
 class ParameterValueProviders:
     
 
