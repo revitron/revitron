@@ -3,29 +3,12 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#222222;}
-	.st1{fill:url(#SVGID_1_);}
-	.st2{fill:url(#SVGID_2_);}
+	.st0{fill:#121212;}
 </style>
-<g id="Ebene_2">
-	<rect class="st0" width="500" height="500"/>
-</g>
-<g>
-	<g>
-		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="150" y1="245.588" x2="341.1759" y2="245.588">
-			<stop  offset="0" style="stop-color:#FFFFFF"/>
-			<stop  offset="1" style="stop-color:#555555"/>
-		</linearGradient>
-		<path class="st1" d="M150,334.9V156.2c0-3.5,2.8-6.2,6.2-6.2h178.7c5.6,0,8.4,6.7,4.4,10.7L160.7,339.3
-			C156.7,343.3,150,340.5,150,334.9z"/>
-	</g>
-	<g>
-		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="350" y1="295.588" x2="258.8241" y2="295.588">
-			<stop  offset="0" style="stop-color:#FFFFFF"/>
-			<stop  offset="1" style="stop-color:#555555"/>
-		</linearGradient>
-		<path class="st2" d="M350,334.9v-78.7c0-3.5-2.8-6.2-6.2-6.2h-78.7c-5.6,0-8.4,6.7-4.4,10.7l78.7,78.7
-			C343.3,343.3,350,340.5,350,334.9z"/>
-	</g>
-</g>
+<path class="st0" d="M249.63,87.67L82.32,184.13V377.8l59.42,34.53l59.42-34.53v-55.7l103.15,58.85l59.42-33.73v-62.73l53.95-31.35
+	v-69.01L249.63,87.67z M249.64,100.28l151.63,87.04l-107.94,62.73l54.04,30.67l-43.11,25.63l-97.65-56.36l108.66-62.71l-65.66-37.65
+	l-107.88,62.69L98.7,187.31L249.64,100.28z M255.1,165.38l38.25,21.93l-38.25,22.07V165.38z M93.26,371.51V196.79l43.01,24.99V396.5
+	L93.26,371.51z M190.22,371.51L147.2,396.5V221.79l96.96-56.34v50.25l-53.95,31.14V371.51z M201.15,259.46l97.69,56.38v49.4
+	l-97.69-55.73V259.46z M309.78,365.27V315.8l43.01-25.57v50.63L309.78,365.27z M358.87,274.67l-43.57-24.73l91.45-53.14v50.05
+	L358.87,274.67z"/>
 </svg>
