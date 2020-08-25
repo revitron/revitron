@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:url(#SVGID_1_);}
-	.st1{fill:url(#SVGID_2_);}
-</style>
-<g>
-	<g>
-		
-			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="0" y1="106.4087" x2="191.1826" y2="106.4087" gradientTransform="matrix(1 0 0 -1 0 202)">
-			<stop  offset="0" style="stop-color:#FFFFFF"/>
-			<stop  offset="1" style="stop-color:#555555"/>
-		</linearGradient>
-		<path class="st0" d="M0,184.9V6.2C0,2.7,2.8,0,6.2,0h178.7c5.6,0,8.4,6.7,4.4,10.7L10.7,189.3C6.7,193.3,0,190.5,0,184.9z"/>
-	</g>
-	<g>
-		
-			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="200" y1="56.3932" x2="108.8174" y2="56.3932" gradientTransform="matrix(1 0 0 -1 0 202)">
-			<stop  offset="0" style="stop-color:#FFFFFF"/>
-			<stop  offset="1" style="stop-color:#555555"/>
-		</linearGradient>
-		<path class="st1" d="M200,184.9v-78.7c0-3.5-2.8-6.2-6.2-6.2h-78.7c-5.6,0-8.4,6.7-4.4,10.7l78.7,78.7
-			C193.3,193.3,200,190.5,200,184.9z"/>
-	</g>
-</g>
+<svg 
+version="1.1" 
+xmlns="http://www.w3.org/2000/svg" 
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+x="0px" 
+y="0px"
+viewBox="0 0 460 445" 
+style="enable-background:new 0 0 460 445;" 
+xml:space="preserve"
+>
+	<path fill="#121212" d="M229.49,0L0,132.32v265.65l81.5,47.36l81.5-47.36v-76.4l141.49,80.72L386,356.02v-86.05l74-43v-94.66L229.49,0
+		z M229.51,17.3L437.5,136.69l-148.06,86.04l74.13,42.07l-59.13,35.16L170.5,222.65l149.04-86.02l-90.07-51.64L81.5,170.98
+		l-59.03-34.3L229.51,17.3z M237,106.6l52.46,30.08L237,166.95V106.6z M15,389.34V149.68l59,34.28v239.65L15,389.34z M148,389.34
+		l-59,34.28V183.97l133-77.28v68.93l-74,42.71V389.34z M163,235.64l134,77.34v67.76L163,304.3V235.64z M312,380.77v-67.85l59-35.08
+		v69.45L312,380.77z M379.33,256.5l-59.77-33.92L445,149.69v68.65L379.33,256.5z"/>
 </svg>

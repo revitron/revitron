@@ -12,6 +12,7 @@
 #
 import os
 import sys
+import revitron_sphinx_theme
 sys.path.insert(0, os.path.abspath('../..'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../revitron'))
 
@@ -66,66 +67,24 @@ exclude_patterns = ['modules.rst']
 #
 #html_theme = 'alabaster'
 
-html_theme = "sphinx_material"
-html_logo = "_static/revitron.svg"
-
+html_theme = 'revitron_sphinx_theme'
 html_theme_options = {
-    
-    # Set the name of the project to appear in the navigation.
-    'nav_title': 'Revitron',
-
-    # Set you GA account ID to enable tracking
-    # 'google_analytics_account': 'UA-XXXXX',
-
-    # Specify a base_url used to generate sitemap.xml. If not
-    # specified, then no sitemap will be built.
-    'base_url': 'https://revitron.readthedocs.io/',
-
-    #'theme_color': '#00ff00',
-    # Set the color and the accent color
-    'color_primary': 'grey',
-    'color_accent': 'light-blue',
-
-    # Set the repo location to get a badge with stats
-    'repo_url': 'https://github.com/revitron/revitron',
-    'repo_name': 'Revitron',
-
-    # Visible levels of the global TOC; -1 means unlimited
-    'globaltoc_depth': 2,
-    # If False, expand all TOC entries
-    'globaltoc_collapse': True,
-    # If True, show hidden TOC entries
-    'globaltoc_includehidden': True,
-    
-    'heroes': {
-        'index': 'A Python wrapper for the Revit API &mdash; to be used as a pyRevit extension',
-        'jarvis': 'A project based pyRevit package manager'
-        },
-    
-    'master_doc': False,
-    'nav_links': [
-        {'href': 'revitron', 'title': 'API', 'internal': True},
-        {'href': 'revitron-ui', 'title': 'UI', 'internal': True},
-        {'href': 'jarvis', 'title': 'Jarvis', 'internal': True},
-    ]
-    
+    'logo_only': True,
+    'navigation_depth': 5,
+    'github_url': 'https://github.com/revitron/revitron',
+    'opengraph_image': 'revitron.svg',
+    'base_url': 'https://revitron.readthedocs.io/en/latest'
 }
 
-html_sidebars = {
-    "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
-}
+html_logo = '_static/revitron.svg'
 
-pygments_style = 'xcode'
+html_sidebars = {}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_css_files = [
-    'custom.css',
-]
+html_css_files = []
 
-html_js_files = [
-    'sidebar.js',
-]
+html_js_files = []
