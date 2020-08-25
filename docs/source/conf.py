@@ -72,7 +72,7 @@ html_theme_options = {
     'logo_only': True,
     'navigation_depth': 5,
     'github_url': 'https://github.com/revitron/revitron',
-    'opengraph_image': 'revitron.svg',
+    'opengraph_image': 'revitron.png',
     'base_url': 'https://revitron.readthedocs.io/en/latest'
 }
 
