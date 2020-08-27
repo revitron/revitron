@@ -1,2 +1,3 @@
+sphinx>=3.2.1
 https://github.com/revitron/revitron-sphinx-theme/archive/master.zip
 autodocsumm
