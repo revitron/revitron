@@ -35,18 +35,25 @@ extensions = [
     'sphinx.ext.coverage', 
     'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages'
+    'autodocsumm'
 ]
 
 autodoc_mock_imports = ['pyrevit', 'Autodesk', 'clr', 'System', 'Microsoft']
+
+autodoc_default_options = {
+    'autosummary': True,
+    'autosummary-undoc-members': True
+}
+
+add_module_names = False
 
 napoleon_google_docstring = True
 napoleon_include_init_with_doc = True
 napoleon_include_private_with_doc = True
 napoleon_include_special_with_doc = True
 napoleon_use_admonition_for_examples = False
-napoleon_use_admonition_for_notes = False
-napoleon_use_admonition_for_references = False
+napoleon_use_admonition_for_notes = True
+napoleon_use_admonition_for_references = True
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
@@ -69,7 +76,6 @@ exclude_patterns = ['modules.rst']
 
 html_theme = 'revitron_sphinx_theme'
 html_theme_options = {
-    'logo_only': True,
     'navigation_depth': 5,
     'github_url': 'https://github.com/revitron/revitron',
     'opengraph_image': 'revitron.png',
