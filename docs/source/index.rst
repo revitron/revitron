@@ -9,7 +9,7 @@ Revitron
 
 .. container:: .buttons
 
-   `Get Started <install.html>`_
+   `Get Started <get-started.html>`_
    `GitHub <https://github.com/revitron/revitron>`_
 
 
