@@ -1,6 +1,11 @@
 API Reference
 =============
 
+.. automodule:: revitron
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,11 +26,3 @@ Submodules
    revitron.transaction
    revitron.transmissiondata
    revitron.view
-
-Module contents
----------------
-
-.. automodule:: revitron
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,28 +1,23 @@
-.. Revitron documentation master file, created by
-   sphinx-quickstart on Thu Jun 11 10:50:12 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. image:: _static/revitron.svg
 
 Revitron 
 ========
 
-.. image:: https://readthedocs.org/projects/revitron/badge/?version=latest
-   :target: https://revitron.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
+.. container:: .large
+
+   Revitron is a Revit API wrapper written in Python. It helps you to develop clean and powerful Revit plugins in pyRevit.
+
+.. container:: .buttons
+
+   `Get Started <install.html>`_
+   `GitHub <https://github.com/revitron/revitron>`_
+
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
 
-   concept
-   install
+   get-started
+   documentation
    revitron
    revitron-ui
-   jarvis
-
-
-Indices and tables
-------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

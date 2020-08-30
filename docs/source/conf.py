@@ -84,6 +84,17 @@ html_theme_options = {
 
 html_logo = '_static/revitron.svg'
 
+html_context = {
+    'landing_page': {
+        'menu': [
+            {'title': 'Get Started', 'url': 'get-started.html'},
+            {'title': 'Docs', 'url': 'documentation.html'},
+            {'title': 'API', 'url': 'revitron.html'},
+            {'title': 'Revitron UI', 'url': 'revitron-ui.html'}
+        ]
+    }
+}
+
 html_sidebars = {}
 
 # Add any paths that contain custom static files (such as style sheets) here,

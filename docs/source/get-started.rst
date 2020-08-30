@@ -1,7 +1,7 @@
 Install
 =======
 
-The Revitron library can be installed as a single Python package for pyRevit or bundled with a custom fork of pyRevit including the :doc:`jarvis` package manager und the :doc:`revitron-ui`. 
+The Revitron library can be installed as a single Python package for pyRevit or bundled with a custom fork of pyRevit including the Revitron package manager und the :doc:`revitron-ui`. 
 In case you want to setup a new Revit project and you are new to pyRevit, it is recommendend to install the bundled version as described below.
 
 Installing Only the Library
