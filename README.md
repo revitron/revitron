@@ -2,12 +2,12 @@
 
 A python wrapper for the Revit API to be used as a pyRevit extension 
 
-![](https://raw.githubusercontent.com/revitron/revitron/master/svg/revitron-readme.svg)
-
 ![GitHub](https://img.shields.io/github/license/revitron/revitron?color=222222)
 ![GitHub top language](https://img.shields.io/github/languages/top/revitron/revitron?color=222222)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/revitron/revitron?color=222222)
-[![Documentation Status](https://readthedocs.org/projects/revitron/badge/?version=latest)](https://revitron.readthedocs.io/en/latest/?badge=latest)
+![Read the Docs](https://img.shields.io/readthedocs/revitron?color=222222)
+
+![](https://raw.githubusercontent.com/revitron/revitron/master/svg/revitron-readme.svg)
 
 ## Install
 
