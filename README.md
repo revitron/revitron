@@ -1,6 +1,6 @@
 # Revitron
 
-A python wrapper for the Revit API to be used as a pyRevit extension 
+A python wrapper for the Revit API to be used as a pyRevit extension. 
 
 ![GitHub](https://img.shields.io/github/license/revitron/revitron?color=222222)
 ![GitHub top language](https://img.shields.io/github/languages/top/revitron/revitron?color=222222)
@@ -18,6 +18,5 @@ This library has to be used as a pyRevit extensions. It can be installed using t
 ## Docs
 
 The documentation can be found [here](https://revitron.readthedocs.io/en/latest/index.html).     
-
 
 &copy; 2020 Marc Anton Dahmen &mdash; MIT license
