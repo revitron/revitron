@@ -17,7 +17,7 @@ This library has to be used as a [pyRevit](https://github.com/eirannejad/pyRevit
 
 ### UI
 
-Note that there is also a ready-made Revitron UI extension including a lot of useful tools based on Revitron. It can be installed as follows:
+Note that there is also a ready-made [Revitron UI](https://github.com/revitron/revitron-ui) extension including a lot of useful tools based on Revitron. It can be installed as follows:
 
 	pyrevit extend ui revitron https://github.com/revitron/revitron-ui.git --dest=path\to\extensions
 
