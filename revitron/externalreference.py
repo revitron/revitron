@@ -1,4 +1,3 @@
-import revitron
 
 class ExternalReference:
     
@@ -10,6 +9,8 @@ class ExternalReference:
         Args:
             ref (object): A Revit external reference instance.
         """        
+        import revitron
+        
         self.ref = ref
         self.type = ref.ExternalFileReferenceType
         self.path = revitron.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(ref.GetAbsolutePath())

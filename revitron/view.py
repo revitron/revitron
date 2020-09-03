@@ -1,4 +1,4 @@
-import revitron
+
 
 class ViewSheetList:
     """
@@ -12,6 +12,8 @@ class ViewSheetList:
         Args:
             sheets (list): A list with sheets or sheet ids
         """      
+        import revitron
+        
         self.views = []  
         for sheet in sheets:
             if isinstance(sheet, revitron.DB.ElementId):

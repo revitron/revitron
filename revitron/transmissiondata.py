@@ -1,4 +1,4 @@
-import revitron
+
 import re
 import shutil
 import os
@@ -18,6 +18,8 @@ class TransmissionData:
         Args:
             hostPath (string): The path of the host model
         """     
+        import revitron
+        
         if revitron.Document.isOpen(hostPath):
             print('The host model must be closed to edit transmission data!')
             sys.exit()
@@ -46,6 +48,8 @@ class TransmissionData:
             source (string): The source directory 
             target (string): The target directory
         """
+        import revitron
+        
         source = re.sub(r'\\$', '', source) + os.sep
         source = '^' + re.escape(source)
         target = re.sub(r'\\$', '', target)
@@ -89,6 +93,8 @@ class TransmissionData:
             search (string): The search string
             replace (string): The replacement string
         """
+        import revitron
+        
         for _id in self.refs:
             
             refId = revitron.DB.ElementId(_id)
@@ -102,7 +108,9 @@ class TransmissionData:
     def write(self):
         """
         Writes the TransmissionData back to the model.
-        """        
+        """      
+        import revitron
+          
         self.data.IsTransmitted = True
         revitron.DB.TransmissionData.WriteTransmissionData(self.hostPath, self.data)
         

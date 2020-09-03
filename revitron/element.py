@@ -1,4 +1,4 @@
-import revitron
+
 
 class Element:
     
@@ -10,6 +10,7 @@ class Element:
         Args:
             element (object): The Revit element or an element ID
         """   
+        import revitron
         if isinstance(element, revitron.DB.ElementId):
             self.element = revitron.DOC.GetElement(element)   
         else:
@@ -23,6 +24,7 @@ class Element:
         Returns:
             object: The bounding box or false on error
         """
+        import revitron
         try:
             return revitron.BoundingBox(self.element)
         except:
@@ -49,6 +51,7 @@ class Element:
         Returns:
             mixed: The parameter value
         """        
+        import revitron
         return revitron.Parameter(self.element, paramName).get()
     
     
@@ -62,6 +65,7 @@ class Element:
         Returns:
             object: The parameter object
         """
+        import revitron
         return revitron.Parameter(self.element, paramName)
       
     
@@ -79,4 +83,5 @@ class Element:
         """        
         revitron.Parameter.bind(self.element.Category.Name, paramName, paramType)
         revitron.Parameter(self.element, paramName).set(value)
+        import revitron
         return self

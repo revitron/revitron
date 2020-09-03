@@ -5,18 +5,18 @@ Revitron
 
 from revitron._helpers import *
 from revitron.boundingbox import *
-from revitron.element import Element
+from revitron.element import *
 from revitron.excel import *
 from revitron.export import *
-from revitron.category import Category
-from revitron.document import Document
-from revitron.externalreference import ExternalReference
-from revitron.filter import Filter
-from revitron.link import LinkRvt
+from revitron.category import *
+from revitron.document import *
+from revitron.externalreference import *
+from revitron.filter import *
+from revitron.link import *
 from revitron.parameter import *
-from revitron.selection import Selection
-from revitron.transaction import Transaction
-from revitron.transmissiondata import TransmissionData
+from revitron.selection import *
+from revitron.transaction import *
+from revitron.transmissiondata import *
 from revitron.view import *
 import Autodesk.Revit.DB
 

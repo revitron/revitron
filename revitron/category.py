@@ -1,4 +1,4 @@
-import revitron
+
 
 class Category:
     
@@ -10,6 +10,7 @@ class Category:
         Args:
             name (string): The category name
         """
+        import revitron
         self.category = revitron.DOC.Settings.Categories.get_Item(name)
         
         
@@ -29,7 +30,8 @@ class Category:
 
         Returns:
             object: The built-in category
-        """        
+        """    
+        import revitron    
         for item in dir(revitron.DB.BuiltInCategory):
             try:
                 bic = getattr(revitron.DB.BuiltInCategory, item)

@@ -1,5 +1,4 @@
 #-*- coding: UTF-8 -*-
-import revitron
 import re
 
 
@@ -29,6 +28,8 @@ class Parameter:
         Returns:
             boolean: Returns True if parameter is bound already
         """
+        import revitron
+        
         definition = None
         
         for param in revitron.Filter().byClass(revitron.DB.SharedParameterElement).getElements():
@@ -52,7 +53,12 @@ class Parameter:
             category (string): The built-in category 
             paramName (string): The parameter name
             paramType (string): The parameter type (see here: https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm)
+        
+        Returns:
+            boolean: Returns True on success and False on error
         """
+        import revitron
+        
         if Parameter.isBoundToCategory(category, paramName):
             return True
 
@@ -60,13 +66,17 @@ class Parameter:
         group = None
         definition = None
         
+        if paramFile is None:
+            print('Please define a shared parameters file.')
+            return False
+        
         for item in paramFile.Groups:
-            if item.Name == '__API':
+            if item.Name == 'REVITRON':
                 group = item
                 break
         
         if not group:
-            group = paramFile.Groups.Create('__API')
+            group = paramFile.Groups.Create('REVITRON')
             
         for item in group.Definitions:
             if item.Name == paramName:
@@ -84,6 +94,7 @@ class Parameter:
         binding = revitron.APP.Create.NewInstanceBinding(categories)
         revitron.DOC.ParameterBindings.Insert(definition, binding)
     
+        return True
     
     def exists(self):
         """
@@ -207,7 +218,9 @@ class ParameterNameList:
     def __init__(self):
         """
         Inits a new ParameterNameList instance including all parameter names in the document.
-        """                
+        """            
+        import revitron
+            
         self.parameters = []
         
         for name in BuiltInParameterNameMap().map:
@@ -244,6 +257,8 @@ class ParameterValueProviders:
         Args:
             name (string): Name
         """      
+        import revitron
+        
         self.providers = []
         paramIds = []
         it = revitron.DOC.ParameterBindings.ForwardIterator()
@@ -278,6 +293,8 @@ class BuiltInParameterNameMap:
         is a parameter name that is visible to the user and the value is a list of built-in parameters 
         represented by that name.
         """
+        import revitron
+        
         self.map = dict()
         for item in dir(revitron.DB.BuiltInParameter):
             try:
@@ -334,6 +351,8 @@ class ParameterTemplate:
         Returns:
             string: The processed string
         """
+        import revitron
+        
         parameter = match.group(1)
         string = revitron.Element(self.element).get(parameter)
         

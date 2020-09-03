@@ -1,4 +1,4 @@
-import revitron
+
 from System.Collections.Generic import List
 
 
@@ -11,7 +11,9 @@ class Filter:
 
         Args:
             scope (Element ID or list of elements, optional): The optional scope. It can be either a view Id or a list of elements Defaults to None.
-        """                    
+        """   
+        import revitron
+                         
         if scope:
             if type(scope) == list:
                 elementIds = []
@@ -30,7 +32,9 @@ class Filter:
         Args:
             rule (object): The filter rule object
             invert (boolean): Inverts the filter
-        """       
+        """  
+        import revitron
+             
         parameterFilter = revitron.DB.ElementParameterFilter(rule, invert)
         self.collector = self.collector.WherePasses(parameterFilter)
 
@@ -45,6 +49,8 @@ class Filter:
             evaluator (object): The FilterStringRuleEvaluator
             invert (boolean): Inverts the filter
         """   
+        import revitron
+        
         filters = []
     
         # Since a visible parameter name could match multiple built-in parameters,
@@ -77,7 +83,9 @@ class Filter:
 
         Returns:
             object: The Filter instance
-        """        
+        """   
+        import revitron
+             
         self.collector = self.collector.OfCategory(revitron.Category(name).getBic())
         return self
     
@@ -105,6 +113,8 @@ class Filter:
         Returns:
             object: The collector
         """
+        import revitron
+        
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringContains(), invert)
         return self 
     
@@ -121,6 +131,8 @@ class Filter:
         Returns:
             object: The collector
         """
+        import revitron
+        
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringEquals(), invert)
         return self    
     
@@ -137,6 +149,8 @@ class Filter:
         Returns:
             object: The collector
         """
+        import revitron
+        
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringBeginsWith(), invert)
         return self 
     
@@ -153,6 +167,8 @@ class Filter:
         Returns:
             object: The collector
         """
+        import revitron
+        
         self.applyStringFilter(paramName, value, revitron.DB.FilterStringEndsWith(), invert)
         return self 
     

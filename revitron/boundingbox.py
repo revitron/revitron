@@ -1,5 +1,3 @@
-import revitron
-
 
 
 class BoundingBox:
@@ -13,6 +11,8 @@ class BoundingBox:
         Args:
             element (object): A Revit Element
         """        
+        import revitron
+        
         if revitron._(element).get('Scope Box'):
             self.bbox = revitron._(revitron._(element).get('Scope Box')).getBbox().bbox
         else:
@@ -32,6 +32,8 @@ class BoundingBox:
         Returns:
             boolean: True if the bounding box entirely contains bbox2
         """
+        import revitron
+        
         if isinstance(bbox2, revitron.BoundingBox):
             bbox2 = bbox2.bbox
         if self.hasPointXY(bbox2.Min) and self.hasPointXY(bbox2.Max):

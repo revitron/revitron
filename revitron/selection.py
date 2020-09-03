@@ -1,4 +1,4 @@
-import revitron
+
 from System.Collections.Generic import List
 
 
@@ -12,7 +12,9 @@ class Selection:
 
         Returns:
             list: The list of selected elements
-        """        
+        """   
+        import revitron
+             
         return [revitron.DOC.GetElement(elId) for elId in revitron.UIDOC.Selection.GetElementIds()]
     
     
@@ -34,6 +36,8 @@ class Selection:
 
         Args:
             ids (list): A list of element ids
-        """        
+        """    
+        import revitron
+            
         revitron.UIDOC.Selection.SetElementIds(List[revitron.DB.ElementId](ids))
         revitron.UIDOC.RefreshActiveView()

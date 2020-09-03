@@ -1,4 +1,4 @@
-import revitron
+
 
 class Document:
     
@@ -10,6 +10,7 @@ class Document:
         Args:
             doc (object, optional): Any document instead of the active one. Defaults to None.
         """        
+        import revitron
         if doc is not None:
             self.doc = doc
         else:
@@ -51,7 +52,8 @@ class Document:
 
         Returns:
             boolean: True in case the document is open
-        """        
+        """   
+        import revitron     
         try:
             for doc in revitron.APP.Documents:
                 if path == doc.PathName:

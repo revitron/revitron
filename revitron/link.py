@@ -1,4 +1,3 @@
-import revitron
 from revitron.element import Element
 
 
@@ -11,7 +10,9 @@ class LinkRvt(Element):
 
         Returns:
             string: The path on disk
-        """        
+        """   
+        import revitron
+             
         try:
             return revitron.Document(self.element.GetLinkDocument()).getPath()
         except:
@@ -25,6 +26,8 @@ class LinkRvt(Element):
         Returns:
             object: The Link type
         """
+        import revitron
+        
         try:
             return revitron.DOC.GetElement(self.get('Type'))  
         except:

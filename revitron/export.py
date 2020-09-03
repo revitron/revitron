@@ -1,5 +1,4 @@
 #-*- coding: UTF-8 -*-
-import revitron
 import os, shutil, time, sys, glob, re
 from pyrevit import script
 
@@ -17,6 +16,8 @@ class PDFExporter:
             printer (string): The printer network adress
             output (string): The printer output directory 
         """
+        import revitron
+        
         self.printer = printer
         self.output = output
         self.manager = revitron.DOC.PrintManager
@@ -52,6 +53,8 @@ class PDFExporter:
         Returns:
             bool: False on error
         """
+        import revitron
+        
         if revitron.Element(sheet).getClassName() != 'ViewSheet':
             print(':face_with_rolling_eyes: Element is not a sheet!')
             return False
@@ -150,6 +153,8 @@ class PDFExporter:
         Returns:
             [type]: [description]
         """
+        import revitron
+        
         nr = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Number'))
         name = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Name'))
         rvt = re.sub(r'\.rvt$', '', os.path.basename(revitron.DOC.PathName))
