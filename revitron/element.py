@@ -81,7 +81,9 @@ class Element:
         Returns:
             object: The element instance
         """        
-        revitron.Parameter.bind(self.element.Category.Name, paramName, paramType)
-        revitron.Parameter(self.element, paramName).set(value)
         import revitron
+        if revitron.Parameter.bind(self.element.Category.Name, paramName, paramType):
+            revitron.Parameter(self.element, paramName).set(value)
+        else: 
+            print('Error setting value of parameter "{}"'.format(paramName))
         return self
