@@ -40,11 +40,6 @@ extensions = [
 
 autodoc_mock_imports = ['pyrevit', 'Autodesk', 'clr', 'System', 'Microsoft']
 
-autodoc_default_options = {
-    'autosummary': True,
-    'autosummary-undoc-members': True
-}
-
 add_module_names = False
 
 napoleon_google_docstring = True

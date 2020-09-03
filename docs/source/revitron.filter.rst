@@ -5,3 +5,4 @@ revitron.filter
    :members:
    :undoc-members:
    :show-inheritance:
+   :autosummary:

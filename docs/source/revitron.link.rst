@@ -5,3 +5,4 @@ revitron.link
    :members:
    :undoc-members:
    :show-inheritance:
+   :autosummary:

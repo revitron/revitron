@@ -5,3 +5,4 @@ revitron.externalreference
    :members:
    :undoc-members:
    :show-inheritance:
+   :autosummary:

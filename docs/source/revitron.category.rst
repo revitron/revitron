@@ -5,3 +5,4 @@ revitron.category
    :members:
    :undoc-members:
    :show-inheritance:
+   :autosummary:

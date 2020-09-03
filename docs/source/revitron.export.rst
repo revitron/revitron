@@ -5,3 +5,4 @@ revitron.export
    :members:
    :undoc-members:
    :show-inheritance:
+   :autosummary:

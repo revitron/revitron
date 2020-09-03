@@ -5,3 +5,4 @@ revitron.boundingbox
    :members:
    :undoc-members:
    :show-inheritance:
+   :autosummary:
