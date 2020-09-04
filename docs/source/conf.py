@@ -35,7 +35,8 @@ extensions = [
     'sphinx.ext.coverage', 
     'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
-    'autodocsumm'
+    'autodocsumm',
+    'sphinxext.opengraph'
 ]
 
 autodoc_mock_imports = ['pyrevit', 'Autodesk', 'clr', 'System', 'Microsoft']
@@ -52,6 +53,15 @@ napoleon_use_admonition_for_references = True
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
+
+# Open Graph extension config. https://pypi.org/project/sphinxext-opengraph/
+ogp_site_url = "https://revitron.readthedocs.io/"
+ogp_image = "https://raw.githubusercontent.com/revitron/revitron/master/docs/source/_static/revitron.png"
+ogp_description_length = 300
+
+ogp_custom_meta_tags = [
+    '<meta name="twitter:card" content="summary_large_image">',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -72,9 +82,7 @@ exclude_patterns = ['modules.rst']
 html_theme = 'revitron_sphinx_theme'
 html_theme_options = {
     'navigation_depth': 5,
-    'github_url': 'https://github.com/revitron/revitron',
-    'opengraph_image': 'revitron.png',
-    'base_url': 'https://revitron.readthedocs.io/en/latest'
+    'github_url': 'https://github.com/revitron/revitron'
 }
 
 html_logo = '_static/revitron.svg'
