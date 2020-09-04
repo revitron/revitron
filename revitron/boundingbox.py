@@ -1,12 +1,20 @@
-
+""" 
+The ``boundingbox`` submodule complements the Revit API bounding box methods 
+by a simple helper class for working with bounding box elements.
+"""
 
 class BoundingBox:
-    
+    """
+    A ``BoundingBox`` class instance is a wrapper element for Revit bounding box object.  
+
+    """    
     
     def __init__(self, element):
         """
-        Inits a new BoundingBox instance for an element. In case the element has a scope box applied, the scope box's bounding box is taken.
-        In case the element has no scope box, but is a view plan, the crop box is used. The default Revit bounding box is used for all other elements. 
+        Inits a new BoundingBox instance for an element. 
+        In case the element has a scope box applied, the scope box's bounding box is taken.
+        In case the element has no scope box, but is a view plan, the crop box is used. 
+        The default Revit bounding box is used for all other elements. 
 
         Args:
             element (object): A Revit Element

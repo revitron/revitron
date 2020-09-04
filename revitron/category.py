@@ -1,7 +1,12 @@
-
+""" 
+To simply the interaction with Revit categories, the ``category`` 
+submodule provides the ``Category`` class be able to access category objects by name.
+"""
 
 class Category:
-    
+    """
+    A wrapper class for category objects which can be instantiated by a catergory name.
+    """
     
     def __init__(self, name):
         """
