@@ -2,7 +2,6 @@
 The ``document`` submodule contains classes to interact with the currently active Revit document. 
 """
 import json
-from collections import defaultdict
 
 
 class Document:
