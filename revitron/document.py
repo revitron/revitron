@@ -1,3 +1,8 @@
+""" 
+The ``document`` submodule contains classes to interact with the currently active Revit document. 
+"""
+import json
+from collections import defaultdict
 
 
 class Document:
@@ -61,3 +66,55 @@ class Document:
         except:
             pass
         return False
+    
+    
+class DocumentConfigStorage:
+    """
+    The ``DocumentConfigStorage`` allows for easily store project configuration items.
+    """
+    
+    def __init__(self):
+        """
+        Inits a new ``DocumentConfigStorage`` object.
+        """
+        import revitron
+        
+        self.storageName = 'REVITRON_CONFIG'
+        self.info = revitron.DOC.ProjectInformation
+        raw = revitron._(self.info).get(self.storageName)
+        self.storage = dict()
+        
+        if raw:
+            self.storage = json.loads(raw)
+        
+            
+    def get(self, key):
+        """
+        Returns storage entry for a given key.
+
+        Args:
+            key (string): The key of the storage entry
+
+        Returns:
+            mixed: The stored value 
+        """    
+        return self.storage.get(key)
+    
+    
+    def set(self, key, data):
+        """
+        Updates or creates a config storage entry.
+
+        Args:
+            key (string): The storage entry key
+            data (mixed): The value of the entry
+        """
+        import revitron
+        
+        self.storage[key] = data
+        # Remove empty items.
+        self.storage = dict((k, v) for k, v in self.storage.iteritems() if v)
+        raw = json.dumps(self.storage, sort_keys=True)
+        t = revitron.Transaction()
+        revitron._(self.info).set(self.storageName, raw)
+        t.commit()
