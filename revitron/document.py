@@ -5,7 +5,9 @@ import json
 
 
 class Document:
-    
+    """
+    A basic wrapper class for Revit documents.
+    """
     
     def __init__(self, doc = None):
         """
@@ -69,7 +71,7 @@ class Document:
     
 class DocumentConfigStorage:
     """
-    The ``DocumentConfigStorage`` allows for easily store project configuration items.
+    The ``DocumentConfigStorage`` allows for easily storing project configuration items.
     """
     
     def __init__(self):
@@ -87,17 +89,18 @@ class DocumentConfigStorage:
             self.storage = json.loads(raw)
         
             
-    def get(self, key):
+    def get(self, key, default=None):
         """
         Returns storage entry for a given key.
 
         Args:
             key (string): The key of the storage entry
+            default (mixed, optional): An optional default value. Defaults to None.
 
         Returns:
             mixed: The stored value 
-        """    
-        return self.storage.get(key)
+        """
+        return self.storage.get(key, default)
     
     
     def set(self, key, data):
@@ -113,7 +116,7 @@ class DocumentConfigStorage:
         self.storage[key] = data
         # Remove empty items.
         self.storage = dict((k, v) for k, v in self.storage.iteritems() if v)
-        raw = json.dumps(self.storage, sort_keys=True)
+        raw = json.dumps(self.storage, sort_keys=True, ensure_ascii=False)
         t = revitron.Transaction()
         revitron._(self.info).set(self.storageName, raw)
         t.commit()
