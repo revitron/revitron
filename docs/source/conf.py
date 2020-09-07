@@ -90,10 +90,10 @@ html_logo = '_static/revitron.svg'
 html_context = {
     'landing_page': {
         'menu': [
-            {'title': 'Get Started', 'url': 'get-started.html'},
+            {'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/en/latest/'},
             {'title': 'Docs', 'url': 'documentation.html'},
             {'title': 'API', 'url': 'revitron.html'},
-            {'title': 'Revitron UI', 'url': 'revitron-ui.html'}
+            {'title': 'RPM', 'url': 'https://github.com/revitron/rpm'},
         ]
     }
 }

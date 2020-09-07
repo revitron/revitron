@@ -15,10 +15,18 @@ Revitron
 
 
 .. toctree::
+   :caption: Revitron
    :maxdepth: 2
    :hidden:
 
    get-started
    documentation
    revitron
-   revitron-ui
+
+
+.. toctree::
+   :caption: More
+   :hidden:
+   
+   Revitron UI <https://revitron-ui.readthedocs.io/en/latest/>
+   RPM <https://github.com/revitron/rpm>
