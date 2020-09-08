@@ -12,6 +12,7 @@
 #
 import os
 import sys
+import datetime
 import revitron_sphinx_theme
 sys.path.insert(0, os.path.abspath('../..'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../revitron'))
@@ -21,7 +22,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 
 project = 'Revitron'
-copyright = '2020, Marc Anton Dahmen'
+copyright = '{}, Marc Anton Dahmen'.format(datetime.datetime.now().year)
 author = 'Marc Anton Dahmen'
 
 
