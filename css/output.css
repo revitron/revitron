@@ -12,7 +12,7 @@ body {
 	scrollbar-highlight-color: #222222;
 	scrollbar-shadow-color: #222222;
 	scrollbar-track-color: #222222;
-	background-image: url(https://raw.githubusercontent.com/revitron/rpm/master/svg/rpm.svg);
+	background-image: url(https://raw.githubusercontent.com/revitron/revitron/master/svg/revitron-white.svg);
 	background-repeat: no-repeat;
 	background-size: 37px 36px;
 	background-position: right 22px bottom 22px;
@@ -27,8 +27,7 @@ a:hover {
 	text-decoration: none;
 }
 
-img[src*="rpm.svg"],
-img[src*="revitron.svg"] {
+img[src*="revitron-white.svg"] {
 	display: block;
 	width: 150px;
 	margin: 100px auto;
