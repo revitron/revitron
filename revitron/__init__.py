@@ -3,6 +3,9 @@ Revitron
 ========
 """
 
+import Autodesk.Revit.DB
+import os
+
 from revitron._helpers import *
 from revitron.boundingbox import *
 from revitron.element import *
@@ -18,8 +21,8 @@ from revitron.selection import *
 from revitron.transaction import *
 from revitron.transmissiondata import *
 from revitron.view import *
-import Autodesk.Revit.DB
 
+parent = os.path.dirname 
 
 try:
     DOC = __revit__.ActiveUIDocument.Document
@@ -31,6 +34,7 @@ except:
 
 
 DB = Autodesk.Revit.DB
+LIB_DIR = parent(parent(__file__))
 
 
 def _(element):
