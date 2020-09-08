@@ -1,0 +1,214 @@
+body {
+	color: #dddddd;
+	background-color: #222222;
+	font-family: Consolas;
+	font-size: 17px;
+	line-height: 22px;
+	margin: 0 0 15px 0;
+	padding: 25px;
+	scrollbar-arrow-color: #333333;
+	scrollbar-base-color: #222222;
+	scrollbar-face-color: #333333;
+	scrollbar-highlight-color: #222222;
+	scrollbar-shadow-color: #222222;
+	scrollbar-track-color: #222222;
+	background-image: url(https://raw.githubusercontent.com/revitron/rpm/master/svg/rpm.svg);
+	background-repeat: no-repeat;
+	background-size: 37px 36px;
+	background-position: right 22px bottom 22px;
+	background-attachment: fixed;
+}
+
+a {
+	color: #c0c0c0;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+img[src*="rpm.svg"],
+img[src*="revitron.svg"] {
+	display: block;
+	width: 150px;
+	margin: 100px auto;
+	padding-bottom: 30px;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid #444444;
+	margin: 40px 0; 
+}
+
+em {
+	color: #eeeeee;
+	background-color: #343434;
+	padding: 3px 5px;
+	border-radius: 4px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%
+}
+
+table, th, td {
+	border-bottom: 1px solid #aaa;
+	padding: 5px;
+}
+
+th {
+	background-color: #233749;
+	color: white;
+}
+
+tr:nth-child(odd) {
+	background-color: #f2f2f2
+}
+
+.entry {
+	margin-bottom: 6px;
+	margin-top: 6px;
+	padding-left: 0;
+	padding-right: 0;
+	word-wrap: break-word;
+}
+
+.errorentry {
+	position: relative;
+	background: #303030;
+	border-left: 2px solid;
+	color: #e06c6c;
+	margin-top: 10px;
+	padding: 15px;
+}
+
+
+.logdefault {
+	border-radius: 0;
+	/* margin: 10px 0 10px 0; */
+	padding: 6px;
+}
+
+.logsuccess, 
+.logerror,
+.logwarning,
+.logcritical,
+.logdeprecate {
+	margin: 10px 0;
+	padding: 10px 15px;
+	background: #343434;
+	border-left: 2px solid;
+}
+
+.logsuccess {
+	color: #98c379;
+}
+
+.logerror,
+.logcritical {
+	color: #e06c75;
+}
+
+.logwarning,
+.logdeprecate {
+	color: #e5c07b;
+}
+
+.coreupdatewarn {
+	background: #F7F3F2;
+	color: #E17700;
+	padding: 20px;
+	margin: 10px 0px 10px 0px;
+	border: 1px solid #C64325; 
+}
+
+.inlinewait {
+	border-radius: 0;
+	border: 1px solid #222222;
+	color: #222222;
+	margin: 6px;
+	padding: 6px;
+	padding-bottom: 8px;
+	word-wrap: break-word;
+}
+
+.emoji {
+	/*filter: gray;*/
+	/*filter: alpha(opacity=50);*/
+	height: 14pt;
+	margin: -4px 0 0 0;
+	vertical-align: middle;
+}
+
+.progressindicator {
+	background: #222222;
+	border: 0;
+	top: 0;
+	font-size: 1pt;
+	height: 4px;
+	position: fixed;
+	width: 100%;
+}
+
+.progressbar {
+	background: #f39c12;
+	border: 0;
+	font-size: 1pt;
+	height: 100%;
+	width: 1%;
+}
+
+.elementlink {
+	background-color: #343434;
+	/*border: 1px solid #222222;*/
+	border-radius: 0;
+	color: #ffffff;
+	display: inline-block;
+	font-size: 8pt;
+	margin: 2px;
+	padding: 2px 6px;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+.elementlink:visited {
+	background-color: #f39c12;
+}
+
+.code {
+	background: #faf8f0;
+	border-radius: 0;
+	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+	line-height: 140%;
+	padding-bottom: 20px;
+	padding-left: 10px;
+}
+
+.nextpage {
+	page-break-after: always;
+}
+
+.unittest {
+	padding: 3px;
+}
+
+.unitteststart {
+	background: #e8e8e8;
+}
+
+.unittestokay {
+	border-bottom: 1px solid gray;
+}
+
+.unittestfail {
+	border-bottom: 1px solid gray;
+}
+
+.unittesterror {
+	border-bottom: 1px solid gray;
+}
