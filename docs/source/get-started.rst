@@ -7,17 +7,18 @@ The Revitron library can be installed as a single Python package for pyRevit or 
 In case you want to setup a new Revit project and you are new to pyRevit, 
 it is recommendend to install the bundled version as described below.
 
-Installing the Full Bundle
---------------------------
+.. attention:: The bundle installer as well as the Revitron package manager are using `Git <https://git-scm.com/>`_ to manage dependencies.
+   Please make sure that Git is installed properly on your system before installing Revitron.
+
+Bundle Installer 
+----------------
 
 To install the full bundle including pyRevit, RPM and the Revitron UI, follow the instructions below:
 
-.. note:: Please make sure that Git is installed properly on your system before installing Revitron!
-
 1. Right-click `here <https://raw.githubusercontent.com/revitron/installer/master/install.bat>`_ to download the installer.
-2. Move the `install.bat` to the directory, where you want to install pyRevit.
-3. Double-click the installer.
-4. Start Revit and close it again.
+2. Move the ``install.bat`` to the directory, where you want to install pyRevit.
+3. Double-click the ``install.bat`` file.
+4. Start Revit after the installer script has finished and close it again.
 5. Start Revit a second time.
 
 Manual Installation
