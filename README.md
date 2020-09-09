@@ -25,4 +25,6 @@ Note that there is also a ready-made [Revitron UI](https://github.com/revitron/r
 
 The documentation can be found [here](https://revitron.readthedocs.io/en/latest/index.html).     
 
+---
+
 &copy; 2020 Marc Anton Dahmen &mdash; MIT license
