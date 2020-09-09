@@ -94,7 +94,7 @@ html_context = {
             {'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/en/latest/'},
             {'title': 'Docs', 'url': 'documentation.html'},
             {'title': 'API', 'url': 'revitron.html'},
-            {'title': 'RPM', 'url': 'https://github.com/revitron/rpm'},
+            {'title': 'RPM', 'url': 'https://github.com/revitron/rpm-ui/blob/master/README.md'},
         ]
     }
 }
