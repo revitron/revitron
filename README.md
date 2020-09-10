@@ -15,7 +15,7 @@ An installation guide, the API reference and the UI docs can be found [here](htt
 
 ## Unit Tests
 
-Revitron unit tests need their own pyrevit UI to run. since they are only needed to develop the library extension and would only bother normal users, all unit tests are located in a [separate repository](https://github.com/revitron/revitron-tests) and can be installed as an independent UI extension if required.
+Revitron unit tests need their own pyRevit UI to run. Since they are only needed to develop the library extension and would only bother normal users, all unit tests are located in a [separate repository](https://github.com/revitron/revitron-tests) and can be installed as an independent UI extension if required.
 
 ---
 
