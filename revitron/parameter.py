@@ -17,7 +17,6 @@ class Parameter:
         self.name = name
         self.parameter = element.LookupParameter(name)
     
-    
     @staticmethod
     def isBoundToCategory(category, paramName):        
         """
@@ -54,7 +53,7 @@ class Parameter:
         Args:
             category (string): The built-in category 
             paramName (string): The parameter name
-            paramType (string): The parameter type (see here: https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm)
+            paramType (string): The parameter type (see `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_)
         
         Returns:
             boolean: Returns True on success and False on error
@@ -207,9 +206,15 @@ class Parameter:
         """
         Set a parameter value for an element.
 
+        Attention:
+        
+            Possible parameter types are: 
+            Text, Integer, Number, Length, Angle, Material, YesNo, MultilineText, FamilyType 
+            and `more <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_.
+
         Args:
             value (string): The value
-            paramType (string, optional): The parameter type. Defaults to 'Text'.
+            paramType (string, optional): The `parameter type <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_. Defaults to "Text". 
         """
         if self.parameter == None:
             if Parameter.bind(self.element.Category.Name, self.name, paramType):
@@ -363,7 +368,7 @@ class ParameterTemplate:
         import revitron
         
         parameter = match.group(1)
-        string = revitron.Element(self.element).get(parameter)
+        string = str(revitron.Element(self.element).get(parameter))
         
         if self.sanitize:
             string = revitron.String.sanitize(string)
