@@ -28,4 +28,5 @@ Revitron
 
    Revitron UI <https://revitron-ui.readthedocs.io/en/latest/>
    RPM <https://github.com/revitron/rpm-ui/blob/master/README.md>
+   Unit Tests <https://github.com/revitron/revitron-tests>
    GitHub <https://github.com/revitron/revitron>
