@@ -34,6 +34,10 @@ class BoundingBox:
         """
         Checks whether the bounding box contains another bounding box. Only in X and Y dimensions.
 
+        Example::
+        
+            contains = _(element1).getBbox().containsXY(_(element2).getBbox())
+        
         Args:
             bbox2 (object): A bounding box object
 
@@ -59,7 +63,7 @@ class BoundingBox:
         Returns:
             boolean: True if the bounding box has the point inside
         """        
-        if self.bbox.Min.X < point.X < self.bbox.Max.X and self.bbox.Min.Y < point.Y < self.bbox.Max.Y:
+        if self.bbox.Min.X <= point.X <= self.bbox.Max.X and self.bbox.Min.Y <= point.Y <= self.bbox.Max.Y:
             return True
         return False
     
