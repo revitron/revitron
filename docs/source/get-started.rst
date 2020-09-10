@@ -1,5 +1,5 @@
-Install
-=======
+Installation
+============
 
 The Revitron library can be installed as a single Python package for pyRevit or bundled with a custom 
 `fork <https://github.com/revitron/pyRevit>`_ of pyRevit including the project based package manager 
