@@ -93,6 +93,11 @@ class DocumentConfigStorage:
         """
         Returns storage entry for a given key.
 
+        Example::
+
+            config = revitron.DocumentConfigStorage()
+            item = config.get('name')
+            
         Args:
             key (string): The key of the storage entry
             default (mixed, optional): An optional default value. Defaults to None.
@@ -107,6 +112,11 @@ class DocumentConfigStorage:
         """
         Updates or creates a config storage entry.
 
+        Example::
+        
+            config = revitron.DocumentConfigStorage()
+            config.set('name', value)
+            
         Args:
             key (string): The storage entry key
             data (mixed): The value of the entry
