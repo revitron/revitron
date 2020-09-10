@@ -13,7 +13,8 @@ class Filter:
             scope (Element ID or list of elements, optional): The optional scope. It can be either a view Id or a list of elements Defaults to None.
         """   
         import revitron
-                         
+        
+        self.scope = scope         
         if scope:
             if type(scope) == list:
                 elementIds = []
@@ -60,7 +61,13 @@ class Filter:
         for valueProvider in revitron.ParameterValueProviders(paramName).get():
             rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
             _filter = Filter()
-            _filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.collector.ToElementIds())
+            # Try to get elements from the collector as base for the fresh collector.
+            # In case there was never a filter applied before, getting elements will raise an exception
+            # and new Filter() instance is created with the same scope.
+            try:
+                _filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.collector.ToElementIds())
+            except:
+                _filter.collector = revitron.Filter(self.scope).collector
             _filter.applyParameterFilter(rule, invert) 
             filters.append(_filter)
         
