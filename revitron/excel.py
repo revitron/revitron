@@ -36,7 +36,8 @@ class ExcelWorkbook:
 
         Example::
         
-            worksheet = revitron.ExcelWorkbook(xlsx).newWorksheetFromTemplate('Template', 'Name')
+            workbook = revitron.ExcelWorkbook(xlsx)
+            worksheet = workbook.newWorksheetFromTemplate('Template', 'Name')
 
         Args:
             template (string): The template name
