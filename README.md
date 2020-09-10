@@ -13,6 +13,10 @@ Revitron is a [Revit API](https://www.revitapidocs.com/) wrapper written in Pyth
 
 An installation guide, the API reference and the UI docs can be found [here](https://revitron.readthedocs.io/en/latest/index.html).     
 
+## Unit Tests
+
+Revitron unit tests need their own pyrevit UI to run. since they are only needed to develop the library extension and would only bother normal users, all unit tests are located in a [separate repository](https://github.com/revitron/revitron-tests) and can be installed as an independent UI extension if required.
+
 ---
 
 &copy; 2020 Marc Anton Dahmen &mdash; MIT license
