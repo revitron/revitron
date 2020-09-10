@@ -13,6 +13,8 @@ class Parameter:
             element (object): Revit element
             name (string): The parameter name
         """
+        self.element = element
+        self.name = name
         self.parameter = element.LookupParameter(name)
     
     
@@ -201,14 +203,21 @@ class Parameter:
         return 0
     
     
-    def set(self, value):
+    def set(self, value, paramType = 'Text'):
         """
         Set a parameter value for an element.
 
         Args:
             value (string): The value
+            paramType (string, optional): The parameter type. Defaults to 'Text'.
         """
-        if self.parameter != None and not self.parameter.IsReadOnly:
+        if self.parameter == None:
+            if Parameter.bind(self.element.Category.Name, self.name, paramType):
+                self.parameter = self.element.LookupParameter(self.name)
+            else:
+                print('Error setting value of parameter "{}"'.format(self.name))
+                return False
+        if not self.parameter.IsReadOnly:
             self.parameter.Set(value)
  
 
