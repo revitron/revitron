@@ -44,7 +44,11 @@ class Element:
     def get(self, paramName):
         """
         Returns a parameter value.
-
+        
+        Example::
+        
+            value = _(element).get('name')
+            
         Args:
             paramName (string): The name of the parameter
 
@@ -73,6 +77,10 @@ class Element:
         """
         Sets a parameter value.
 
+        Example::
+        
+            _(element).set('name', 'value')
+            
         Args:
             paramName (string): The parameter name
             value (mixed): The value
