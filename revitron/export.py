@@ -1,11 +1,77 @@
+"""
+The ``export`` submodule hosts all classes related to sheet export.
+"""
 #-*- coding: UTF-8 -*-
 import os, shutil, time, sys, glob, re
 from pyrevit import script
+from System.Collections.Generic import List
 
+
+class DWGExporter:
+    """
+    Export sheets as DWG named by a file naming template. 
+    """
+    
+    def __init__(self, setupName):
+        """
+        Inits a new DWGExporter instance.
+
+        Args:
+            setupName (string): The name of a stored export setup
+        """
+        import revitron
+        self.options = revitron.DB.DWGExportOptions().GetPredefinedOptions(revitron.DOC, setupName)
+        
+
+    def exportSheet(self, sheet, directory, template = False):
+        """
+        Exports a sheet.
+
+        Args:
+            sheet (object): A Revit sheet
+            directory (string): The export directory
+            template (string, optional): A name template. Defaults to '{Sheet Number}-{Sheet Name}'.
+
+        Returns:
+            bool: False on error, True on success
+        """
+        import revitron
+        
+        if revitron.Element(sheet).getClassName() != 'ViewSheet':
+            print(':face_with_rolling_eyes: Element is not a sheet!')
+            return False
+
+        if not directory:
+            directory = self.output
+            
+        if not template:
+            template = '{Sheet Number}-{Sheet Name}'
+      
+        fullPath = os.path.join(directory, revitron.ParameterTemplate(sheet, template).render() + '.dwg')
+
+        path = os.path.dirname(fullPath)
+        file = os.path.basename(fullPath)
+
+        if not os.path.exists(path):
+            os.makedirs(path)
+        
+        db = revitron.DB
+        self.options.MergedViews = True
+        self.options.TargetUnit = db.ExportUnit.Default
+        
+        success = revitron.DOC.Export(path, file, List[db.ElementId]([sheet.Id]), self.options)
+        
+        if success:
+            script.get_output().print_html(':smiling_face: Exported <em>{}</em> &mdash; <a href="file:///{}" target="_blank">Open Folder</a>'.format(file, path.replace('\\', '/')))
+            script.get_output().print_html('&nbsp;&nbsp; <em>{}</em><br><br>'.format(path))
+            return True
+        
+        return False
+        
 
 class PDFExporter:
     """
-    Export sheets to PDF named by a file naming template. 
+    Export sheets as PDF named by a file naming template. 
     """
     
     def __init__(self, printer, output):
@@ -39,7 +105,7 @@ class PDFExporter:
             self.sizes[size.Name] = size
         
         
-    def printSheet(self, sheet, size, orientation = 'Landscape', directory = False, template = '{Sheet Number}-{Sheet Name}'):
+    def printSheet(self, sheet, size, orientation = 'Landscape', directory = False, template = False):
         """
         Prints a sheet.
 
@@ -51,7 +117,7 @@ class PDFExporter:
             template (string, optional): A name template. Defaults to '{Sheet Number}-{Sheet Name}'.
 
         Returns:
-            bool: False on error
+            bool: False on error, True on success
         """
         import revitron
         
@@ -134,10 +200,11 @@ class PDFExporter:
         if moved:
             script.get_output().print_html(':smiling_face: Exported <em>{}</em> &mdash; <a href="file:///{}" target="_blank">Open Folder</a>'.format(os.path.basename(path), os.path.dirname(path).replace('\\', '/')))
             script.get_output().print_html('&nbsp;&nbsp; <em>{}</em><br><br>'.format(path))
+            return True
         else:
             script.get_output().print_html(':pouting_face: Error exporting <em>{}</em><br><br>'.format(os.path.basename(path)))
-
-        return True
+        
+        return False
   
 
     def tempOutputPattern(self, sheet):
