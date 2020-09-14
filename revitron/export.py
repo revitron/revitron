@@ -63,7 +63,7 @@ class DWGExporter:
         
         if success:
             script.get_output().print_html(':smiling_face: Exported <em>{}</em> &mdash; <a href="file:///{}" target="_blank">Open Folder</a>'.format(file, path.replace('\\', '/')))
-            script.get_output().print_html('&nbsp;&nbsp; <em>{}</em><br><br>'.format(path))
+            script.get_output().print_html('&nbsp;&nbsp; <em>{}</em><br><br>'.format(fullPath))
             return True
         
         return False
