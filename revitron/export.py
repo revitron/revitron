@@ -61,6 +61,9 @@ class PDFExporter:
 
         if not directory:
             directory = self.output
+            
+        if not template:
+            template = '{Sheet Number}-{Sheet Name}'
       
         path = os.path.join(directory, revitron.ParameterTemplate(sheet, template).render() + '.pdf')
 
@@ -130,8 +133,9 @@ class PDFExporter:
   
         if moved:
             script.get_output().print_html(':smiling_face: Exported <em>{}</em> &mdash; <a href="file:///{}" target="_blank">Open Folder</a>'.format(os.path.basename(path), os.path.dirname(path).replace('\\', '/')))
+            script.get_output().print_html('&nbsp;&nbsp; <em>{}</em><br><br>'.format(path))
         else:
-            script.get_output().print_html(':pouting_face: Error exporting <em>{}</em> '.format(os.path.basename(path)))
+            script.get_output().print_html(':pouting_face: Error exporting <em>{}</em><br><br>'.format(os.path.basename(path)))
 
         return True
   
