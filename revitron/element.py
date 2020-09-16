@@ -1,7 +1,24 @@
+"""
+The purpose of this submodule is to provide convenient wrappers for the interaction with elements.
+Getting parameter values or other information can be quite complicated using the plain Revit API. 
+Using a method like ``revitron.Element(element).get(parameter)`` simplifies that process. 
+Note that there is also the ``_()`` shortcut function available to be even more efficient 
+in getting properties::
 
+    form revitron import _
+    value = _(element).get('parameter')
+    boundingBox = _(element).getBbox()
+    
+Or setting parameter values::
+
+    _(element).set('parameter', value)
+    
+"""
 
 class Element:
-    
+    """
+    A wrapper class for Revit elements. 
+    """
      
     def __init__(self, element):
         """
