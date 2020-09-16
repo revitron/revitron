@@ -7,6 +7,13 @@ import json
 class Document:
     """
     A basic wrapper class for Revit documents.
+    
+    Examples::
+    
+        path = revitron.Document().getPath()
+        
+        if revitron.Document().isFamily():
+            pass
     """
     
     def __init__(self, doc = None):
@@ -72,6 +79,21 @@ class Document:
 class DocumentConfigStorage:
     """
     The ``DocumentConfigStorage`` allows for easily storing project configuration items.
+    
+    Getting configuration items::
+       
+       config = revitron.DocumentConfigStorage().get('namespace.item')
+       
+    The returned ``config`` item can be a string, a number, a list or a dict. 
+    It is also possible to define a default value in case the item is not defined in the storage::
+
+        from collections import defaultdict
+        config = revitron.DocumentConfigStorage().get('namespace.item', defaultdict())
+        
+    Setting configuration items works as follows::
+    
+        revitron.DocumentConfigStorage().set('namespace.item', value)
+    
     """
     
     def __init__(self):

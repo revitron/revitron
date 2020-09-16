@@ -6,7 +6,14 @@ by a simple helper class for working with bounding box elements.
 class BoundingBox:
     """
     A ``BoundingBox`` class instance is a wrapper element for Revit bounding box object.  
-
+    
+    Create a new instance as follows::
+    
+        bbox = revitron.BoundingBox(element)
+        
+    Or even::
+    
+        bbox = _(element).getBbox()
     """    
     
     def __init__(self, element):

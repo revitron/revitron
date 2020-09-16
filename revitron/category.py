@@ -6,6 +6,10 @@ submodule provides the ``Category`` class to be able to access category objects 
 class Category:
     """
     A wrapper class for category objects which can be instantiated by a catergory name.
+    
+    You can get the Revit Category class object by providing a name as follows::
+    
+        category = revitron.Category('name').get()
     """
     
     def __init__(self, name):

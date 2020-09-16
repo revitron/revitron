@@ -9,7 +9,14 @@ import re
 
 class Parameter:
     """
-    A warpper class for interacting with element parameters. 
+    A wrapper class for interacting with element parameters. 
+    
+    Attention:
+    
+        In most cases it is not required to actually create a **Parameter** class 
+        instance in order to access paramter values of a given element. 
+        The fastest way of getting or setting parameter values is using the ``_(element).get('parameter')``
+        shortcut or an instance of the :doc:`revitron.element` class.
     """
     
     def __init__(self, element, name):        
@@ -130,6 +137,12 @@ class Parameter:
         """
         Return the parameter value.
 
+        Attention:
+        
+            As mentioned above, the fastest way of getting a parameter value is to use the
+            `get <revitron.element.html#revitron.element.Element.get>`_ method 
+            of the ``revitron.Element`` class.
+
         Returns:
             mixed: The value
         """
@@ -216,9 +229,27 @@ class Parameter:
 
         Attention:
         
-            Possible parameter types are: 
-            Text, Integer, Number, Length, Angle, Material, YesNo, MultilineText, FamilyType 
-            and `more <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_.
+            As mentioned above, the fastest way of setting a parameter value is to use the
+            `set <revitron.element.html#revitron.element.Element.set>`_ method 
+            of the ``revitron.Element`` class.
+            
+        Example::
+        
+            _(element).set('name', 'value', 'type')
+        
+        Some possible parameter types are: 
+            
+        - ``Text``
+        - ``Integer`` 
+        - ``Number``
+        - ``Length``
+        - ``Angle`` 
+        - ``Material``
+        - ``YesNo``
+        - ``MultilineText``
+        - ``FamilyType``
+             
+        You can find a list of all types `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_.
 
         Args:
             value (string): The value

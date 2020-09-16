@@ -7,6 +7,11 @@ from System.Collections.Generic import List
 class Selection:
     """ 
     A selection helper class.
+    
+    Example::
+    
+        for element in revitron.Selection.get():
+            ...
     """
     
     @staticmethod

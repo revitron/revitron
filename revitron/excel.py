@@ -1,5 +1,10 @@
 """ 
 This submodule contains helper classes to access and modify Microsoft Excel files.
+The following example demonstrates how to write data to table cells in a sheet created from a template::
+
+    book = revitron.ExcelWorkbook(xlsx)
+    sheet = book.newWorksheetFromTemplate('Template', 'Name')
+    sheet.cell(5, 1, 'Value')
 """
 import clr
 clr.AddReference("Microsoft.Office.Interop.Excel")
@@ -38,11 +43,6 @@ class ExcelWorkbook:
         """
         Creates a new worksheet as a copy from a given template.
 
-        Example::
-        
-            workbook = revitron.ExcelWorkbook(xlsx)
-            worksheet = workbook.newWorksheetFromTemplate('Template', 'Name')
-
         Args:
             template (string): The template name
             name (string): The name of the new copy
@@ -75,12 +75,6 @@ class ExcelWorksheet:
         """
         Writes data to a cell of the current worksheet. 
         
-        Example::
-        
-            book = revitron.ExcelWorkbook(xlsx)
-            sheet = book.newWorksheetFromTemplate('Template', 'Name')
-            sheet.cell(5, 1, 'Value')
-
         Args:
             row (integer): The row
             column (integer): The column

@@ -1,5 +1,18 @@
 """
 The ``export`` submodule hosts all classes related to sheet export such as DWG and PDF.
+For example sending the currently active sheet to a PDF printer in the network works as follows::
+
+    exporter = revitron.PDFExporter(printerAddress, printerPath)
+    exporter.printSheet(revitron.ACTIVEVIEW, 
+                       'A0', 
+                       'Landscape', 
+                       'C:/pdf', 
+                       '{Sheet Number}-{Sheet Title}')
+                       
+Please check out the 
+`export tool <https://github.com/revitron/revitron-ui/blob/master/Revitron.tab/Revitron.panel/Export.pulldown/Export%20Sheets%20as%20PDF.pushbutton/Export%20Sheets%20as%20PDF_script.py>`_ 
+of the **Revitron UI** extension to learn how to export a selection of sheets 
+with a felxible configuration stored in a document.
 """
 #-*- coding: UTF-8 -*-
 import os, shutil, time, sys, glob, re

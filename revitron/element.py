@@ -18,6 +18,15 @@ Or setting parameter values::
 class Element:
     """
     A wrapper class for Revit elements. 
+    
+    Example::
+    
+        value = revitron.Element(element).get('parameter')
+        
+    Or in short::
+    
+        from revitron import _
+        value = _(element).get('parameter')
     """
      
     def __init__(self, element):
@@ -96,7 +105,22 @@ class Element:
 
         Example::
         
-            _(element).set('name', 'value')
+            _(element).set('name', 'value', 'type')
+        
+        Some possible parameter types are: 
+            
+        - ``Text``
+        - ``Integer`` 
+        - ``Number``
+        - ``Length``
+        - ``Angle`` 
+        - ``Material``
+        - ``YesNo``
+        - ``MultilineText``
+        - ``FamilyType``
+             
+        You can find a list of all types `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_.
+
             
         Args:
             paramName (string): The parameter name

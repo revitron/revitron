@@ -9,6 +9,7 @@ the ability to filter collections by parameter values::
     
 To invert the collection of filtered elements, you can use the filter as follows::
 
+	filter = revitron.Filter
     ids = filter().byStringEquals('param', 'value', True).noTypes().getElementIds()
     
 Note that the third argument in the applied filter above is ``True`` to invert the selection of elements. 
