@@ -20,6 +20,7 @@ Revitron
    get-started
    documentation
    revitron
+   genindex
 
 
 .. toctree::
