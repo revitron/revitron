@@ -1,9 +1,13 @@
-
+""" 
+A small helper submodule to simplify accessing the list of selected elements.
+"""
 from System.Collections.Generic import List
 
 
 class Selection:
-    
+    """ 
+    A selection helper class.
+    """
     
     @staticmethod
     def get():

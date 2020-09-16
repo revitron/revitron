@@ -1,6 +1,6 @@
 """ 
 To simply the interaction with Revit categories, the ``category`` 
-submodule provides the ``Category`` class be able to access category objects by name.
+submodule provides the ``Category`` class to be able to access category objects by name.
 """
 
 class Category:

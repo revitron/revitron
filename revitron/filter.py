@@ -1,9 +1,26 @@
+""" 
+This submodule is one of the most important submodules within the Revitron package. 
+Its purpose is to make filtering the database for elements less complicate and to take over the heavy lifting. 
+It also extends the standard ``FilteredElementCollector`` class with 
+the ability to filter collections by parameter values::
 
+    filter = revitron.Filter
+    ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
+    
+To invert the collection of filtered elements, you can use the filter as follows::
+
+    ids = filter().byStringEquals('param', 'value', True).noTypes().getElementIds()
+    
+Note that the third argument in the applied filter above is ``True`` to invert the selection of elements. 
+    
+"""
 from System.Collections.Generic import List
 
 
 class Filter:
-    
+    """ 
+    A filter class based on the ``FilteredElementCollector`` class.
+    """
     
     def __init__(self, scope = None):
         """
@@ -112,6 +129,11 @@ class Filter:
         """
         Filters the collection by a string contained in a parameter.
 
+        Example::
+            
+            filter = revitron.Filter
+            ids = filter().byStringContains('param', 'value').noTypes().getElementIds()
+
         Args:
             paramName (string): The parameter name
             value (string): The searched string
@@ -129,6 +151,11 @@ class Filter:
     def byStringEquals(self, paramName, value, invert = False):
         """
         Filters the collection by a string that equals a parameter value.
+
+        Example::
+            
+            filter = revitron.Filter
+            ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
 
         Args:
             paramName (string): The parameter name

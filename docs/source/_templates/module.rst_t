@@ -5,5 +5,6 @@
 .. automodule:: {{ qualname }}
    :members:
    :undoc-members:
+   :inherited-members:
    :show-inheritance:
    :autosummary:

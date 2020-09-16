@@ -1,9 +1,16 @@
 #-*- coding: UTF-8 -*-
+""" 
+Besides the ``element`` and the ``filter`` submodules, 
+this submodule is one of the most elementary submodules of the Revitron package.
+It contains all classes related to parameters, built-in parameters and value providers.
+"""
 import re
 
 
 class Parameter:
-    
+    """
+    A warpper class for interacting with element parameters. 
+    """
     
     def __init__(self, element, name):        
         """
@@ -16,6 +23,7 @@ class Parameter:
         self.element = element
         self.name = name
         self.parameter = element.LookupParameter(name)
+    
     
     @staticmethod
     def isBoundToCategory(category, paramName):        
@@ -227,7 +235,9 @@ class Parameter:
  
 
 class ParameterNameList:
-    
+    """
+    A helper class for listing all parameter names in the active document. 
+    """
 
     def __init__(self):
         """
@@ -259,7 +269,9 @@ class ParameterNameList:
 
 
 class ParameterValueProviders:
-    
+    """ 
+    A wrapper for parameter value providers used for filtering elements.
+    """
 
     def __init__(self, name):
         """
@@ -299,7 +311,9 @@ class ParameterValueProviders:
     
     
 class BuiltInParameterNameMap:
-    
+    """ 
+    A helper class for mapping lists of built-in parameter names to their representation visible to the user.
+    """
     
     def __init__(self):
         """

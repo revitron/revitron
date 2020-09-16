@@ -1,5 +1,5 @@
 """
-The ``export`` submodule hosts all classes related to sheet export.
+The ``export`` submodule hosts all classes related to sheet export such as DWG and PDF.
 """
 #-*- coding: UTF-8 -*-
 import os, shutil, time, sys, glob, re

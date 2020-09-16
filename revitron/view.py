@@ -1,4 +1,6 @@
-
+""" 
+This submodule provides helpers related to Revit views.
+"""
 
 class ViewSheetList:
     """

@@ -1,4 +1,7 @@
-
+"""
+This submodule contains the ``TransmissionData`` class 
+which allows for editing the paths of linked files without opening a model.  
+"""
 import re
 import shutil
 import os
@@ -6,7 +9,9 @@ import sys
 
 
 class TransmissionData:
-    
+    """ 
+    A transmission data wrapper.
+    """
     
     refs = dict()
     

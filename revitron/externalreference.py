@@ -1,6 +1,11 @@
+""" 
+This submodule contains a wrapper class for external references within a Revit document.
+"""
 
 class ExternalReference:
-    
+    """ 
+    An external reference wrapper class.
+    """
     
     def __init__(self, ref):
         """

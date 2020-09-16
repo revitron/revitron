@@ -1,11 +1,15 @@
+""" 
+This submodule contains helper classes to access and modify Microsoft Excel files.
+"""
 import clr
 clr.AddReference("Microsoft.Office.Interop.Excel")
 import Microsoft.Office.Interop.Excel as Excel
 
 
-
 class ExcelWorkbook:
-    
+    """ 
+    A wrapper class for Excel workbooks.
+    """
     
     def __init__(self, file):
         """
@@ -53,7 +57,9 @@ class ExcelWorkbook:
     
     
 class ExcelWorksheet:
-    
+    """ 
+    A wrapper class for modifying Excel worksheet cells.
+    """
     
     def __init__(self, worksheet):
         """

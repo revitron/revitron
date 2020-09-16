@@ -1,9 +1,18 @@
+"""
+The ``transaction`` submodule contains a wrapper class to simplify the usage of transactions:: 
 
+    t = revitron.Transaction() 
+    ... 
+    t.close()
+    
+"""
 from pyrevit import script
 
 
 class Transaction:
-    
+    """
+    A transaction helper class. 
+    """
     
     def __init__(self):
         """
