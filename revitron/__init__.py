@@ -1,8 +1,77 @@
 """
-Revitron
-========
-"""
+The Revitron package is a `Revit API <https://www.revitapidocs.com/>`_ wrapper written in Python 
+to help you developing clean and powerful Revit plugins in `pyRevit <https://github.com/eirannejad/pyRevit>`_.
+The package consists of a minimal main `module`_ and collection of specific `submodules`_ covering certain topics 
+of the **Revit API**.
 
+Concept
+=======
+
+Basically this package is designed to be a generic **Revit API** toolbox. It doesn't focus on a single topic, but tries to
+combine multiple wrapper classes instead to enable you to create plugins using just one single base library.
+However, there are two topics that are in the main focus of many **pyRevit** plugins --- working with elements and filtering. 
+
+Working with Elements
+---------------------
+
+As mentioned before, one of those core topics is to make elements and their properties easily accessible and editable. 
+Similar to **JavaScript** libraries such as **jQuery**, there is a multi-purpose shorthand `function`_ to wrap 
+generic Revit elements into Revitron objects. Those returned objects allow for getting and setting parameter values, retrieving
+bounding boxes, getting their category and so on.
+
+The following example demonstrates getting a comment of a given element::
+
+    import revitron
+    from revitron import _
+    comment = _(element).get('Comments')
+    
+You can find the documentation of more methods to work with elements in the `revitron.element <revitron.element.html>`_ reference. 
+    
+Using Filters
+-------------
+    
+Besides element properties, filtering is another core functionality of this package. Working with ``FiteredElementCollector`` 
+instances can be quite complex and difficult to debug. Revitron provides a `Filter <revitron.filter.html>`_ that implements
+a powerful tool to also filter the database by parameter values using human readable one-liner::
+
+    import revitron
+    filter = revitron.Filter
+    ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
+
+.. _module:
+
+Revitron Module
+===============
+
+The main Revitron module contains only some global module properties as well as the magic ``_()`` `function`_. 
+Specific classes are located in the `submodules`_ listed below.
+
+.. data:: DOC
+
+    The currently active document. 
+        
+.. data:: UIDOC
+
+    The active UI document.
+
+.. data:: APP
+
+    A shortcut for accessing the application object of the active document.
+
+.. data:: ACTIVEVIEW
+
+    The active view element.
+
+.. data:: DB
+
+    A shortcut for ``Autodesk.Revit.DB``.
+    
+.. data:: LIB_DIR
+
+    The path to the **Revitron** library extension directory.
+
+.. _function:    
+"""
 import Autodesk.Revit.DB
 import os
 

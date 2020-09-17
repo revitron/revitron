@@ -16,11 +16,12 @@ Bundle Installer
 To install the full bundle including pyRevit, RPM and the Revitron UI, follow the instructions below:
 
 1. In case Git is not already installed --- `download <https://git-scm.com/download/win>`_ and install Git.
-2. Right-click `here <https://raw.githubusercontent.com/revitron/installer/master/install.bat>`_ to download the installer.
+2. Right-click `here <https://raw.githubusercontent.com/revitron/installer/master/install.bat>`_ to download the Revitron installer. 
+   Make sure it keeps the ``.bat`` extension.
 3. Move the ``install.bat`` to the directory, where you want to install pyRevit.
-4. Double-click the ``install.bat`` file.
-5. Start Revit after the installation has finished and close it again.
-6. Start Revit a second time.
+4. Double-click the ``install.bat`` file to start the installation and wait until the CMD window closes.
+5. Start Revit and choose to always load the extension.
+6. Close and start Revit a second time to finish the installation.
 
 Manual Installation
 -------------------

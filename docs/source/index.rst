@@ -18,7 +18,6 @@ Revitron
    :hidden:
 
    get-started
-   documentation
    revitron
    genindex
 

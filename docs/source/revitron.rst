@@ -1,4 +1,4 @@
-API Reference
+Documentation
 =============
 
 .. automodule:: revitron
