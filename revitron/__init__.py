@@ -1,6 +1,6 @@
 """
 The Revitron package is a `Revit API <https://www.revitapidocs.com/>`_ wrapper written in Python 
-to help you developing clean and powerful Revit plugins in `pyRevit <https://github.com/eirannejad/pyRevit>`_.
+to help you developing clean and powerful **Revit** plugins in `pyRevit <https://github.com/eirannejad/pyRevit>`_.
 The package consists of a minimal main `module`_ and collection of specific `submodules`_ covering certain topics 
 of the **Revit API**.
 
