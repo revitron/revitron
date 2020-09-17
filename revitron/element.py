@@ -1,9 +1,14 @@
 """
 This submodule provides convenient wrappers for the interaction with elements.
-Getting parameter values or other information can be quite complicated using the plain Revit API. 
-Using a method like ``revitron.Element(element).get(parameter)`` simplifies that process. 
-Note that there is also the ``_()`` shortcut function available to be even more efficient 
-in getting properties::
+Getting parameter values or other information can be quite complicated using the plain **Revit API**. 
+Methods like ``revitron.Element(element).get(parameter)`` simplify that process. 
+
+Attention:
+
+    Note that there is also the ``_()`` shortcut function available to be even more efficient 
+    in getting properties of Revit elements. `More here <revitron.html#revitron>`_ ...
+
+For example getting a parameter value or even a bounding box object works as follows::
 
     form revitron import _
     value = _(element).get('parameter')

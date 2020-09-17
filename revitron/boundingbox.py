@@ -1,5 +1,5 @@
 """ 
-The ``boundingbox`` submodule complements the Revit API bounding box methods 
+The ``boundingbox`` submodule complements the **Revit API** bounding box methods 
 by a simple helper class for working with bounding box elements.
 """
 

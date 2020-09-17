@@ -1,18 +1,16 @@
 """ 
-This submodule is one of the most important submodules within the Revitron package. 
-Its purpose is to make filtering the database for elements less complicate and to take over the heavy lifting. 
-It also extends the standard ``FilteredElementCollector`` class with 
+The ``filter`` submodule is one of the most essential one within the **Revitron** package. 
+Its main purpose is taking over the heavy lifting of filtering elements in the **Revit** database and
+complementing the standard **Revit API** ``FilteredElementCollector`` class with 
 the ability to filter collections by parameter values::
 
     filter = revitron.Filter
     ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
     
-To invert the collection of filtered elements, you can use the filter as follows::
+Note that you can **invert** a filter by providing a the third argument for a string filter as follows::
 
-	filter = revitron.Filter
+    filter = revitron.Filter
     ids = filter().byStringEquals('param', 'value', True).noTypes().getElementIds()
-    
-Note that the third argument in the applied filter above is ``True`` to invert the selection of elements. 
     
 """
 from System.Collections.Generic import List

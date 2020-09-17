@@ -1,5 +1,5 @@
 """ 
-This submodule contains wrapper classes for links used in Revit models.
+This submodule contains wrapper classes for links used in **Revit** models.
 """
 from revitron.element import Element
 

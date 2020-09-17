@@ -1,5 +1,5 @@
 """ 
-This submodule contains a wrapper class for external references within a Revit document.
+This submodule contains a wrapper class for external references within a **Revit** document.
 """
 
 class ExternalReference:

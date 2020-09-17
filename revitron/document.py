@@ -1,5 +1,6 @@
 """ 
-The ``document`` submodule contains classes to interact with the currently active Revit document. 
+The ``document`` submodule contains classes to interact with the currently 
+active **Revit** document or store individual project configurations within a model. 
 """
 import json
 
@@ -84,7 +85,7 @@ class DocumentConfigStorage:
        
        config = revitron.DocumentConfigStorage().get('namespace.item')
        
-    The returned ``config`` item can be a string, a number, a list or a dict. 
+    The returned ``config`` item can be a **string**, a **number**, a **list** or a **dictionary**. 
     It is also possible to define a default value in case the item is not defined in the storage::
 
         from collections import defaultdict

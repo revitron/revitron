@@ -1,5 +1,5 @@
 """ 
-This submodule contains helper classes to access and modify Microsoft Excel files.
+This submodule contains helper classes to access and modify **Microsoft Excel** files.
 The following example demonstrates how to write data to table cells in a sheet created from a template::
 
     book = revitron.ExcelWorkbook(xlsx)

@@ -1,5 +1,5 @@
 """
-The ``export`` submodule hosts all classes related to sheet export such as DWG and PDF.
+The ``export`` submodule hosts all classes related to sheet export such as **DWG** and **PDF**.
 For example sending the currently active sheet to a PDF printer in the network works as follows::
 
     exporter = revitron.PDFExporter(printerAddress, printerPath)
@@ -222,8 +222,10 @@ class PDFExporter:
 
     def tempOutputPattern(self, sheet):
         """
-        Create a glob pattern to identify a printed PDF in the system output directory to be able to move it to its correct location and rename it according to the given template.
-        Please note that the PDF printer has to be configured to publisg PDFs following the below naming scheme::
+        Create a glob pattern to identify a printed PDF in the system output directory to be able to 
+        move it to its correct location and rename it according to the given template.
+        
+        Please note that the PDF network printer has to be configured to save PDFs following the below naming scheme::
         
             [Revit File] - Sheet - [Sheet Number] - [Sheet Name].pdf
         

@@ -1,7 +1,7 @@
 #-*- coding: UTF-8 -*-
 """ 
 Besides the ``element`` and the ``filter`` submodules, 
-this submodule is one of the most elementary submodules of the Revitron package.
+this submodule is one of the most elementary submodules of the **Revitron** package.
 It contains all classes related to parameters, built-in parameters and value providers.
 """
 import re
