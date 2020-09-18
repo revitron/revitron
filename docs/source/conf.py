@@ -87,7 +87,7 @@ html_theme_options = {
 }
 
 html_logo = '_static/revitron.svg'
-
+html_title = 'Revitron'
 html_favicon = '_static/favicon.ico'
 
 html_context = {
