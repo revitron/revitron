@@ -1,5 +1,5 @@
-Documentation
-=============
+Docs
+====
 
 .. automodule:: revitron
    :members:
