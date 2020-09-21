@@ -234,10 +234,10 @@ class PDFExporter:
             Project1 - Sheet - A101 - Unnamed.pdf
 
         Args:
-            sheet ([type]): [description]
+            sheet (object): A Revit sheet objetc
 
         Returns:
-            [type]: [description]
+            string: The generated glob pattern
         """
         import revitron
         
