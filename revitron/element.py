@@ -48,6 +48,26 @@ class Element:
             self.element = element
     
 
+    def __getattr__(self, name):
+        """
+        Define default method to be returned on attribute errors.
+        
+        Since this is a generic element class that is extended by other more specialized classes such 
+        as the ``Room`` class, a default method along with an error message is returned when accidently 
+        calling a special methods that only exists in one of the derived classes on an element of another class.
+
+        Args:
+            name (string): The name of the called method
+
+        Returns:
+            method: An empty method
+        """
+        from revitron import Log
+        def method(*args):
+            Log().error('Failed to call unkown method "{}" for element of class "{}"'.format(name, self.getClassName()))
+        return method
+
+
     def getBbox(self):
         """
         Returns a bounding box for the element.
