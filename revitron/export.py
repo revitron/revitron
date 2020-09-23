@@ -75,9 +75,7 @@ class DWGExporter:
         success = revitron.DOC.Export(path, file, List[db.ElementId]([sheet.Id]), self.options)
         
         if success:
-            script.get_output().print_html(':smiling_face: Exported <em>{}</em> &mdash; <a href="file:///{}" target="_blank">Open Folder</a>'.format(file, path.replace('\\', '/')))
-            script.get_output().print_html('&nbsp;&nbsp; <em>{}</em><br><br>'.format(fullPath))
-            return True
+            return fullPath
         
         return False
         
@@ -211,11 +209,7 @@ class PDFExporter:
                         pass
   
         if moved:
-            script.get_output().print_html(':smiling_face: Exported <em>{}</em> &mdash; <a href="file:///{}" target="_blank">Open Folder</a>'.format(os.path.basename(path), os.path.dirname(path).replace('\\', '/')))
-            script.get_output().print_html('&nbsp;&nbsp; <em>{}</em><br><br>'.format(path))
-            return True
-        else:
-            script.get_output().print_html(':pouting_face: Error exporting <em>{}</em><br><br>'.format(os.path.basename(path)))
+            return path
         
         return False
   
