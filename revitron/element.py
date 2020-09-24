@@ -124,12 +124,12 @@ class Element:
         return revitron.Parameter(self.element, paramName)
       
       
-    def getTag(self):
+    def getTags(self):
         """
-        Get a possibly existing tag of an element.
+        Get possibly existing tags of an element.
 
         Returns:
-            object: A Revit tag object depending on the element class
+            object: A list of Revit tag objects depending on the element class
         """
         import revitron
         
@@ -139,14 +139,17 @@ class Element:
             'Rooms': revitron.DB.SpatialElementTag
         }
         
+        tags = []
+        
         try:
             fltr = revitron.DB.ElementClassFilter(switcher.get(category))
             for item in self.element.GetDependentElements(fltr):
                 _element = Element(item)
                 if _element.getClassName() in ['RoomTag']:
-                    return _element.element
+                    tags.append(_element.element)
         except:
-            return False
+            pass
+        return tags
         
     
     def set(self, paramName, value, paramType = 'Text'):
