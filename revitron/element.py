@@ -71,6 +71,10 @@ class Element:
     def delete(self):
         """
         Delete an element.
+        
+        Example::
+        
+            _(element).delete()
         """
         import revitron
         revitron.DOC.Delete(self.element.Id)
