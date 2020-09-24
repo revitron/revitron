@@ -68,6 +68,14 @@ class Element:
         return method
 
 
+    def delete(self):
+        """
+        Delete an element.
+        """
+        import revitron
+        revitron.DOC.Delete(self.element.Id)
+        
+        
     def getBbox(self):
         """
         Returns a bounding box for the element.
