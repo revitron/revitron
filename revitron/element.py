@@ -123,6 +123,31 @@ class Element:
         import revitron
         return revitron.Parameter(self.element, paramName)
       
+      
+    def getTag(self):
+        """
+        Get a possibly existing tag of an element.
+
+        Returns:
+            object: A Revit tag object depending on the element class
+        """
+        import revitron
+        
+        category = self.getParameter('Category').getValueString()
+    
+        switcher = {
+            'Rooms': revitron.DB.SpatialElementTag
+        }
+        
+        try:
+            fltr = revitron.DB.ElementClassFilter(switcher.get(category))
+            for item in self.element.GetDependentElements(fltr):
+                _element = Element(item)
+                if _element.getClassName() in ['RoomTag']:
+                    return _element.element
+        except:
+            return False
+        
     
     def set(self, paramName, value, paramType = 'Text'):
         """

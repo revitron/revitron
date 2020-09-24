@@ -81,11 +81,13 @@ from revitron.element import *
 from revitron.excel import *
 from revitron.export import *
 from revitron.category import *
+from revitron.create import *
 from revitron.document import *
 from revitron.externalreference import *
 from revitron.filter import *
 from revitron.link import *
 from revitron.parameter import *
+from revitron.room import *
 from revitron.selection import *
 from revitron.transaction import *
 from revitron.transmissiondata import *
@@ -119,7 +121,10 @@ def _(element):
     category = Element(element).getParameter('Category').getValueString()
     
     switcher = {
-        'RVT Links': LinkRvt(element)
+        'RVT Links': LinkRvt,
+        'Rooms': Room
     }
     
-    return switcher.get(category, Element(element))
+    wrapper = switcher.get(category, Element)
+    
+    return wrapper(element)
