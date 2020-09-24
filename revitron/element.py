@@ -141,7 +141,7 @@ class Element:
         Get possibly existing tags of an element.
 
         Returns:
-            object: A list of Revit tag objects depending on the element class
+            list: A list of Revit tag objects depending on the element class
         """
         import revitron
         
