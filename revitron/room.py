@@ -36,7 +36,8 @@ class Room(Element):
 
     def tagCenter(self, tagTypeId = False, viewId = False):
         """
-        Create a room tag in the bounding box center.
+        Create a room tag in the bounding box center. 
+        All existing room tags will be removed before automatically.
 
         Args:
             tagTypeId (ElementId, optional): A Revit element Id of a custom tag type. Defaults to False.
@@ -46,8 +47,14 @@ class Room(Element):
             object: A Revit ``RoomTag`` element 
         """
         import revitron
+        from revitron import _
+        
         if not viewId:
             viewId = revitron.ACTIVEVIEW.Id
+            
+        for tag in self.getTags():
+            _(tag).delete()
+            
         return revitron.Create.roomTag(self.element, self.getBboxCenter(), tagTypeId, viewId)
     
     
