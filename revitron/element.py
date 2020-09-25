@@ -122,6 +122,27 @@ class Element:
         return revitron.Parameter(self.element, paramName).get()
     
     
+    def getFromType(self, paramName):
+        """
+        Returns a parameter value of the element type.
+        
+        Example::
+        
+            value = _(element).getFromType('name')
+            
+        Args:
+            paramName (string): The name of the parameter
+
+        Returns:
+            mixed: The parameter value
+        """  
+        from revitron import _
+        try:
+            return _(self.element.GetTypeId()).get(paramName)
+        except:
+            return ''
+    
+    
     def getParameter(self, paramName):
         """
         Returns a parameter object.
