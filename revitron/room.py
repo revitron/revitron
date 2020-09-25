@@ -32,7 +32,98 @@ class Room(Element):
             point = revitron.DB.XYZ(x, y, z)
             if room.IsPointInRoom(point) or not inRoomOnly:
                 return point
+    
+      
+    def getBoundary(self):
+        """
+        Get the boundary of a given room. 
         
+        Returns:
+            list: A list of boundary segment curves
+        """
+        import revitron
+        room = self.element
+        options = revitron.DB.SpatialElementBoundaryOptions()
+        boundaryLocation = revitron.DB.AreaVolumeSettings.\
+                           GetAreaVolumeSettings(revitron.DOC).\
+                           GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)   
+        options.SpatialElementBoundaryLocation = boundaryLocation
+        curveList = []
+        for boundaryList in room.GetBoundarySegments(options):
+            for boundary in boundaryList:
+                curveList.append(boundary.GetCurve())
+        return curveList
+
+
+    def getBoundaryPoints(self):
+        """
+        Get all points along a room boundary.
+
+        Returns:
+            list: A list of points
+        """
+        import revitron
+        room = self.element
+        curveList = self.getBoundary()
+        points = []
+        for curve in curveList:
+            # If the curve is an arc, first tessellate the curve 
+            # and extend the points array with the polyline points.
+            if 'Arc' in str(curve.GetType()):
+                points.extend(curve.Tessellate())
+            else:
+                points.append(curve.GetEndPoint(0))
+        return points
+
+
+    def getBoundaryInsetPoints(self, inset = 0.1):
+        """
+        Get all points along an inset of the room boundary. 
+        
+        The inset is useful in cases where a point has to be used as a location for a tag 
+        and therefore should be located direktly on the boundary but a little bit more inside instead 
+        to avoid issues and warnings.
+
+        Args:
+            inset (float, optional): The inset. Defaults to 0.1.
+
+        Returns:
+            list: The list of points
+        """
+        import revitron
+        room = self.element
+        options = revitron.DB.SpatialElementBoundaryOptions()
+        boundaryLocation = revitron.DB.AreaVolumeSettings.\
+                           GetAreaVolumeSettings(revitron.DOC).\
+                           GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
+        options.SpatialElementBoundaryLocation = boundaryLocation
+        curves = dict()
+        points = []
+
+        try:            
+            for boundaryList in room.GetBoundarySegments(options):
+                cl = revitron.DB.CurveLoop()
+                for x in boundaryList:
+                    cl.Append(x.GetCurve())
+                curves[cl.GetExactLength()] = cl
+
+            curveLengths = curves.keys()
+            longest = curves[max(curveLengths)]
+
+            tempInset = revitron.DB.CurveLoop.CreateViaOffset(longest, inset, revitron.DB.XYZ(0,0,1))
+            if tempInset.GetExactLength() > max(curveLengths):
+                tempInset = revitron.DB.CurveLoop.CreateViaOffset(longest, inset, revitron.DB.XYZ(0,0,-1))
+
+            for c in tempInset:
+                points.append(c.GetEndPoint(0))
+
+        except:
+            # If CurveLoop throws exception, get points from boundary.
+            points = self.getPoints()
+            pass
+
+        return points
+     
 
     def tagCenter(self, tagTypeId = False, viewId = False):
         """
