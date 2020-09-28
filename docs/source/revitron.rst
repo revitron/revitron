@@ -14,6 +14,7 @@ Submodules
 
    revitron.boundingbox
    revitron.category
+   revitron.create
    revitron.document
    revitron.element
    revitron.excel
@@ -22,6 +23,7 @@ Submodules
    revitron.filter
    revitron.link
    revitron.parameter
+   revitron.room
    revitron.selection
    revitron.transaction
    revitron.transmissiondata
