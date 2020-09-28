@@ -19,4 +19,4 @@ Revitron unit tests need their own pyRevit UI to run. Since they are only needed
 
 ---
 
-&copy; 2020 Marc Anton Dahmen &mdash; MIT license
+&copy; 2020 [Marc Anton Dahmen](https://marcdahmen.de) &mdash; MIT license
