@@ -3,7 +3,7 @@ Getting Started
 
 The Revitron library can be installed as a single Python package for **pyRevit** or bundled with a custom 
 `fork <https://github.com/revitron/pyRevit>`_ of pyRevit including the project based package manager 
-`RPM <https://github.com/revitron/rpm-ui/blob/master/README.md>`_ and the `Revitron UI <https://revitron-ui.readthedocs.io/>`_. 
+`RPM <https://github.com/revitron/rpm/blob/master/README.md>`_ and the `Revitron UI <https://revitron-ui.readthedocs.io/>`_. 
 In case you want to setup a new **Revit** project and you are new to pyRevit, 
 it is recommendend to install the bundled version as described below.
 
@@ -20,8 +20,7 @@ To install the full bundle including **pyRevit**, **RPM** and the **Revitron UI*
    Make sure it keeps the ``.bat`` extension.
 3. Move the ``install.bat`` to the directory, where you want to install **pyRevit**.
 4. Double-click the ``install.bat`` file to start the installation and wait until the **CMD** window closes.
-5. Start **Revit** and choose to always load the extension.
-6. Close and start **Revit** a second time to finish the installation.
+5. Start **Revit**.
 
 Manual Installation
 -------------------
