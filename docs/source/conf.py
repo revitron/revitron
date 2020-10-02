@@ -93,7 +93,7 @@ html_favicon = '_static/favicon.ico'
 html_context = {
     'landing_page': {
         'menu': [
-            {'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/en/latest/'},
+            {'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/'},
             {'title': 'Docs', 'url': 'revitron.html'},
             {'title': 'RPM', 'url': 'https://github.com/revitron/rpm/blob/master/README.md'},
         ]
