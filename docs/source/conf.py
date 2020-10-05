@@ -95,7 +95,7 @@ html_context = {
         'menu': [
             {'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/'},
             {'title': 'Docs', 'url': 'revitron.html'},
-            {'title': 'RPM', 'url': 'https://github.com/revitron/rpm/blob/master/README.md'},
+            {'title': 'RPM', 'url': 'https://github.com/revitron/rpm#readme'},
         ]
     }
 }
