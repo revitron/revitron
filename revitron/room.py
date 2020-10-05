@@ -125,6 +125,94 @@ class Room(Element):
         return points
      
 
+    def getClosestBoundaryPointToPoint(self, point, inset = 0.1):
+        """
+        Get the point on a room boundary that is the closest to a given point.
+
+        Args:
+            point (object): A Revit XYZ object
+            inset (float, optional): An optional room boundary inset. Defaults to 0.1.
+
+        Returns:
+            object: A Revit XYZ object
+        """
+        closestDistance = False
+        for p in self.getBoundaryInsetPoints(inset):
+            d = p.DistanceTo(point)
+            if not closestDistance:
+                closestDistance = d
+                closestPoint = p
+            else:
+                if d < closestDistance:
+                    closestDistance = d
+                    closestPoint = p
+        return closestPoint
+        
+    
+    def getTopLeftPoint(self, inset = 0.1):
+        """
+        Get the most top left point of a room boundary.
+
+        Args:
+            inset (float, optional): An optional room boundary inset. Defaults to 0.1.
+
+        Returns:
+            object: A Revit XYZ object
+        """
+        import revitron
+        bbox = self.getBbox()
+        bboxTopLeft = revitron.DB.XYZ(bbox.Min.X, bbox.Max.Y, bbox.Min.Z)
+        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+     
+     
+    def getTopRightPoint(self, inset = 0.1):
+        """
+        Get the most top right point of a room boundary.
+
+        Args:
+            inset (float, optional): An optional room boundary inset. Defaults to 0.1.
+
+        Returns:
+            object: A Revit XYZ object
+        """
+        import revitron
+        bbox = self.getBbox()
+        bboxTopLeft = revitron.DB.XYZ(bbox.Max.X, bbox.Max.Y, bbox.Min.Z)
+        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+    
+    
+    def getBottomLeftPoint(self, inset = 0.1):
+        """
+        Get the most bottom left point of a room boundary.
+
+        Args:
+            inset (float, optional): An optional room boundary inset. Defaults to 0.1.
+
+        Returns:
+            object: A Revit XYZ object
+        """
+        import revitron
+        bbox = self.getBbox()
+        bboxTopLeft = revitron.DB.XYZ(bbox.Min.X, bbox.Min.Y, bbox.Min.Z)
+        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+    
+    
+    def getBottomRightPoint(self, inset = 0.1):
+        """
+        Get the most bottom right point of a room boundary.
+
+        Args:
+            inset (float, optional): An optional room boundary inset. Defaults to 0.1.
+
+        Returns:
+            object: A Revit XYZ object
+        """
+        import revitron
+        bbox = self.getBbox()
+        bboxTopLeft = revitron.DB.XYZ(bbox.Max.X, bbox.Min.Y, bbox.Min.Z)
+        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+    
+
     def tagCenter(self, tagTypeId = False, viewId = False):
         """
         Create a room tag in the bounding box center. 
@@ -147,6 +235,3 @@ class Room(Element):
             _(tag).delete()
             
         return revitron.Create.roomTag(self.element, self.getBboxCenter(), tagTypeId, viewId)
-    
-    
-        
