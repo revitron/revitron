@@ -125,7 +125,7 @@ class Room(Element):
         return points
      
 
-    def getClosestBoundaryPointToPoint(self, point, inset = 0.1):
+    def getPointClosest(self, point, inset = 0.1):
         """
         Get the point on a room boundary that is the closest to a given point.
 
@@ -149,7 +149,7 @@ class Room(Element):
         return closestPoint
         
     
-    def getTopLeftPoint(self, inset = 0.1):
+    def getPointTopLeft(self, inset = 0.1):
         """
         Get the most top left point of a room boundary.
 
@@ -162,10 +162,10 @@ class Room(Element):
         import revitron
         bbox = self.getBbox()
         bboxTopLeft = revitron.DB.XYZ(bbox.Min.X, bbox.Max.Y, bbox.Min.Z)
-        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+        return self.getPointClosest(bboxTopLeft, inset)   
      
      
-    def getTopRightPoint(self, inset = 0.1):
+    def getPointTopRight(self, inset = 0.1):
         """
         Get the most top right point of a room boundary.
 
@@ -178,10 +178,10 @@ class Room(Element):
         import revitron
         bbox = self.getBbox()
         bboxTopLeft = revitron.DB.XYZ(bbox.Max.X, bbox.Max.Y, bbox.Min.Z)
-        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+        return self.getPointClosest(bboxTopLeft, inset)   
     
     
-    def getBottomLeftPoint(self, inset = 0.1):
+    def getPointBottomLeft(self, inset = 0.1):
         """
         Get the most bottom left point of a room boundary.
 
@@ -194,10 +194,10 @@ class Room(Element):
         import revitron
         bbox = self.getBbox()
         bboxTopLeft = revitron.DB.XYZ(bbox.Min.X, bbox.Min.Y, bbox.Min.Z)
-        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+        return self.getPointClosest(bboxTopLeft, inset)   
     
     
-    def getBottomRightPoint(self, inset = 0.1):
+    def getPointBottomRight(self, inset = 0.1):
         """
         Get the most bottom right point of a room boundary.
 
@@ -210,7 +210,7 @@ class Room(Element):
         import revitron
         bbox = self.getBbox()
         bboxTopLeft = revitron.DB.XYZ(bbox.Max.X, bbox.Min.Y, bbox.Min.Z)
-        return self.getClosestBoundaryPointToPoint(bboxTopLeft, inset)   
+        return self.getPointClosest(bboxTopLeft, inset)   
     
 
     def tagCenter(self, tagTypeId = False, viewId = False):
