@@ -1,6 +1,6 @@
 # Contributer License Agreement (CLA)
 
-This CLA is by and between **Marc Anton Dahmen**, hereinafter referred to as the _"project owner"_ and the **contributer**, hereinafter referred to as _"you"_.
+This Contributer License Agreement is by and between **Marc Anton Dahmen**, hereinafter referred to as the _"project owner"_ and the **contributer**, hereinafter referred to as _"you"_.
 
 You accept and agree to the following terms and conditions for Your present and future Contributions submitted to the Revitron project.    
 
