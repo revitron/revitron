@@ -1,6 +1,10 @@
-# Revitron Contributer License Agreement 
+# Contributer License Agreement (CLA)
 
-By contributing your code to the Revitron you grant the project owner a non-exclusive, irrevocable, worldwide, royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights (including copyright, patent, and any other rights), to use, copy, prepare derivative works of, distribute and publicly perform and display the Contributions on any licensing terms, including without limitation: (a) open source licenses; and (b) binary, proprietary, or commercial licenses. Except for the licenses granted herein, You reserve all right, title, and interest in and to the Contribution.
+This CLA is by and between **Marc Anton Dahmen**, hereinafter referred to as the _"project owner"_ and the **contributer**, hereinafter referred to as _"you"_.
+
+You accept and agree to the following terms and conditions for Your present and future Contributions submitted to the Revitron project.    
+
+By contributing your code to the Revitron project you grant the project owner a non-exclusive, irrevocable, worldwide, royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights (including copyright, patent, and any other rights), to use, copy, prepare derivative works of, distribute and publicly perform and display the Contributions on any licensing terms, including without limitation: (a) open source licenses; and (b) binary, proprietary, or commercial licenses. Except for the licenses granted herein, You reserve all right, title, and interest in and to the Contribution.
 
 You confirm that you are able to grant these rights. You represent that You are legally entitled to grant the above license. If Your employer has rights to intellectual property that You create, You represent that You have received permission to make the Contributions on behalf of that employer, or that Your employer has waived such rights for the Contributions.
 
