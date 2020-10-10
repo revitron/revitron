@@ -1,5 +1,5 @@
 """ 
-This submodule contains a wrapper classes for **Revit** room elements.
+This submodule contains a wrapper class for **Revit** room elements.
 """
 import Autodesk
 from revitron.element import Element
