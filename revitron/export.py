@@ -46,7 +46,7 @@ class DWGExporter:
             template (string, optional): A name template. Defaults to '{Sheet Number}-{Sheet Name}'.
 
         Returns:
-            bool: False on error, True on success
+            string: The path of the exported PDF. False on error.
         """
         import revitron
         
@@ -128,7 +128,7 @@ class PDFExporter:
             template (string, optional): A name template. Defaults to '{Sheet Number}-{Sheet Name}'.
 
         Returns:
-            bool: False on error, True on success
+            string: The path of the exported PDF. False on error.
         """
         import revitron
         
