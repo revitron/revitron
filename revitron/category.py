@@ -20,7 +20,10 @@ class Category:
             name (string): The category name
         """
         import revitron
-        self.category = revitron.DOC.Settings.Categories.get_Item(name)
+        for cat in revitron.DOC.Settings.Categories:
+            if cat.Name == name:
+                self.category = cat
+                break
         
         
     def get(self):
