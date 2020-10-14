@@ -88,6 +88,7 @@ from revitron.filter import *
 from revitron.link import *
 from revitron.parameter import *
 from revitron.room import *
+from revitron.roomtag import *
 from revitron.selection import *
 from revitron.transaction import *
 from revitron.transmissiondata import *
