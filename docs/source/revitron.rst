@@ -24,6 +24,7 @@ Submodules
    revitron.link
    revitron.parameter
    revitron.room
+   revitron.roomtag
    revitron.selection
    revitron.transaction
    revitron.transmissiondata
