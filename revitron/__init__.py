@@ -21,22 +21,22 @@ bounding boxes, getting their category and so on.
 
 The following example demonstrates getting a comment of a given element::
 
-    import revitron
-    from revitron import _
-    comment = _(element).get('Comments')
-    
+	import revitron
+	from revitron import _
+	comment = _(element).get('Comments')
+	
 You can find the documentation of more methods to work with elements in the `revitron.element <revitron.element.html>`_ reference. 
-    
+	
 Using Filters
 -------------
-    
+	
 Besides element properties, filtering is another core functionality of this package. Working with ``FiteredElementCollector`` 
 instances can be quite complex and difficult to debug. Revitron provides a `Filter <revitron.filter.html>`_ that implements
 a powerful tool to also filter the database by parameter values using human readable one-liner::
 
-    import revitron
-    filter = revitron.Filter
-    ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
+	import revitron
+	filter = revitron.Filter
+	ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
 
 .. _module:
 
@@ -48,27 +48,27 @@ Specific classes are located in the `submodules`_ listed below.
 
 .. data:: DOC
 
-    The currently active document. 
-        
+	The currently active document. 
+		
 .. data:: UIDOC
 
-    The active UI document.
+	The active UI document.
 
 .. data:: APP
 
-    A shortcut for accessing the application object of the active document.
+	A shortcut for accessing the application object of the active document.
 
 .. data:: ACTIVEVIEW
 
-    The active view element.
+	The active view element.
 
 .. data:: DB
 
-    A shortcut for ``Autodesk.Revit.DB``.
-    
+	A shortcut for ``Autodesk.Revit.DB``.
+	
 .. data:: LIB_DIR
 
-    The path to the **Revitron** library extension directory.
+	The path to the **Revitron** library extension directory.
 
 .. _function:    
 """
@@ -96,12 +96,12 @@ from revitron.view import *
 parent = os.path.dirname 
 
 try:
-    DOC = __revit__.ActiveUIDocument.Document
-    UIDOC = __revit__.ActiveUIDocument
-    APP = DOC.Application
-    ACTIVEVIEW = DOC.ActiveView
+	DOC = __revit__.ActiveUIDocument.Document
+	UIDOC = __revit__.ActiveUIDocument
+	APP = DOC.Application
+	ACTIVEVIEW = DOC.ActiveView
 except:
-    pass
+	pass
 
 
 DB = Autodesk.Revit.DB
@@ -109,22 +109,22 @@ LIB_DIR = parent(parent(__file__))
 
 
 def _(element):
-    """
-    Shorthand function to init a Revitron element instance based on a Revit element category.
+	"""
+	Shorthand function to init a Revitron element instance based on a Revit element category.
 
-    Args:
-        element (object): The Revit element
+	Args:
+		element (object): The Revit element
 
-    Returns:
-        mixed: A Revitron element instance
-    """    
-    category = Element(element).getParameter('Category').getValueString()
-    
-    switcher = {
-        'RVT Links': LinkRvt,
-        'Rooms': Room
-    }
-    
-    wrapper = switcher.get(category, Element)
-    
-    return wrapper(element)
+	Returns:
+		mixed: A Revitron element instance
+	"""    
+	category = Element(element).getParameter('Category').getValueString()
+	
+	switcher = {
+		'RVT Links': LinkRvt,
+		'Rooms': Room
+	}
+	
+	wrapper = switcher.get(category, Element)
+	
+	return wrapper(element)
