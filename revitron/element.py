@@ -122,6 +122,42 @@ class Element:
 		return revitron.Parameter(self.element, paramName).get()
 	
 	
+	def getDependent(self, filterClass = None):
+		"""
+		Returns a list of dependent elements.
+
+		Args:
+			filterClass (class, optional): An optional class to filter the list of dependent elements by. Defaults to None.
+
+		Returns:
+			list: The list with the dependent Revit elements.
+		"""
+		import revitron
+		from revitron import _
+		# The GetDependentElements() method doesn't exist in older Revit API versions. 
+		# Therefore it is required to fallback to a more compatible way of getting those dependent elements
+		# in case an execption is raised.
+		# The fallback solution basically tries to get the list of affected IDs when trying to delete
+		# the actual parent element within a transaction that will be cancelled.
+		try:
+			fltr = None
+			if filterClass:		
+				fltr = revitron.DB.ElementClassFilter(filterClass)
+			dependentIds = self.element.GetDependentElements(fltr)
+		except:
+			sub = revitron.Transaction()
+			ids = revitron.DOC.Delete(self.element.Id)
+			sub.rollback()
+			if filterClass:
+				dependentIds = revitron.Filter(ids).byClass(filterClass).noTypes().getElementIds()
+			else:
+				dependentIds = revitron.Filter(ids).noTypes().getElementIds()
+		dependent = []
+		for eId in dependentIds:
+			dependent.append(_(eId).element)
+		return dependent
+
+
 	def getFromType(self, paramName):
 		"""
 		Returns a parameter value of the element type.
@@ -172,17 +208,7 @@ class Element:
 			'Rooms': revitron.DB.SpatialElementTag
 		}
 		
-		tags = []
-		
-		try:
-			fltr = revitron.DB.ElementClassFilter(switcher.get(category))
-			for item in self.element.GetDependentElements(fltr):
-				_element = Element(item)
-				if _element.getClassName() in ['RoomTag']:
-					tags.append(_element.element)
-		except:
-			pass
-		return tags
+		return self.getDependent(switcher.get(category))
 		
 	
 	def set(self, paramName, value, paramType = 'Text'):
