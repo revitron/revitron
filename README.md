@@ -10,13 +10,13 @@ Revitron is a [Revit API](https://www.revitapidocs.com/) wrapper written in Pyth
 ![Read the Docs](https://img.shields.io/readthedocs/revitron?color=222222)
 ![](https://img.shields.io/badge/Revit-2017--2021-222222)
 
-> :point_up: Note that this extension is only tested on Revit `2017`, `2019.1`, `2020.2` and `2021.1`, but may as well work on other versions.
-
 ## Docs
 
 An installation guide, the API reference and the UI docs can be found [here](https://revitron.readthedocs.io/en/latest/index.html).     
 
 ## Unit Tests
+
+> :point_up: Note that this extension is only tested on Revit `2017`, `2019.1`, `2020.2` and `2021.1`, but may as well work on other versions.
 
 Revitron unit tests need their own pyRevit UI to run. Since they are only needed to develop the library extension and would only bother normal users, all unit tests are located in a [separate repository](https://github.com/revitron/revitron-tests) and can be installed as an independent UI extension if required.
 
