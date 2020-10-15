@@ -29,8 +29,8 @@ class RoomTag:
 		if not viewId:
 			viewId = revitron.ACTIVEVIEW.Id
 			
-		for tag in _(room).getTags():
-			_(tag).delete()
+		for tagId in _(room).getTags():
+			_(tagId).delete()
 			
 		return revitron.Create.roomTag(room, location, tagTypeId, viewId)
 
