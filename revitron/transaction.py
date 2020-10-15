@@ -1,5 +1,5 @@
 """
-The ``transaction`` submodule contains a wrapper class to simplify the usage of transactions:: 
+The ``transaction`` submodule contains a wrapper class to simplify the usage of transactions and subtransactions:: 
 
 	t = revitron.Transaction() 
 	... 
@@ -16,10 +16,15 @@ class Transaction:
 	
 	def __init__(self):
 		"""
-		Inits a new transaction.
+		Inits a new transaction. 
+
+		In case there is already an open transaction, a subtransaction will be initialized instead.
 		"""  
 		import revitron
-		self.transaction = revitron.DB.Transaction(revitron.DOC, script.get_button().get_title())
+		if revitron.DOC.IsModifiable:
+			self.transaction = revitron.DB.SubTransaction(revitron.DOC)
+		else:
+			self.transaction = revitron.DB.Transaction(revitron.DOC, script.get_button().get_title())
 		self.transaction.Start()
 		
 		
