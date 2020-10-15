@@ -7,10 +7,10 @@ Revitron is a [Revit API](https://www.revitapidocs.com/) wrapper written in Pyth
 ![GitHub](https://img.shields.io/github/license/revitron/revitron?color=222222)
 ![GitHub top language](https://img.shields.io/github/languages/top/revitron/revitron?color=222222)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/revitron/revitron?color=222222)
-![Read the Docs](https://img.shields.io/readthedocs/revitron?color=222222)   
-![](https://img.shields.io/badge/Revit-2019-222222)
-![](https://img.shields.io/badge/Revit-2020-222222)
-![](https://img.shields.io/badge/Revit-2021-222222)
+![Read the Docs](https://img.shields.io/readthedocs/revitron?color=222222)
+![](https://img.shields.io/badge/Revit-2017--2021-222222)
+
+> :point_up: Note that this extension is only tested on Revit `2017`, `2019.1`, `2020.2` and `2021.1`, but may as well work on other versions.
 
 ## Docs
 
