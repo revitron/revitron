@@ -1,5 +1,5 @@
-Docs
-====
+Developer Guide
+===============
 
 .. automodule:: revitron
    :members:

@@ -10,8 +10,7 @@ Revitron
 
 .. container:: .buttons
 
-   `Get Started <get-started.html>`_
-   `GitHub <https://github.com/revitron/revitron>`_
+   `Get Started ⟶ <get-started.html>`_
 
 .. toctree::
    :caption: Revitron
@@ -28,6 +27,7 @@ Revitron
    :hidden:
 
    Revitron UI <https://revitron-ui.readthedocs.io/>
-   Package Manager <https://github.com/revitron/rpm#readme>
+   Tools <https://revitron-ui.readthedocs.io/en/latest/tools.html>
+   RPM <https://github.com/revitron/rpm#readme>
    Unit Tests <https://github.com/revitron/revitron-tests>
    GitHub <https://github.com/revitron/revitron>

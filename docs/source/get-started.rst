@@ -7,7 +7,7 @@ The Revitron library can be installed as a single Python package for **pyRevit**
 In case you want to setup a new **Revit** project and you are new to pyRevit, 
 it is recommendend to install the bundled version as described below.
 
-.. attention:: The bundle installer as well as the Revitron package manager are using **Git** to manage dependencies.
+.. note:: The bundle installer as well as the Revitron package manager are using **Git** to manage dependencies.
    Please make sure that `Git <https://git-scm.com/>`_ is installed properly on your system before installing Revitron.
 
 Bundle Installer 

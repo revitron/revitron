@@ -11,7 +11,7 @@ class Parameter:
 	"""
 	A wrapper class for interacting with element parameters. 
 	
-	Attention:
+	Note:
 	
 		In most cases it is not required to actually create a **Parameter** class 
 		instance in order to access paramter values of a given element. 
@@ -137,7 +137,7 @@ class Parameter:
 		"""
 		Return the parameter value.
 
-		Attention:
+		Note:
 		
 			As mentioned above, the fastest way of getting a parameter value is to use the
 			`get <revitron.element.html#revitron.element.Element.get>`_ method 
@@ -227,7 +227,7 @@ class Parameter:
 		"""
 		Set a parameter value for an element.
 
-		Attention:
+		Note:
 		
 			As mentioned above, the fastest way of setting a parameter value is to use the
 			`set <revitron.element.html#revitron.element.Element.set>`_ method 

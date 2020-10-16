@@ -91,13 +91,13 @@ html_title = 'Revitron'
 html_favicon = '_static/favicon.ico'
 
 html_context = {
-    'landing_page': {
-        'menu': [
-            {'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/'},
-            {'title': 'Docs', 'url': 'revitron.html'},
-            {'title': 'Package Manager', 'url': 'https://github.com/revitron/rpm#readme'},
-        ]
-    }
+	'landing_page': {
+		'menu': [
+			{'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/'},
+			{'title': 'Developer Guide', 'url': 'revitron.html'},
+			{'title': 'RPM', 'url': 'https://github.com/revitron/rpm#readme'},
+		]
+	}
 }
 
 html_sidebars = {}
@@ -107,6 +107,6 @@ html_sidebars = {}
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_css_files = []
+html_css_files = ['custom.css']
 
 html_js_files = []
