@@ -51,7 +51,7 @@ class RoomTag:
 			object: A Revit ``RoomTag`` element 
 		"""
 		from revitron import _
-		return RoomTag.create(room, _(room).getBboxCenter(), tagTypeId = False, viewId = False)
+		return RoomTag.create(room, _(room).getBboxCenter(), tagTypeId, viewId)
 
 
 	@staticmethod
@@ -70,7 +70,7 @@ class RoomTag:
 			object: A Revit ``RoomTag`` element 
 		"""
 		from revitron import _
-		return RoomTag.create(room, _(room).getPointTopLeft(), tagTypeId = False, viewId = False)
+		return RoomTag.create(room, _(room).getPointTopLeft(), tagTypeId, viewId)
 
 
 	@staticmethod
@@ -89,7 +89,7 @@ class RoomTag:
 			object: A Revit ``RoomTag`` element 
 		"""
 		from revitron import _
-		return RoomTag.create(room, _(room).getPointTopRight(), tagTypeId = False, viewId = False)
+		return RoomTag.create(room, _(room).getPointTopRight(), tagTypeId, viewId)
 
 
 	@staticmethod
@@ -108,7 +108,7 @@ class RoomTag:
 			object: A Revit ``RoomTag`` element 
 		"""
 		from revitron import _
-		return RoomTag.create(room, _(room).getPointBottomLeft(), tagTypeId = False, viewId = False)
+		return RoomTag.create(room, _(room).getPointBottomLeft(), tagTypeId, viewId)
 
 
 	@staticmethod
@@ -127,4 +127,4 @@ class RoomTag:
 			object: A Revit ``RoomTag`` element 
 		"""
 		from revitron import _
-		return RoomTag.create(room, _(room).getPointBottomRight(), tagTypeId = False, viewId = False)
+		return RoomTag.create(room, _(room).getPointBottomRight(), tagTypeId, viewId)
