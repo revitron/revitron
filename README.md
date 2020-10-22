@@ -12,7 +12,7 @@ Revitron is a [Revit API](https://www.revitapidocs.com/) wrapper written in Pyth
 
 ## Docs
 
-An installation guide, the API reference and the UI docs can be found [here](https://revitron.readthedocs.io/en/latest/index.html).     
+An installation guide, the API reference and the UI docs can be found [here](https://revitron.readthedocs.io).     
 
 ## Unit Tests
 
