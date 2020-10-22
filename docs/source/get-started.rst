@@ -2,8 +2,7 @@ Getting Started
 ===============
 
 The Revitron library can be installed as a single Python package for **pyRevit** or bundled with a custom 
-`fork <https://github.com/revitron/pyRevit>`_ of pyRevit including the project based package manager 
-`RPM <https://github.com/revitron/rpm/blob/master/README.md>`_ and the `Revitron UI <https://revitron-ui.readthedocs.io/>`_. 
+`fork <https://github.com/revitron/pyRevit>`_ of pyRevit and the `Revitron UI <https://revitron-ui.readthedocs.io/>`_ extension. 
 In case you want to setup a new **Revit** project and you are new to pyRevit, 
 it is recommendend to install the bundled version as described below.
 
@@ -13,7 +12,7 @@ it is recommendend to install the bundled version as described below.
 Bundle Installer 
 ----------------
 
-To install the full bundle including **pyRevit**, **RPM** and the **Revitron UI**, follow the instructions below:
+To install the full bundle including **pyRevit** and the **Revitron UI**, follow the instructions below:
 
 1. In case **Git** is not already installed --- `download <https://git-scm.com/download/win>`_ and install Git.
 2. Right-click `here <https://raw.githubusercontent.com/revitron/installer/master/install.bat>`_ to download the **Revitron** installer. 
@@ -30,7 +29,7 @@ The single library and UI packages can be installed using the **pyRevit CLI** as
     pyrevit extend lib revitron https://github.com/revitron/revitron.git
     pyrevit extend ui revitron https://github.com/revitron/revitron-ui.git
 
-Alternatively the package can also just be cloned with **Git** as follows::
+Alternatively the packages can also just be cloned with **Git** as follows::
 
     cd C:[\path\to\pyrevit]\extensions
     git clone https://github.com/revitron/revitron.git revitron.lib
