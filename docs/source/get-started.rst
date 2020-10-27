@@ -18,7 +18,7 @@ To install the full bundle including **pyRevit** and the **Revitron UI**, follow
 2. Right-click `here <https://raw.githubusercontent.com/revitron/installer/master/install.bat>`_ to download the **Revitron** installer. 
    Make sure it keeps the ``.bat`` extension.
 3. Move the ``install.bat`` to the directory, where you want to install **pyRevit**.
-4. Double-click the ``install.bat`` file to start the installation and wait until the **CMD** window closes.
+4. Double-click the ``install.bat`` file to start the installation and wait until it has finished.
 5. Start **Revit**.
 
 Manual Installation
