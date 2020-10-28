@@ -30,7 +30,32 @@ class Document:
 		else:
 			self.doc = revitron.DOC
 	
-	
+
+	def getDuplicateInstances(self, preferOlderElement = False):
+		"""
+		Returns a list of duplicate family instances. 
+		By default, the list contains always the younger more recently created duplicate instance.
+
+		Args:
+			preferOlderElement (bool, optional): Optionally return the list with the older instances. Defaults to False.
+
+		Returns:
+			list: A list with duplicate instances, either the younger or the older ones.
+		"""
+		index = 1
+		if preferOlderElement:
+			index = 0
+		import revitron
+		of = revitron.DB.BuiltInFailures.OverlapFailures
+		duplicates = []
+		for warning in self.doc.GetWarnings():
+			if warning.GetFailureDefinitionId().Guid == of.DuplicateInstances.Guid:
+				ids = warning.GetFailingElements()		
+				duplicates.append(ids[index])
+				duplicates = list(set(duplicates))
+		return duplicates
+
+
 	def getPath(self):
 		"""
 		Returns the path to the document.
