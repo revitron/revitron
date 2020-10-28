@@ -210,7 +210,18 @@ class Element:
 		
 		return self.getDependent(switcher.get(category))
 		
-	
+
+	def isNotOwned(self):
+		"""
+		Checks whether an element is owned by another user.
+
+		Returns:
+			boolean: True if the element is not owned by another user.
+		"""
+		import revitron
+		return str(revitron.DB.WorksharingUtils.GetCheckoutStatus(revitron.DOC, self.element.Id)) != 'OwnedByOtherUser'
+
+
 	def set(self, paramName, value, paramType = 'Text'):
 		"""
 		Sets a parameter value.
