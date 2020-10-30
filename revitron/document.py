@@ -14,7 +14,7 @@ class Document:
 		path = revitron.Document().getPath()
 		
 		if revitron.Document().isFamily():
-			pass
+		    pass
 	"""
 	
 	def __init__(self, doc = None):
@@ -36,16 +36,22 @@ class Document:
 		Returns a list of duplicate family instances. 
 		By default, the list contains always the younger more recently created duplicate instance.
 
+		Note:
+			This method requires **Revit 2018** or newer!
+
 		Args:
 			preferOlderElement (bool, optional): Optionally return the list with the older instances. Defaults to False.
 
 		Returns:
 			list: A list with duplicate instances, either the younger or the older ones.
 		"""
+		import revitron
+		if revitron.REVIT_VERSION < 2018:
+			revitron.Log().error('Method revitron.Document.getDuplicateInstances() is not supported by this Revit version!')
+			return []
 		index = 1
 		if preferOlderElement:
 			index = 0
-		import revitron
 		of = revitron.DB.BuiltInFailures.OverlapFailures
 		duplicates = []
 		for warning in self.doc.GetWarnings():
