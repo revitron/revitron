@@ -27,7 +27,7 @@ class RoomTag:
 		from revitron import _
 		
 		if not viewId:
-			viewId = revitron.ACTIVEVIEW.Id
+			viewId = revitron.ACTIVE_VIEW.Id
 			
 		for tagId in _(room).getTags():
 			_(tagId).delete()

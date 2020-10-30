@@ -58,7 +58,7 @@ Specific classes are located in the `submodules`_ listed below.
 
 	A shortcut for accessing the application object of the active document.
 
-.. data:: ACTIVEVIEW
+.. data:: ACTIVE_VIEW
 
 	The active view element.
 
@@ -101,7 +101,7 @@ try:
 	DOC = __revit__.ActiveUIDocument.Document
 	UIDOC = __revit__.ActiveUIDocument
 	APP = DOC.Application
-	ACTIVEVIEW = DOC.ActiveView
+	ACTIVE_VIEW = DOC.ActiveView
 except:
 	pass
 

@@ -3,7 +3,7 @@ The ``export`` submodule hosts all classes related to sheet export such as **DWG
 For example sending the currently active sheet to a PDF printer in the network works as follows::
 
 	exporter = revitron.PDFExporter(printerAddress, printerPath)
-	exporter.printSheet(revitron.ACTIVEVIEW, 
+	exporter.printSheet(revitron.ACTIVE_VIEW, 
 					   'A0', 
 					   'Landscape', 
 					   'C:/pdf', 

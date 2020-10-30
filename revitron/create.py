@@ -109,7 +109,7 @@ class Create:
 		from revitron import _ 
 
 		if not viewId:
-			viewId = revitron.ACTIVEVIEW.Id
+			viewId = revitron.ACTIVE_VIEW.Id
 
 		clsName = _(room).getClassName()
 
