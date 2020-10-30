@@ -1,6 +1,6 @@
 """
 The ``create`` submodule and its ``Create`` class contain helpful shorthand methods to create 
-**Revit** elements. For example a centered room tag can be created as follows::
+**Revit** elements and families programatically. For example a centered room tag can be created as follows::
 
 	tag = revitron.Create.roomTag(self.element, self.getBboxCenter())
 	
@@ -8,12 +8,89 @@ Note that some methods are also directly accessible in element classes such as `
 
 	tag = _(room).tagCenter()
 """	
+import os
+
 
 class Create:
 	"""
 	A collection of shorthand methods to create **Revit** elements.
 	"""
 	
+	@staticmethod
+	def familyDoc(template, savePath):
+		"""
+		Creates a new familiy document from a given template and saves it.add()
+
+		Args:
+			template (string): The template name without the ``.rft`` extension. 
+			savePath (string): The full path of the family file to be saved as.
+
+		Returns:
+			object: A reference to the newly created family document.
+		"""
+		import revitron
+		try:
+			if os.path.isfile(savePath):
+				os.remove(savePath)
+		except:
+			pass
+		templatesDir = revitron.APP.FamilyTemplatePath
+		templatePath = os.path.join(templatesDir, template + '.rft')
+		famDoc = revitron.APP.NewFamilyDocument(templatePath)
+		opt = revitron.DB.SaveAsOptions()
+		opt.OverwriteExistingFile = True
+		famDoc.SaveAs(savePath, opt)
+		return famDoc
+
+
+	@staticmethod
+	def familyExtrusion(familyDoc, curveArrayArray, sketchPlane, height = 10.0, location = False, isSolid = True):
+		"""
+		Creates an extrusion within a given family document.
+
+		Args:
+			familyDoc (object): A reference to a family document.
+			curveArrayArray (object): A Revit API ``CurveArrArray``.
+			sketchPlane (object): A Revit API ``SketchPlane``.
+			height (float, optional): The extrusion height. Defaults to 10.0.
+			location (object, optional): A Revit API ``XYZ`` point object. Defaults to False.
+			isSolid (bool, optional): Soild (True) or void (False). Defaults to True.
+
+		Returns:
+			object: The extrusion element.
+		"""
+		import revitron
+		if not location:
+			location = revitron.DB.XYZ(0, 0, 0)
+		if revitron.Document(familyDoc).isFamily():
+			extrusion = familyDoc.FamilyCreate.NewExtrusion(isSolid, curveArrayArray, sketchPlane, height)
+			revitron.DB.ElementTransformUtils.MoveElement(familyDoc, extrusion.Id, location)
+			return extrusion
+
+
+	@staticmethod
+	def familyInstance(familySymbolId, location, structuralType = False):
+		"""
+		Creates a new family instance.
+
+		Args:
+			familySymbolId (object): A Revit API family symbol ID.
+			location (object): A Revit API ``XYZ`` point.
+			structuralType (object, optional): A Revit API structural type of False for ``NonStructural``. Defaults to False.
+
+		Returns:
+			object: The family instance.
+		"""
+		import revitron
+		from revitron import _ 
+		if not structuralType:
+			structuralType = revitron.DB.Structure.StructuralType.NonStructural
+		familySymbol = _(familySymbolId).element
+		if not familySymbol.IsActive:
+			familySymbol.Activate()
+		return revitron.DOC.Create.NewFamilyInstance(location, familySymbol, structuralType)
+		
+
 	@staticmethod
 	def roomTag(room, location, typeId = False, viewId = False):
 		"""
