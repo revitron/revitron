@@ -46,7 +46,7 @@ class Document:
 			list: A list with duplicate instances, either the younger or the older ones.
 		"""
 		import revitron
-		if revitron.REVIT_VERSION < 2018:
+		if revitron.REVIT_VERSION < '2018':
 			revitron.Log().error('Method revitron.Document.getDuplicateInstances() is not supported by this Revit version!')
 			return []
 		index = 1

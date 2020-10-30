@@ -72,7 +72,7 @@ Specific classes are located in the `submodules`_ listed below.
 
 .. data:: REVIT_VERSION
 
-	The version number of the running Revit application as integer value.
+	The version number string of the running Revit application.
 
 .. _function:    
 """
@@ -113,7 +113,7 @@ except:
 
 DB = Autodesk.Revit.DB
 LIB_DIR = parent(parent(__file__))
-REVIT_VERSION = int(pyrevit.HOST_APP.uiapp.Application.VersionNumber)
+REVIT_VERSION = pyrevit.HOST_APP.uiapp.Application.VersionNumber
 
 
 def _(element):

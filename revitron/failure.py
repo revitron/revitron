@@ -1,5 +1,5 @@
 """
-This is helper submodule for handling errors. 
+This is a helper submodule for handling errors. 
 """
 from Autodesk.Revit.DB import IFailuresPreprocessor
 
