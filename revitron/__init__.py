@@ -70,9 +70,14 @@ Specific classes are located in the `submodules`_ listed below.
 
 	The path to the **Revitron** library extension directory.
 
+.. data:: REVIT_VERSION
+
+	The version number of the running Revit application as integer value.
+
 .. _function:    
 """
 import Autodesk.Revit.DB
+import pyrevit
 import os
 
 from revitron._helpers import *
@@ -108,6 +113,7 @@ except:
 
 DB = Autodesk.Revit.DB
 LIB_DIR = parent(parent(__file__))
+REVIT_VERSION = int(pyrevit.HOST_APP.uiapp.Application.VersionNumber)
 
 
 def _(element):
