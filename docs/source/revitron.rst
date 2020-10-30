@@ -20,6 +20,7 @@ Submodules
    revitron.excel
    revitron.export
    revitron.externalreference
+   revitron.failure
    revitron.filter
    revitron.link
    revitron.parameter
