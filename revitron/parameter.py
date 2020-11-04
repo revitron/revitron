@@ -23,13 +23,33 @@ class Parameter:
 		"""
 		Init a new parameter instance.
 
+		Getting a parameter by name visible to the user::
+
+			value = revitron.Parameter(element, 'parameterName').get()
+
+		Or the short version::
+
+			value = _(element).get('parameterName')
+
+		To be **language independent** it is possible to get a parameter value by its **built-in** parameter name
+		like for example the view scale::
+
+			scale = _(view).get('VIEW_SCALE')
+
 		Args:
 			element (object): Revit element
-			name (string): The parameter name
+			name (string): The parameter name or the name of a built-Iin parameter
 		"""
 		self.element = element
 		self.name = name
 		self.parameter = element.LookupParameter(name)
+
+		if not self.exists():
+			try:
+				import revitron
+				self.parameter = element.get_Parameter(getattr(revitron.DB.BuiltInParameter, name))
+			except:
+				pass
 	
 	
 	@staticmethod
