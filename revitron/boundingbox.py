@@ -39,7 +39,7 @@ class BoundingBox:
 			element (object): A Revit Element
 		"""        
 		import revitron
-		
+		self.bbox = False
 		if revitron._(element).get('Scope Box'):
 			self.bbox = revitron._(revitron._(element).get('Scope Box')).getBbox().bbox
 		else:
@@ -47,7 +47,11 @@ class BoundingBox:
 				self.bbox = element.CropBox
 			else:
 				self.bbox = element.get_BoundingBox(None)
-				
+		if not self.bbox:
+			try:
+				self.bbox = revitron.BoundingBox(element.Symbol).bbox
+			except:
+				pass
 		self.Min = self.bbox.Min 
 		self.Max = self.bbox.Max
 		
