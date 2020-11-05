@@ -4,7 +4,7 @@ The following example demonstrates how to write data to table cells in a sheet c
 
 	book = revitron.ExcelWorkbook(xlsx)
 	sheet = book.newWorksheetFromTemplate('Template', 'Name')
-	sheet.cell(5, 1, 'Value')
+	sheet.setCell(5, 1, 'Value')
 """
 import clr
 clr.AddReference("Microsoft.Office.Interop.Excel")
@@ -37,6 +37,19 @@ class ExcelWorkbook:
 		if save:
 			self.workbook.Save()
 		self.workbook.Close(SaveChanges=save)
+
+
+	def getWorksheet(self, name):
+		"""
+		Returns a Excel worksheet for a given name
+
+		Args:
+			name (string): The worksheet name
+
+		Returns:
+			object: An Excel worksheet object instance
+		"""
+		return ExcelWorksheet(self.workbook.Worksheets(name))
 		
 		
 	def newWorksheetFromTemplate(self, template, name):
@@ -71,7 +84,7 @@ class ExcelWorksheet:
 		self.worksheet = worksheet
 		
 		
-	def cell(self, row, column, value):
+	def setCell(self, row, column, value):
 		"""
 		Writes data to a cell of the current worksheet. 
 		
