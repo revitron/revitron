@@ -42,18 +42,15 @@ class BoundingBox:
 		self.bbox = False
 		if revitron._(element).get('Scope Box'):
 			self.bbox = revitron._(revitron._(element).get('Scope Box')).getBbox().bbox
+		elif revitron._(element).getClassName() == 'ViewPlan':
+			self.bbox = element.CropBox
 		else:
-			if revitron._(element).getClassName() == 'ViewPlan':
-				self.bbox = element.CropBox
-			else:
-				self.bbox = element.get_BoundingBox(None)
-		if not self.bbox:
-			try:
-				self.bbox = revitron.BoundingBox(element.Symbol).bbox
-			except:
-				pass
-		self.Min = self.bbox.Min 
-		self.Max = self.bbox.Max
+			self.bbox = element.get_BoundingBox(None)
+		try:
+			self.Min = self.bbox.Min 
+			self.Max = self.bbox.Max
+		except:
+			pass
 		
 		
 	def containsXY(self, bbox2):
