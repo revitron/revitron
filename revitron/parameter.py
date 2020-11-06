@@ -72,13 +72,15 @@ class Parameter:
 			if param.GetDefinition().Name == paramName:
 				definition = param.GetDefinition()
 				break
+		try:
+			if definition:
+				binding = revitron.DOC.ParameterBindings[definition]
+				for cat in binding.Categories:
+					if cat.Name == category:
+						return True
+		except:
+			pass
 			
-		if definition:
-			binding = revitron.DOC.ParameterBindings[definition]
-			for cat in binding.Categories:
-				if cat.Name == category:
-					return True
-		
 		
 	@staticmethod
 	def bind(category, paramName, paramType = 'Text'):
