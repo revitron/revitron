@@ -280,7 +280,7 @@ class Parameter:
 		"""
 		if self.parameter == None:
 			from revitron import _
-			if Parameter.bind(self.element.Category.Name, self.name, paramType, (_(self.element).getClassName() == 'FamilySymbol')):
+			if Parameter.bind(self.element.Category.Name, self.name, paramType, _(self.element).isType()):
 				self.parameter = self.element.LookupParameter(self.name)
 			else:
 				print('Error setting value of parameter "{}"'.format(self.name))
