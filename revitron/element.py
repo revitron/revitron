@@ -222,6 +222,22 @@ class Element:
 		return str(revitron.DB.WorksharingUtils.GetCheckoutStatus(revitron.DOC, self.element.Id)) != 'OwnedByOtherUser'
 
 
+	def isType(self):
+		"""
+		Checks whether an element is a type or not. 
+
+		Returns:
+			bool: True if element is a type.
+		"""
+		className = self.getClassName()
+		return (className.endswith('Type') or 
+				className.endswith('Symbol') or 
+				className == 'MEPBuildingConstruction' or
+				className == 'SiteLocation' or 
+				className == 'BrowserOrganization' or 
+				className == 'TilePattern')
+
+
 	def set(self, paramName, value, paramType = 'Text'):
 		"""
 		Sets a parameter value.
