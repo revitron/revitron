@@ -25,13 +25,10 @@ class Room(Element):
 		room = self.element
 		bbox = self.getBbox()
 		
-		if isinstance(bbox, revitron.BoundingBox):
-			x = (bbox.Min.X + bbox.Max.X) / 2
-			y = (bbox.Min.Y + bbox.Max.Y) / 2
-			z = (bbox.Min.Z + bbox.Max.Z) / 2
-			point = revitron.DB.XYZ(x, y, z)
-			if room.IsPointInRoom(point) or not inRoomOnly:
-				return point
+		point = bbox.getCenterPoint()
+		
+		if room.IsPointInRoom(point) or not inRoomOnly:
+			return point
 	
 	  
 	def getBoundary(self):
