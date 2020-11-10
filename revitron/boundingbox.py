@@ -75,6 +75,17 @@ class BoundingBox:
 			return True
 		return False
 	
+
+	def getCenterPoint(self):
+		"""
+		Returns the center point of the bounding box. 
+
+		Returns:
+			object: A Revit XYZ object.
+		"""
+		import revitron
+		return (self.Min + self.Max) / 2
+
 	
 	def hasPointXY(self, point): 
 		"""
