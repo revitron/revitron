@@ -15,19 +15,9 @@ class BoundingBox:
 	
 		bbox = _(element).getBbox()
 		
-	.. data:: Min
-
-		The Min Revit point object of the bounding box.
-		
-	.. data:: Max
-
-		The Max Revit point object of the bounding box.
 	"""    
 	
-	Min = None
-	
-	Max = None
-	
+
 	def __init__(self, element):
 		"""
 		Inits a new BoundingBox instance for an element. 
@@ -46,13 +36,36 @@ class BoundingBox:
 			self.bbox = element.CropBox
 		else:
 			self.bbox = element.get_BoundingBox(None)
+
+	
+	@property
+	def Min(self):
+		"""
+		The ``Min`` point of the bounding box. 
+
+		Returns:
+			object: A Revit XYZ object
+		"""
 		try:
-			self.Min = self.bbox.Min 
-			self.Max = self.bbox.Max
+			return self.bbox.Min
 		except:
 			pass
-		
-		
+
+	
+	@property
+	def Max(self):
+		"""
+		The ``Max`` point of the bounding box. 
+
+		Returns:
+			object: A Revit XYZ object
+		"""
+		try:
+			return self.bbox.Max
+		except:
+			pass
+
+
 	def containsXY(self, bbox2):
 		"""
 		Checks whether the bounding box contains another bounding box. Only in X and Y dimensions.
