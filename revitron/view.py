@@ -22,7 +22,7 @@ class ViewSheetList:
 				sheet = revitron.DOC.GetElement(sheet)
 			if revitron.Element(sheet).getClassName() == 'ViewSheet':
 				for viewId in sheet.GetAllPlacedViews():
-					item = revitron._helpers.AttrDict()
+					item = revitron.AttrDict()
 					item.id = viewId
 					item.sheet = sheet
 					item.view = revitron.DOC.GetElement(viewId)
