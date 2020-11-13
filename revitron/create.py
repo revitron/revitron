@@ -125,3 +125,23 @@ class Create:
 				tag.ChangeTypeId(typeId)
 		
 		return tag        
+
+
+	@staticmethod
+	def view3D():
+		"""
+		Create a new 3D view.
+
+		Returns:
+			object: A Revit 3D view element
+		"""
+		import revitron 
+		view3DType = None
+
+		for viewFamilyType in revitron.Filter().byClass(revitron.DB.ViewFamilyType).onlyTypes().getElements():
+			if viewFamilyType.FamilyName == '3D View':
+				view3DType = viewFamilyType
+				break
+		
+		return revitron.DB.View3D.CreateIsometric(revitron.DOC, view3DType.Id)	
+
