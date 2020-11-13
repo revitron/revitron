@@ -42,10 +42,13 @@ class Element:
 			element (object): The Revit element or an element ID
 		"""   
 		import revitron
+		import numbers
 		if isinstance(element, revitron.DB.ElementId):
-			self.element = revitron.DOC.GetElement(element)   
+			self._element = revitron.DOC.GetElement(element)  
+		elif isinstance(element, numbers.Integral):
+			self._element = revitron.DOC.GetElement(revitron.DB.ElementId(element))
 		else:
-			self.element = element
+			self._element = element
 	
 
 	def __getattr__(self, name):
@@ -68,6 +71,17 @@ class Element:
 		return method
 
 
+	@property
+	def element(self):
+		"""
+		The actual Revit element. 
+
+		Returns:
+			object: The Revit element object
+		"""
+		return self._element
+		
+
 	def delete(self):
 		"""
 		Delete an element.
@@ -77,7 +91,7 @@ class Element:
 			_(element).delete()
 		"""
 		import revitron
-		revitron.DOC.Delete(self.element.Id)
+		revitron.DOC.Delete(self._element.Id)
 		
 		
 	def getBbox(self):
@@ -89,7 +103,7 @@ class Element:
 		"""
 		import revitron
 		try:
-			return revitron.BoundingBox(self.element)
+			return revitron.BoundingBox(self._element)
 		except:
 			return False
 	
@@ -102,7 +116,7 @@ class Element:
 			string: The category name
 		"""  
 		try:
-			return self.element.Category.Name 
+			return self._element.Category.Name 
 		except:
 			return ''
 
@@ -114,7 +128,7 @@ class Element:
 		Returns:
 			string: The class name
 		"""        
-		return self.element.__class__.__name__
+		return self._element.__class__.__name__
 	
 	
 	def get(self, paramName):
@@ -132,7 +146,7 @@ class Element:
 			mixed: The parameter value
 		"""        
 		import revitron
-		return revitron.Parameter(self.element, paramName).get()
+		return revitron.Parameter(self._element, paramName).get()
 	
 	
 	def getDependent(self, filterClass = None):
@@ -156,10 +170,10 @@ class Element:
 			fltr = None
 			if filterClass:		
 				fltr = revitron.DB.ElementClassFilter(filterClass)
-			dependentIds = self.element.GetDependentElements(fltr)
+			dependentIds = self._element.GetDependentElements(fltr)
 		except:
 			sub = revitron.Transaction()
-			ids = revitron.DOC.Delete(self.element.Id)
+			ids = revitron.DOC.Delete(self._element.Id)
 			sub.rollback()
 			if filterClass:
 				dependentIds = revitron.Filter(ids).byClass(filterClass).noTypes().getElementIds()
@@ -187,7 +201,7 @@ class Element:
 		"""  
 		from revitron import _
 		try:
-			return _(self.element.GetTypeId()).get(paramName)
+			return _(self._element.GetTypeId()).get(paramName)
 		except:
 			return ''
 	
@@ -203,7 +217,7 @@ class Element:
 			object: The parameter object
 		"""
 		import revitron
-		return revitron.Parameter(self.element, paramName)
+		return revitron.Parameter(self._element, paramName)
 	  
 	  
 	def getTags(self):
@@ -232,7 +246,7 @@ class Element:
 			boolean: True if the element is not owned by another user.
 		"""
 		import revitron
-		return str(revitron.DB.WorksharingUtils.GetCheckoutStatus(revitron.DOC, self.element.Id)) != 'OwnedByOtherUser'
+		return str(revitron.DB.WorksharingUtils.GetCheckoutStatus(revitron.DOC, self._element.Id)) != 'OwnedByOtherUser'
 
 
 	def isType(self):
@@ -273,7 +287,6 @@ class Element:
 			 
 		You can find a list of all types `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_.
 
-			
 		Args:
 			paramName (string): The parameter name
 			value (mixed): The value
@@ -283,5 +296,5 @@ class Element:
 			object: The element instance
 		"""        
 		import revitron
-		revitron.Parameter(self.element, paramName).set(value, paramType)
+		revitron.Parameter(self._element, paramName).set(value, paramType)
 		return self
