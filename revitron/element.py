@@ -93,6 +93,19 @@ class Element:
 		except:
 			return False
 	
+
+	def getCategoryName(self):
+		"""
+		Returns the category name of the element.
+
+		Returns:
+			string: The category name
+		"""  
+		try:
+			return self.element.Category.Name 
+		except:
+			return ''
+
 	
 	def getClassName(self):
 		"""
