@@ -80,7 +80,7 @@ import Autodesk.Revit.DB
 import pyrevit
 import os
 
-from revitron._helpers import *
+from revitron._utils import *
 from revitron.boundingbox import *
 from revitron.element import *
 from revitron.excel import *
@@ -93,6 +93,7 @@ from revitron.failure import *
 from revitron.filter import *
 from revitron.link import *
 from revitron.parameter import *
+from revitron.raytrace import *
 from revitron.room import *
 from revitron.roomtag import *
 from revitron.selection import *
