@@ -24,6 +24,7 @@ Submodules
    revitron.filter
    revitron.link
    revitron.parameter
+   revitron.raytrace
    revitron.room
    revitron.roomtag
    revitron.selection
