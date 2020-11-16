@@ -26,7 +26,7 @@ class Room(Element):
 		bbox = self.getBbox()
 		
 		point = bbox.getCenterPoint()
-		
+
 		if room.IsPointInRoom(point) or not inRoomOnly:
 			return point
 	
@@ -208,3 +208,86 @@ class Room(Element):
 		bbox = self.getBbox()
 		bboxTopLeft = revitron.DB.XYZ(bbox.Max.X, bbox.Min.Y, bbox.Min.Z)
 		return self.getPointClosest(bboxTopLeft, inset)
+
+
+	def getPointGrid(self, size = 5, inset = 0.05):
+		"""
+		Generates a point grid based on a given size within the room boundary. 
+
+		Args:
+			size (float, optional): The maximum grid field size. Defaults to 5.00.
+			inset (float, optional): The inset of the room boundary. Defaults to 0.05.
+
+		Returns:
+			list: A list of Revit XYZ objects
+		"""
+		import revitron
+		import math
+
+		points = []
+		bbox = self.getBbox()
+
+		if isinstance(bbox, revitron.BoundingBox):
+			
+			tlp = revitron.DB.XYZ(bbox.Min.X, bbox.Max.Y, bbox.Min.Z)
+			brp = revitron.DB.XYZ(bbox.Max.X, bbox.Min.Y, bbox.Min.Z)
+			lengthX = bbox.Max.X - bbox.Min.X
+			lengthY = bbox.Max.Y - bbox.Min.Y
+			fieldSizeX = ((lengthX - (2 * inset)) / math.ceil(lengthX / size))
+			fieldSizeY = ((lengthY - (2 * inset)) / math.ceil(lengthY / size))
+			
+			_x = tlp.X + inset
+			while (_x < brp.X):
+				_y = brp.Y + inset
+				while (_y < tlp.Y):
+					p = revitron.DB.XYZ(_x, _y, tlp.Z)
+					if self.element.IsPointInRoom(p):
+						points.append(p)
+					_y = _y + fieldSizeY
+				_x = _x + fieldSizeX
+			
+			return points
+
+
+	def traceHeight(self, view3D, gridSize = 5, inset = 0.05):
+		"""
+		Traces the room heights and returns an object containing the min/max bottom and min/max top points.
+
+		Args:
+			view3D (object): A Revit 3D view.
+			gridSize (float, optional): The maximum grid field size for the raytracing. Defaults to 5.00.
+			inset (float, optional): The inset of the room boundary. Defaults to 0.05.
+
+		Returns:
+			object: An object containing a top and bottom property. 
+					Both properties are nested objects containing an Min and a Max value.
+		"""
+		import revitron
+		points = self.getPointGrid(gridSize, inset) + self.getBoundaryInsetPoints(inset)
+		# Set z to the lower quarter.
+		z = self.getBboxCenter().Z / 2
+
+		intersectionsTop = []
+		intersectionsBottom = []
+
+		for point in points:
+			point = revitron.DB.XYZ(point.X, point.Y, z)
+			raytracer = revitron.Raytracer(point, view3D)
+			intersectionsTop.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,1)).Z)
+			intersectionsBottom.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,-1)).Z)
+
+		top = revitron.AttrDict({
+			'Min': min(intersectionsTop),
+			'Max': max(intersectionsTop)
+		})
+
+		bottom = revitron.AttrDict({
+			'Min': min(intersectionsBottom),
+			'Max': max(intersectionsBottom)
+		})
+
+		return revitron.AttrDict({
+			'top': top,
+			'bottom': bottom
+		})
+		
