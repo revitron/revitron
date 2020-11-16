@@ -93,6 +93,7 @@ from revitron.failure import *
 from revitron.filter import *
 from revitron.link import *
 from revitron.parameter import *
+from revitron.raytrace import *
 from revitron.room import *
 from revitron.roomtag import *
 from revitron.selection import *
