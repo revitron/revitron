@@ -278,6 +278,8 @@ class Parameter:
 			value (string): The value
 			paramType (string, optional): The `parameter type <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_. Defaults to "Text". 
 		"""
+		if not self.name:
+			return False
 		if self.parameter == None:
 			from revitron import _
 			if Parameter.bind(self.element.Category.Name, self.name, paramType, _(self.element).isType()):
