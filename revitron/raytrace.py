@@ -27,7 +27,7 @@ class Raytracer:
 
 		Args:
 			direction (object): A Revit XYZ vector.
-			elementFilter (mixed, optional): Either a list of Revit elements or a Revit ElementClassFilter. Defaults to None.
+			elementFilter (mixed, optional): Either a list of Revit element IDs or a Revit ElementClassFilter. Defaults to None.
 
 		Returns:
 			object: A Revit XYZ object or False on errors.
@@ -35,12 +35,8 @@ class Raytracer:
 		import revitron 
 		DB = revitron.DB
 
-		if isinstance(elementFilter, List):
+		if elementFilter:
 			intersector = DB.ReferenceIntersector(elementFilter, 
-												  DB.FindReferenceTarget.Face, 
-												  self.view3D)
-		elif isinstance(elementFilter, DB.ElementClassFilter):
-			intersector = DB.ReferenceIntersector(DB.ElementClassFilter(DB.CeilingAndFloor), 
 												  DB.FindReferenceTarget.Face, 
 												  self.view3D)
 		else:
