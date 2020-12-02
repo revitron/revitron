@@ -143,8 +143,9 @@ class Filter:
 			excluded = passed
 		else:
 			excluded = failed
-	
-		self.collector = self.collector.Excluding(List[revitron.DB.ElementId](excluded))
+
+		if excluded:
+			self.collector = self.collector.Excluding(List[revitron.DB.ElementId](excluded))
 		
 		return self
 
