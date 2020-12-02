@@ -138,7 +138,6 @@ class Filter:
 			if value:
 				if re.search(regex, value, re.IGNORECASE):
 					passed.append(element)
-					print(value)
 				else:
 					failed.append(element)
 
