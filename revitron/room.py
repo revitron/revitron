@@ -264,28 +264,44 @@ class Room(Element):
 					Both properties are nested objects containing an Min and a Max value.
 		"""
 		import revitron
-		points = self.getPointGrid(gridSize, inset) + self.getBoundaryInsetPoints(inset)
-		# Set z to the lower quarter.
-		z = self.getBboxCenter().Z / 2
 
+		if self.element.Location:
+			points = self.getPointGrid(gridSize, inset) + self.getBoundaryInsetPoints(inset)
+			# Set z to the lower quarter.
+			z = self.getBboxCenter().Z / 2
+		else:
+			points = []
+			
 		intersectionsTop = []
 		intersectionsBottom = []
 
 		for point in points:
 			point = revitron.DB.XYZ(point.X, point.Y, z)
 			raytracer = revitron.Raytracer(point, view3D)
-			intersectionsTop.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,1), elementFilter).Z)
-			intersectionsBottom.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,-1), elementFilter).Z)
+			try:
+				intersectionsTop.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,1), elementFilter).Z)
+			except:
+				pass
+			try:
+				intersectionsBottom.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,-1), elementFilter).Z)
+			except:
+				pass
 
-		top = revitron.AttrDict({
-			'min': min(intersectionsTop),
-			'max': max(intersectionsTop)
-		})
+		try:
+			top = revitron.AttrDict({
+				'min': min(intersectionsTop),
+				'max': max(intersectionsTop)
+			})
+		except:
+			top = None
 
-		bottom = revitron.AttrDict({
-			'min': min(intersectionsBottom),
-			'max': max(intersectionsBottom)
-		})
+		try:
+			bottom = revitron.AttrDict({
+				'min': min(intersectionsBottom),
+				'max': max(intersectionsBottom)
+			})
+		except:
+			bottom = None
 
 		return revitron.AttrDict({
 			'top': top,
