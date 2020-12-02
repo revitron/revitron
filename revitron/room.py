@@ -255,7 +255,7 @@ class Room(Element):
 
 		Args:
 			view3D (object): A Revit 3D view.
-			elementFilter (mixed, optional): Either a list of Revit elements or a Revit ElementClassFilter. Defaults to None.
+			elementFilter (mixed, optional): Either a list of Revit element IDs or a Revit ElementClassFilter. Defaults to None.
 			gridSize (float, optional): The maximum grid field size for the raytracing. Defaults to 5.00.
 			inset (float, optional): The inset of the room boundary. Defaults to 0.05.
 
