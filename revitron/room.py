@@ -249,12 +249,13 @@ class Room(Element):
 			return points
 
 
-	def traceHeight(self, view3D, gridSize = 5, inset = 0.05):
+	def traceHeight(self, view3D, elementFilter = None, gridSize = 5, inset = 0.05):
 		"""
 		Traces the room heights and returns an object containing the min/max bottom and min/max top points.
 
 		Args:
 			view3D (object): A Revit 3D view.
+			elementFilter (mixed, optional): Either a list of Revit elements or a Revit ElementClassFilter. Defaults to None.
 			gridSize (float, optional): The maximum grid field size for the raytracing. Defaults to 5.00.
 			inset (float, optional): The inset of the room boundary. Defaults to 0.05.
 
@@ -273,17 +274,17 @@ class Room(Element):
 		for point in points:
 			point = revitron.DB.XYZ(point.X, point.Y, z)
 			raytracer = revitron.Raytracer(point, view3D)
-			intersectionsTop.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,1)).Z)
-			intersectionsBottom.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,-1)).Z)
+			intersectionsTop.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,1), elementFilter).Z)
+			intersectionsBottom.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,-1), elementFilter).Z)
 
 		top = revitron.AttrDict({
-			'Min': min(intersectionsTop),
-			'Max': max(intersectionsTop)
+			'min': min(intersectionsTop),
+			'max': max(intersectionsTop)
 		})
 
 		bottom = revitron.AttrDict({
-			'Min': min(intersectionsBottom),
-			'Max': max(intersectionsBottom)
+			'min': min(intersectionsBottom),
+			'max': max(intersectionsBottom)
 		})
 
 		return revitron.AttrDict({
