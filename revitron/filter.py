@@ -13,6 +13,7 @@ Note that you can **invert** a filter by providing a the third argument for a st
 	ids = filter().byStringEquals('param', 'value', True).noTypes().getElementIds()
 	
 """
+import re
 from System.Collections.Generic import List
 
 
@@ -26,7 +27,7 @@ class Filter:
 		Inits a new Filter instance.
 
 		Args:
-			scope (Element ID or list of elements, optional): The optional scope. It can be either a view Id or a list of elements Defaults to None.
+			scope (Element ID or list of elements, optional): The optional scope. It can be either a view Id or a list of elements. Defaults to None.
 		"""   
 		import revitron
 		
@@ -41,7 +42,23 @@ class Filter:
 		else:   
 			self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
 	
-	
+
+	def all(self):
+		"""
+		This is just a helper filter that doesn't modify the collection at all to allow for 
+		getting all elements of an instance without actually applying any filter before. 
+
+		Returns:
+			object: The Filter instance
+		"""
+		import revitron
+		db = revitron.DB
+		f = db.LogicalOrFilter(db.ElementIsElementTypeFilter(False), db.ElementIsElementTypeFilter(True))
+
+		self.collector = self.collector.WherePasses(f)
+		return self
+
+
 	def applyParameterFilter(self, rule, invert = False):
 		"""
 		Applies a parameter filter.
@@ -83,7 +100,7 @@ class Filter:
 			try:
 				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.collector.ToElementIds())
 			except:
-				_filter.collector = revitron.Filter(self.scope).collector
+				_filter.collector = Filter(self.scope).collector
 			_filter.applyParameterFilter(rule, invert) 
 			filters.append(_filter)
 		
@@ -96,7 +113,42 @@ class Filter:
 				else:
 					self.collector.IntersectWith(filters[i].collector)
 				
-		   
+
+	def byRegex(self, paramName, regex, invert = False):
+		"""
+		Filters a collection by a given regex. 
+
+		Args:
+			paramName (string): The name of the parameter to be matched. 
+			regex (string): The regex. 
+			invert (bool, optional): Inverts the filter. Defaults to False.
+
+		Returns:
+			object: The Filter instance
+		"""
+		import revitron
+		from revitron import _
+		
+		passed = []
+		failed = []
+
+		for elementId in self.getElementIds():
+			value = str(_(elementId).get(paramName))
+			if re.search(regex, value, re.IGNORECASE):
+				passed.append(elementId)
+			else:
+				failed.append(elementId)
+
+		if invert:
+			excluded = passed
+		else:
+			excluded = failed
+	
+		self.collector = self.collector.Excluding(List[revitron.DB.ElementId](excluded))
+		
+		return self
+
+
 	def byCategory(self, name):
 		"""
 		Filters the collection by a category name - not a built-in category.
@@ -233,9 +285,13 @@ class Filter:
 		Get the collection as elements.
 
 		Returns:
-			list: The list of filtered elements
+			list: The list of excluded elements
 		"""        
-		return self.collector.ToElements()
+		try:
+			return self.collector.ToElements()
+		except:
+			self.all()
+			return self.collector.ToElements()
 	
 	
 	def getElementIds(self):
@@ -243,7 +299,10 @@ class Filter:
 		Get the collection as element IDs.
 
 		Returns:
-			list: The list of filtered element IDs
+			list: The list of excluded element IDs
 		"""        
-		return self.collector.ToElementIds()
-  
+		try:
+			return self.collector.ToElementIds()
+		except:
+			self.all()
+			return self.collector.ToElementIds()
