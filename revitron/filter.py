@@ -127,25 +127,28 @@ class Filter:
 			object: The Filter instance
 		"""
 		import revitron
-		from revitron import _
 		
 		passed = []
 		failed = []
 
-		for elementId in self.getElementIds():
-			value = str(_(elementId).get(paramName))
-			if re.search(regex, value, re.IGNORECASE):
-				passed.append(elementId)
-			else:
-				failed.append(elementId)
+		for element in self.getElements():
+			value = revitron.Parameter(element, paramName).getString()
+			if not value:
+				value = revitron.Parameter(element, paramName).getValueString()
+			if value:
+				if re.search(regex, value, re.IGNORECASE):
+					passed.append(element)
+					print(value)
+				else:
+					failed.append(element)
 
-		if invert:
-			excluded = passed
+		if not invert:
+			elements = passed
 		else:
-			excluded = failed
+			elements = failed
 
-		if excluded:
-			self.collector = self.collector.Excluding(List[revitron.DB.ElementId](excluded))
+		if elements:
+			self.collector = Filter(elements).collector
 		
 		return self
 
