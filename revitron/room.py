@@ -265,12 +265,17 @@ class Room(Element):
 		"""
 		import revitron
 
+		points = []
+
 		if self.element.Location:
-			points = self.getPointGrid(gridSize, inset) + self.getBoundaryInsetPoints(inset)
+			gridPoints = self.getPointGrid(gridSize, inset)
+			boundaryPoints = self.getBoundaryInsetPoints(inset)
+			if gridPoints:
+				points = gridPoints
+			if boundaryPoints:
+				points = points + boundaryPoints
 			# Set z to the lower quarter.
 			z = self.getBboxCenter().Z / 2
-		else:
-			points = []
 			
 		intersectionsTop = []
 		intersectionsBottom = []
