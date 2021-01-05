@@ -274,7 +274,7 @@ class Room(Element):
 				points = gridPoints
 			if boundaryPoints:
 				points = points + boundaryPoints
-			# Set z to the lower quarter.
+			# Set z to the room center.
 			z = self.getBboxCenter().Z
 			
 		intersectionsTop = []
