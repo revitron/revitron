@@ -275,7 +275,7 @@ class Room(Element):
 			if boundaryPoints:
 				points = points + boundaryPoints
 			# Set z to the lower quarter.
-			z = self.getBboxCenter().Z / 2
+			z = self.getBboxCenter().Z
 			
 		intersectionsTop = []
 		intersectionsBottom = []
