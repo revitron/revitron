@@ -114,6 +114,21 @@ class Filter:
 					self.collector.IntersectWith(filters[i].collector)
 				
 
+	def byIntersection(self, element):
+		"""
+		Reduces the set of elements to the ones that are intersecting a given element.
+
+		Args:
+			element (objetc): A Revit element
+
+		Returns:
+			object: The Filter instance
+		"""
+		import revitron
+		self.collector = self.collector.WherePasses(revitron.DB.ElementIntersectsElementFilter(element))
+		return self
+
+
 	def byRegex(self, paramName, regex, invert = False):
 		"""
 		Filters a collection by a given regex. 
