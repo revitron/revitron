@@ -94,24 +94,18 @@ class Filter:
 		for valueProvider in revitron.ParameterValueProviders(paramName).get():
 			rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
 			_filter = Filter()
-			# Try to get elements from the collector as base for the fresh collector.
-			# In case there was never a filter applied before, getting elements will raise an exception
-			# and new Filter() instance is created with the same scope.
-			try:
-				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.collector.ToElementIds())
-			except:
-				_filter.collector = Filter(self.scope).collector
+			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
 			_filter.applyParameterFilter(rule, invert) 
 			filters.append(_filter)
 		
-		self.collector = filters[0].collector
-		
-		if len(filters) > 1:
-			for i in range(1, len(filters)):
-				if not invert:
-					self.collector.UnionWith(filters[i].collector)
-				else:
-					self.collector.IntersectWith(filters[i].collector)
+		if len(filters):
+			self.collector = filters[0].collector
+			if len(filters) > 1:
+				for i in range(1, len(filters)):
+					if not invert:
+						self.collector.UnionWith(filters[i].collector)
+					else:
+						self.collector.IntersectWith(filters[i].collector)
 				
 
 	def byIntersection(self, element):
@@ -216,6 +210,39 @@ class Filter:
 		self.applyStringFilter(paramName, value, revitron.DB.FilterStringContains(), invert)
 		return self 
 	
+	
+	def byStringContainsOneInCsv(self, paramName, csv, invert = False):
+		"""
+		Filters the collection by testing whether a string contains at lease one ot the items in a CSV list.
+
+		Note that by setting the ``invert`` to ``True``, all elements that match one of the items will be removed from the collection.
+
+		Args:
+			paramName (string): The name of the parameter 
+			csv (string): A comma separated list of items 
+			invert (bool, optional): Inverts the filter. Defaults to False.
+
+		Returns:
+			object: The Filter instance
+		"""
+		import revitron
+		filters = []
+		for item in csv.split(','):		
+			_filter = Filter()
+			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
+			_filter.byStringContains(paramName, item.strip(), invert)
+			filters.append(_filter)
+
+		if len(filters):
+			self.collector = filters[0].collector
+			if len(filters) > 1:
+				for i in range(1, len(filters)):
+					if not invert:
+						self.collector.UnionWith(filters[i].collector)
+					else:
+						self.collector.IntersectWith(filters[i].collector)
+		return self
+
 	
 	def byStringEquals(self, paramName, value, invert = False):
 		"""
