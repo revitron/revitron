@@ -67,7 +67,7 @@ class Element:
 		"""
 		from revitron import Log
 		def method(*args):
-			Log().error('Failed to call unkown method "{}" for element of class "{}"'.format(name, self.getClassName()))
+			Log().warning('Failed to call unkown method "{}" for element of class "{}"'.format(name, self.getClassName()))
 		return method
 
 
