@@ -36,13 +36,14 @@ class DWGExporter:
 		self.options = revitron.DB.DWGExportOptions().GetPredefinedOptions(revitron.DOC, setupName)
 		
 
-	def exportSheet(self, sheet, directory, template = False):
+	def exportSheet(self, sheet, directory, unit, template = False):
 		"""
 		Exports a sheet.
 
 		Args:
 			sheet (object): A Revit sheet
 			directory (string): The export directory
+			unit (object): The `export unit <https://www.revitapidocs.com/2020/1d3eb4f4-81d2-10a6-3eab-4a9c20e39053.htm>`_
 			template (string, optional): A name template. Defaults to '{Sheet Number}-{Sheet Name}'.
 
 		Returns:
@@ -70,7 +71,7 @@ class DWGExporter:
 		
 		db = revitron.DB
 		self.options.MergedViews = True
-		self.options.TargetUnit = db.ExportUnit.Default
+		self.options.TargetUnit = unit
 		
 		success = revitron.DOC.Export(path, file, List[db.ElementId]([sheet.Id]), self.options)
 		
