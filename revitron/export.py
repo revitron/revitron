@@ -52,11 +52,12 @@ class DWGExporter:
 		import revitron
 		
 		if revitron.Element(sheet).getClassName() != 'ViewSheet':
-			print(':face_with_rolling_eyes: Element is not a sheet!')
+			revitron.Log().warning('Element is not a sheet!')
 			return False
 
 		if not directory:
-			directory = self.output
+			revitron.Log().warning('There is no DWG export directory defined!')
+			sys.exit()
 			
 		if not template:
 			template = '{Sheet Number}-{Sheet Name}'
@@ -96,6 +97,10 @@ class PDFExporter:
 		"""
 		import revitron
 		
+		if not printer or not output:
+			revitron.Log().warning('PDF exporter is not configured!')
+			sys.exit()
+
 		self.printer = printer
 		self.output = output
 		self.manager = revitron.DOC.PrintManager
@@ -134,7 +139,7 @@ class PDFExporter:
 		import revitron
 		
 		if revitron.Element(sheet).getClassName() != 'ViewSheet':
-			print(':face_with_rolling_eyes: Element is not a sheet!')
+			revitron.Log().warning('Element is not a sheet!')
 			return False
 
 		if not directory:
