@@ -407,9 +407,15 @@ class BuiltInParameterNameMap:
 	
 class ParameterTemplate:
 	"""
-	Create a string based on a parameter template where parameter names are wrapped in :code:`{}` and get substituted with their value::
+	Create a string based on a parameter template where parameter names are wrapped in :code:`{...}` and get substituted with their value::
 	
 		This sheet has the number {Sheet Number} and the name {Sheet Name}
+
+	It is also possible to get parameter values from the project information instead by wrapping the parameter names 
+	in :code:`{%...%}` instead::
+
+		This sheet of the project {%Project Name%} has the number {Sheet Number} and the name {Sheet Name}
+
 	"""
 	
 	def __init__(self, element, template, sanitize = True):
@@ -421,6 +427,9 @@ class ParameterTemplate:
 			template (string): A template string
 			sanitize (bool, optional): Optionally sanitize the returned string. Defaults to True.
 		"""
+		import revitron
+
+		self.projectInfo = revitron.DOC.ProjectInformation
 		self.element = element
 		self.template = template
 		self.sanitize = sanitize
@@ -439,7 +448,13 @@ class ParameterTemplate:
 		import revitron
 		
 		parameter = match.group(1)
-		string = str(revitron.Element(self.element).get(parameter))
+
+		try:
+			match = re.match('^%(.+?)%$', parameter)
+			parameter = match.group(1)
+			string = str(revitron.Element(self.projectInfo).get(parameter))
+		except:
+			string = str(revitron.Element(self.element).get(parameter))
 		
 		if self.sanitize:
 			string = revitron.String.sanitize(string)
