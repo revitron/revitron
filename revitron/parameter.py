@@ -409,12 +409,12 @@ class ParameterTemplate:
 	"""
 	Create a string based on a parameter template where parameter names are wrapped in :code:`{...}` and get substituted with their value::
 	
-		This sheet has the number {Sheet Number} and the name {Sheet Name}
+		This sheet has the number {Sheet Number}
 
 	It is also possible to get parameter values from the project information instead by wrapping the parameter names 
 	in :code:`{%...%}` instead::
 
-		This sheet of the project {%Project Name%} has the number {Sheet Number} and the name {Sheet Name}
+		This sheet of the project {%Project Name%} has the number {Sheet Number}
 
 	"""
 	
