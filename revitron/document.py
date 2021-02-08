@@ -62,6 +62,31 @@ class Document:
 		return duplicates
 
 
+	def getLinkedDocuments(self, scope = None):
+		"""
+		Returns a dictionary of all linked documents.
+		The key is the ID of the link and the value is the actual document object.
+
+		Args:
+			scope (mixed, optional): List or view ID. Defaults to None.
+
+		Returns:
+			dict: A dictionary of all linked documents.
+		"""
+		import revitron
+		linkedDocuments = dict()
+		extension = '.rvt'
+		for link in revitron.Filter(scope).byCategory('RVT Links').noTypes().getElements():
+			linkType = revitron.Parameter(link, 'Type').getValueString()
+			if linkType.endswith(extension):
+				linkType = linkType[:-len(extension)]
+			for openDoc in revitron.APP.Documents:
+				if openDoc.IsLinked:
+					if openDoc.Title == linkType:
+						linkedDocuments[link.Id] = openDoc
+		return linkedDocuments
+
+
 	def getPath(self):
 		"""
 		Returns the path to the document.
