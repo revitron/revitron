@@ -30,10 +30,9 @@ class Filter:
 			scope (Element ID or list of elements, optional): The optional scope. It can be either a view Id or a list of elements. Defaults to None.
 		"""   
 		import revitron
-		
 		if not doc:
 			doc = revitron.DOC 
-
+		self.doc = doc
 		self.scope = scope         
 		if scope:
 			if type(scope) == list:
@@ -97,7 +96,7 @@ class Filter:
 		for valueProvider in revitron.ParameterValueProviders(paramName).get():
 			rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
 			_filter = Filter()
-			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
+			_filter.collector = revitron.DB.FilteredElementCollector(self.doc, self.getElementIds())
 			_filter.applyParameterFilter(rule, invert) 
 			filters.append(_filter)
 		
@@ -232,7 +231,7 @@ class Filter:
 		filters = []
 		for item in csv.split(','):		
 			_filter = Filter()
-			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
+			_filter.collector = revitron.DB.FilteredElementCollector(self.doc, self.getElementIds())
 			_filter.byStringContains(paramName, item.strip(), invert)
 			filters.append(_filter)
 
