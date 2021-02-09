@@ -22,7 +22,7 @@ class Filter:
 	A filter class based on the ``FilteredElementCollector`` class.
 	"""
 	
-	def __init__(self, scope = None, doc = None):
+	def __init__(self, scope = None):
 		"""
 		Inits a new Filter instance.
 
@@ -31,9 +31,6 @@ class Filter:
 		"""   
 		import revitron
 		
-		if not doc:
-			doc = revitron.DOC 
-
 		self.scope = scope         
 		if scope:
 			if type(scope) == list:
@@ -41,9 +38,9 @@ class Filter:
 				for element in scope:
 					elementIds.append(element.Id)
 				scope = List[revitron.DB.ElementId](elementIds) 
-			self.collector = revitron.DB.FilteredElementCollector(doc, scope) 
+			self.collector = revitron.DB.FilteredElementCollector(revitron.DOC, scope) 
 		else:   
-			self.collector = revitron.DB.FilteredElementCollector(doc)
+			self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
 	
 
 	def all(self):
