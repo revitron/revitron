@@ -73,6 +73,12 @@ class Create:
 		"""
 		Creates a new family instance.
 
+		Example::
+
+			transaction = revitron.Transaction()
+			instance = revitron.Create.familyInstance(familySymbolId, location)
+			transaction.commit()
+
 		Args:
 			familySymbolId (object): A Revit API family symbol ID.
 			location (object): A Revit API ``XYZ`` point.
