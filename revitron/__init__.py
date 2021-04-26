@@ -11,6 +11,10 @@ Basically this package is designed to be a generic **Revit API** toolbox. It doe
 combine multiple wrapper classes instead to enable you to create plugins using just one single base library.
 However, there are two topics that are in the main focus of many **pyRevit** plugins --- working with elements and filtering. 
 
+.. note::
+
+	Check out the `cheat sheet <cheat-sheet.html>`_ to get you started quickly with the most common tools.
+
 Working with Elements
 ---------------------
 
