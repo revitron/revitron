@@ -12,6 +12,8 @@ Revitron
 
    `Get Started ⟶ <get-started.html>`_
 
+Version 0.1.0
+
 .. toctree::
    :caption: Revitron
    :maxdepth: 2
