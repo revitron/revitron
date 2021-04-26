@@ -19,6 +19,7 @@ Revitron
 
    get-started
    revitron
+   cheat-sheet
    genindex
 
 
