@@ -64,9 +64,9 @@ sed -i "s|REVITRON_VERSION.*|REVITRON_VERSION = '$tag'|g" "./revitron/__init__.p
 sed -i "s|Version.*|Version $tag|g" "./docs/source/index.rst"
 
 # Commit, merge and tag.
-git add -A && git commit -m "build: prepared release $tag"
+git add -A && git commit -m "build(release): prepared release $tag"
 git checkout master
-git merge develop --no-ff -m "build: merged branch develop (release $tag)"
+git merge develop --no-ff -m "build(release): merged branch develop (release $tag)"
 git tag -a -m "Release $tag" $tag
 git checkout develop
 git log -n 2 --graph --all
