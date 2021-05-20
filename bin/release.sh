@@ -1,5 +1,8 @@
 #!/bin/sh
 
+dir=`dirname $0`
+cd "$dir/.."
+
 # Check if working directory is clean.
 if [[ $(git status -s) ]]
 then
@@ -63,9 +66,9 @@ echo
 sed -i "s|REVITRON_VERSION.*|REVITRON_VERSION = '$tag'|g" "./revitron/__init__.py"
 
 # Commit, merge and tag.
-git add -A && git commit -m "build(release): prepared release $tag"
+git add -A && git commit -m "build(release): prepare release $tag"
 git checkout master
-git merge develop --no-ff -m "build(release): merged branch develop (release $tag)"
+git merge develop --no-ff -m "build(release): merge branch develop (release $tag)"
 git tag -a -m "Release $tag" $tag
 git checkout develop
 git log -n 2 --graph --all
