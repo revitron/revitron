@@ -5,14 +5,13 @@ Revitron
 
 .. container:: .large
 
-   Revitron is a `Revit API <https://www.revitapidocs.com/>`_ wrapper written in Python. 
+   Revitron is a `Revit API <https://www.revitapidocs.com/>`_ wrapper written in Python.
    It helps you to develop clean and powerful Revit plugins in `pyRevit <https://github.com/eirannejad/pyRevit>`_.
 
 .. container:: .buttons
 
-   `Get Started ⟶ <get-started.html>`_
-
-Version 0.1.0
+   `Docs <get-started.html>`_
+   `GitHub <https://github.com/revitron/revitron>`_
 
 .. toctree::
    :caption: Revitron

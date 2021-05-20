@@ -83,7 +83,8 @@ exclude_patterns = ['modules.rst']
 html_theme = 'revitron_sphinx_theme'
 html_theme_options = {
     'navigation_depth': 5,
-    'github_url': 'https://github.com/revitron/revitron'
+    'github_url': 'https://github.com/revitron/revitron',
+	'color_scheme': 'dark'
 }
 
 html_logo = '_static/revitron.svg'
