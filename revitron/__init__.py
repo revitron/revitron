@@ -119,7 +119,7 @@ except:
 DB = Autodesk.Revit.DB
 LIB_DIR = parent(parent(__file__))
 REVIT_VERSION = pyrevit.HOST_APP.uiapp.Application.VersionNumber
-REVITRON_VERSION = '0.1.0'
+REVITRON_VERSION = '0.1.1'
 
 
 def _(element):
