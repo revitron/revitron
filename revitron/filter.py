@@ -92,11 +92,14 @@ class Filter:
 		# While iterating that list, the parameter filter is applied each time 
 		# to a fresh element collector that will be later merged or intersected with the others. 
 		for valueProvider in revitron.ParameterValueProviders(paramName).get():
-			rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
-			_filter = Filter()
-			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
-			_filter.applyParameterFilter(rule, invert) 
-			filters.append(_filter)
+			try:
+				rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
+				_filter = Filter()
+				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
+				_filter.applyParameterFilter(rule, invert) 
+				filters.append(_filter)
+			except:
+				pass
 		
 		if len(filters):
 			self.collector = filters[0].collector
