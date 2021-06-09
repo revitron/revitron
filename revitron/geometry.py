@@ -36,8 +36,11 @@ class Geometry:
 		"""
 		faces = []
 		for solid in self.getSolids():
-			for face in solid.Faces:
-				faces.append(face)
+			try:
+				for face in solid.Faces:
+					faces.append(face)
+			except:
+				pass
 		return faces
 
 
@@ -49,11 +52,14 @@ class Geometry:
 			list: A list of solid objects
 		"""
 		solids = []
-		for geo in self._geometry:
-			for item in geo.GetInstanceGeometry():
-				try:
-					if item.Volume:
-						solids.append(item)
-				except:
-					pass
+		try:
+			for geo in self._geometry:
+				for item in geo.GetInstanceGeometry():
+					try:
+						if item.Volume:
+							solids.append(item)
+					except:
+						pass
+		except:
+			pass
 		return solids
