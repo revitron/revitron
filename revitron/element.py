@@ -205,7 +205,18 @@ class Element:
 		except:
 			return ''
 	
-	
+
+	def getGeometry(self):
+		"""
+		Return the Revitron Geometry instance for this element.
+
+		Returns:
+			object: A Revitron Geometry object
+		"""
+		import revitron
+		return revitron.Geometry(self._element)
+
+
 	def getParameter(self, paramName):
 		"""
 		Returns a parameter object.
