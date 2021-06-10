@@ -73,16 +73,17 @@ class Filter:
 		self.collector = self.collector.WherePasses(parameterFilter)
 
 
-	def applyStringFilter(self, paramName, value, evaluator, invert = False):
+	def applyFilter(self, filterRule, paramName, value, evaluator, invert = False):
 		"""
-		Applies a string filter.
+		Applies a numeric filter.
 
 		Args:
+			filterRule (class): The filter rule class to be used
 			paramName (string): The parameter name
-			value (mixed): the value
-			evaluator (object): The FilterStringRuleEvaluator
+			value (number): the value
+			evaluator (object): The evaluator object
 			invert (boolean): Inverts the filter
-		"""   
+		"""
 		import revitron
 		
 		filters = []
@@ -93,7 +94,7 @@ class Filter:
 		# to a fresh element collector that will be later merged or intersected with the others. 
 		for valueProvider in revitron.ParameterValueProviders(paramName).get():
 			try:
-				rule = revitron.DB.FilterStringRule(valueProvider, evaluator, value, True)
+				rule = filterRule(valueProvider, evaluator, value, True)
 				_filter = Filter()
 				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
 				_filter.applyParameterFilter(rule, invert) 
@@ -110,6 +111,27 @@ class Filter:
 					else:
 						self.collector.IntersectWith(filters[i].collector)
 				
+
+
+	def applyStringFilter(self, paramName, value, evaluator, invert = False):
+		"""
+		Applies a string filter.
+
+		Args:
+			paramName (string): The parameter name
+			value (string): the value
+			evaluator (object): The FilterStringRuleEvaluator
+			invert (boolean): Inverts the filter
+		"""
+		import revitron
+		self.applyFilter(
+			revitron.DB.FilterStringRule,
+			paramName, 
+			value, 
+			evaluator, 
+			invert
+		)
+
 
 	def byIntersection(self, element):
 		"""
