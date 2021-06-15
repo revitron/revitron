@@ -31,4 +31,5 @@ Submodules
    revitron.selection
    revitron.transaction
    revitron.transmissiondata
+   revitron.unit
    revitron.view

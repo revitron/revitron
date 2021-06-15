@@ -104,6 +104,7 @@ from revitron.roomtag import *
 from revitron.selection import *
 from revitron.transaction import *
 from revitron.transmissiondata import *
+from revitron.unit import *
 from revitron.view import *
 
 parent = os.path.dirname 
@@ -120,7 +121,7 @@ except:
 DB = Autodesk.Revit.DB
 LIB_DIR = parent(parent(__file__))
 REVIT_VERSION = pyrevit.HOST_APP.uiapp.Application.VersionNumber
-REVITRON_VERSION = '0.1.3'
+REVITRON_VERSION = '0.1.4'
 
 
 def _(element):

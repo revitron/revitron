@@ -185,7 +185,7 @@ class Parameter:
 		value = switcher.get(storageType)
 		return value()
 		
-	
+
 	def getString(self):
 		"""
 		Return the parameter value as string.
@@ -291,6 +291,21 @@ class Parameter:
 			self.parameter.Set(value)
 
 
+	def unit(self):
+		"""
+		Return the displayed unit type of a parameter. 
+
+		Note that since Revit 2021 the preferred return value is of type ``ForgeTypeId``. 
+
+		Returns:
+			mixed: The displayed unit type (ForgeTypeId or DisplayUnitType)
+		"""
+		try:
+			return self.parameter.GetUnitTypeId()
+		except:
+			return self.parameter.DisplayUnitType
+
+
 class ParameterNameList:
 	"""
 	A helper class for listing all parameter names in the active document. 
@@ -299,7 +314,7 @@ class ParameterNameList:
 	def __init__(self):
 		"""
 		Inits a new ParameterNameList instance including all parameter names in the document.
-		"""            
+		"""
 		import revitron
 			
 		self.parameters = []
@@ -311,7 +326,7 @@ class ParameterNameList:
 			self.parameters.append(param.GetDefinition().Name)
 			
 		for param in revitron.Filter().byClass(revitron.DB.ParameterElement).getElements():
-			self.parameters.append(param.GetDefinition().Name)    
+			self.parameters.append(param.GetDefinition().Name)
 			
 		self.parameters = sorted(list(set(self.parameters)))
 		
@@ -321,7 +336,7 @@ class ParameterNameList:
 
 		Returns:
 			list: The list with all parameters in the document.
-		"""        
+		"""
 		return self.parameters
 
 
@@ -401,7 +416,7 @@ class BuiltInParameterNameMap:
 
 		Returns:
 			list: The list of built-in parameters
-		"""        
+		"""
 		return self.map[name]
 	
 	
@@ -470,4 +485,3 @@ class ParameterTemplate:
 			string: The rendered string
 		"""
 		return re.sub('\{(.+?)\}', self.reCallback, self.template)
-		
