@@ -104,6 +104,7 @@ from revitron.roomtag import *
 from revitron.selection import *
 from revitron.transaction import *
 from revitron.transmissiondata import *
+from revitron.unit import *
 from revitron.view import *
 
 parent = os.path.dirname 

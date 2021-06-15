@@ -13,6 +13,8 @@ Revitron
    `Docs <get-started.html>`_
    `GitHub <https://github.com/revitron/revitron>`_
 
+.. image:: https://img.shields.io/github/v/tag/revitron/revitron?label=Release&style=flat-square&labelColor=292b2e&color=292b2e
+
 .. toctree::
    :caption: Revitron
    :maxdepth: 2
