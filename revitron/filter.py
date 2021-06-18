@@ -339,7 +339,10 @@ class Filter:
 		filters = []
 		for item in csv.split(','):
 			_filter = Filter()
-			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
+			try:
+				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
+			except:
+				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
 			_filter = evaluator(_filter, paramName, item.strip(), invert)
 			filters.append(_filter)
 
