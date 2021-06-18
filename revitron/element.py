@@ -127,8 +127,28 @@ class Element:
 
 		Returns:
 			string: The class name
-		"""        
+		"""
 		return self._element.__class__.__name__
+
+	
+	def getFamilyName(self):
+		"""
+		Returns the family name of the element.
+
+		Returns:
+			string: The family name
+		"""
+		return self.getParameter('Family').getValueString()
+
+
+	def getFamilyAndTypeName(self):
+		"""
+		Returns the family name of the element.
+
+		Returns:
+			string: The family name
+		"""
+		return self.getParameter('Family and Type').getValueString()
 	
 	
 	def get(self, paramName):
@@ -144,7 +164,7 @@ class Element:
 
 		Returns:
 			mixed: The parameter value
-		"""        
+		"""
 		import revitron
 		return revitron.Parameter(self._element, paramName).get()
 	
