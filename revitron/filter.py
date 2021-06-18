@@ -317,6 +317,43 @@ class Filter:
 		return self
 
 
+	def byOneInCsv(self, evaluatorName, paramName, csv, invert = False):
+		"""
+		Filters the collection by testing whether a string contains at lease one ot the items in a CSV list.
+
+		Note that by setting the ``invert`` to ``True``, all elements that match one of the items will be removed from the collection.
+
+		Args:
+			evaluatorName (class): The filter method to be used to filter
+			paramName (string): The name of the parameter 
+			csv (string): A comma separated list of items 
+			invert (bool, optional): Inverts the filter. Defaults to False.
+
+		Returns:
+			object: The Filter instance
+		"""
+		import revitron
+
+		evaluator = getattr(Filter, evaluatorName)
+
+		filters = []
+		for item in csv.split(','):
+			_filter = Filter()
+			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
+			_filter = evaluator(_filter, paramName, item.strip(), invert)
+			filters.append(_filter)
+
+		if len(filters):
+			self.collector = filters[0].collector
+			if len(filters) > 1:
+				for i in range(1, len(filters)):
+					if not invert:
+						self.collector.UnionWith(filters[i].collector)
+					else:
+						self.collector.IntersectWith(filters[i].collector)
+		return self
+
+
 	def byStringContains(self, paramName, value, invert = False):
 		"""
 		Filters the collection by a string contained in a parameter.
@@ -358,23 +395,7 @@ class Filter:
 		Returns:
 			object: The Filter instance
 		"""
-		import revitron
-		filters = []
-		for item in csv.split(','):
-			_filter = Filter()
-			_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC, self.getElementIds())
-			_filter.byStringContains(paramName, item.strip(), invert)
-			filters.append(_filter)
-
-		if len(filters):
-			self.collector = filters[0].collector
-			if len(filters) > 1:
-				for i in range(1, len(filters)):
-					if not invert:
-						self.collector.UnionWith(filters[i].collector)
-					else:
-						self.collector.IntersectWith(filters[i].collector)
-		return self
+		return self.byOneInCsv('byStringContains', paramName, csv, invert)
 
 	
 	def byStringEquals(self, paramName, value, invert = False):
@@ -404,6 +425,23 @@ class Filter:
 		)
 		return self
 	
+
+	def byStringEqualsOneInCsv(self, paramName, csv, invert = False):
+		"""
+		Filters the collection by testing whether a string equals at lease one ot the items in a CSV list.
+
+		Note that by setting the ``invert`` to ``True``, all elements that match one of the items will be removed from the collection.
+
+		Args:
+			paramName (string): The name of the parameter 
+			csv (string): A comma separated list of items 
+			invert (bool, optional): Inverts the filter. Defaults to False.
+
+		Returns:
+			object: The Filter instance
+		"""
+		return self.byOneInCsv('byStringEquals', paramName, csv, invert)
+
 	
 	def byStringBeginsWith(self, paramName, value, invert = False):
 		"""
