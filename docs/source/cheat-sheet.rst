@@ -117,6 +117,15 @@ Getting all elements of a certain category, specified by a string, for example "
     for room in rooms:
         print(_(room).get('Name'))
 
+Instead of the *natural* category name, it is also valid to use the string representation of 
+a built-in category as filter argument:
+
+.. code-block:: python
+
+    rooms = revitron.Filter().byCategory('OST_Rooms').getElements()
+
+.. note:: A full list of natural category names and their corresponding built-in categories can be found `here <https://docs.google.com/spreadsheets/d/1uNa77XYLjeN-1c63gsX6C5D5Pvn_3ZB4B0QMgPeloTw/edit#gid=1549586957>`_.
+
 Filtering those rooms by filtering the ``Name`` *"beginning with the word Room"* can be done as follows. 
 Note the flexible way of breaking down the filtering into multiple line for better readability:
 

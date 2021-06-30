@@ -152,17 +152,30 @@ class Filter:
 
 	def byCategory(self, name):
 		"""
-		Filters the collection by a category name - not a built-in category.
+		Filters the collection by a category name or a built-in category name.
+		
+		Note that there are basically three valid types that can be used as the filter argument. 
+		The first two use the name of a built-in category (with or without the ``OST_`` prefix)::
+
+			fltr = revitron.Filter().byCategory('Walls')
+			fltr = revitron.Filter().byCategory('OST_Walls')
+
+		The third type uses a `natural <https://docs.google.com/spreadsheets/d/1uNa77XYLjeN-1c63gsX6C5D5Pvn_3ZB4B0QMgPeloTw/edit#gid=1549586957>`_ 
+		category name to find a corresponding built-in category to filter, here ``OST_BeamAnalyticalTags``::
+
+			fltr = revitron.Filter().byCategory('Analytical Beam Tags')
 
 		Args:
-			name (string): The category name
+			name (string): A category or built-in category name
 
 		Returns:
 			object: The Filter instance
-		"""   
+		"""
 		import revitron
-			 
-		self.collector = self.collector.OfCategory(revitron.Category(name).getBic())
+		try:
+			self.collector = self.collector.OfCategory(revitron.BuiltInCategory(name).get())
+		except:
+			pass
 		return self
 	
 	
