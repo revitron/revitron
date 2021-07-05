@@ -9,12 +9,21 @@ class Document:
 	"""
 	A basic wrapper class for Revit documents.
 	
-	Examples::
+	Basic examples are::
 	
 		path = revitron.Document().getPath()
-		
 		if revitron.Document().isFamily():
 		    pass
+
+	In case you want to work with any other model than the active one, it is possible to change the context
+	to that model using the ``with`` statement. Changing the context to another model will internally redefine 
+	the ``revitron.DOC`` property within the scope of that ``with`` statement.
+	Therefore it is also possible to use a ``revitron.Filter`` instance on any model by just using a filter within a 
+	``with`` statement::
+
+		with revitron.Document(doc):
+		    fltr = revitron.Filter().noTypes()
+		    elements = fltr.getElements()
 	"""
 	
 	def __init__(self, doc = None):
@@ -23,13 +32,37 @@ class Document:
 
 		Args:
 			doc (object, optional): Any document instead of the active one. Defaults to None.
-		"""        
+		"""
 		import revitron
 		if doc is not None:
 			self.doc = doc
 		else:
 			self.doc = revitron.DOC
 	
+
+	def __enter__(self):
+		"""
+		Set ``revitron.DOC`` to the document of the current ``Document`` class instance. 
+
+		By default that will just be the active document and therefore ``revitron.DOC`` stays unchanged.
+		"""
+		import revitron
+		self.cache = revitron.DOC
+		revitron.DOC = self.doc
+
+
+	def __exit__(self, execType, execValue, traceback):
+		"""
+		Restore the original context.
+
+		Args:
+			execType (string): The execution type
+			execValue (string): The execution value
+			traceback (mixed): The traceback
+		"""
+		import revitron
+		revitron.DOC = self.cache
+
 
 	def getDuplicateInstances(self, preferOlderElement = False):
 		"""
