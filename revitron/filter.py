@@ -4,14 +4,30 @@ Its main purpose is taking over the heavy lifting of filtering elements in the *
 complementing the standard **Revit API** ``FilteredElementCollector`` class with 
 the ability to filter collections by parameter values::
 
-	filter = revitron.Filter
-	ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
+	elements = (
+	    revitron.Filter
+	    .byStringEquals('param', 'value')
+	    .noTypes()
+	    .getElements()
+	)
 	
 Note that you can **invert** a filter by providing a the third argument for a string filter as follows::
 
-	filter = revitron.Filter
-	ids = filter().byStringEquals('param', 'value', True).noTypes().getElementIds()
-	
+	elements = (
+	    revitron.Filter
+	    .byStringEquals('param', 'value', True)
+	    .noTypes()
+	    .getElements()
+	)
+
+.. note:: In order to filter elements in another model instead of the active one, it is possible to change 
+	the document context using the ``with`` statement.
+
+The document context can be changed as follows::
+
+	with revitron.Document(anyOtherDoc):
+	    fltr = revitron.Filter().noTypes()
+	    elements = fltr.getElements()
 """
 import re
 from System.Collections.Generic import List
@@ -196,8 +212,8 @@ class Filter:
 
 		Example::
 			
-			filter = revitron.Filter
-			ids = filter().byNumberIsGreater('Area', 5).noTypes().getElementIds()
+			fltr = revitron.Filter()
+			ids = fltr.byNumberIsGreater('Area', 5).noTypes().getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -224,8 +240,9 @@ class Filter:
 
 		Example::
 			
-			filter = revitron.Filter().noTypes()
-			ids = filter.byNumberIsGreaterOrEqual('Area', 5).getElementIds()
+			fltr = revitron.Filter()
+			fltr = fltr.byNumberIsGreaterOrEqual('Area', 5).noTypes()
+			ids = fltr.getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -252,8 +269,8 @@ class Filter:
 
 		Example::
 			
-			filter = revitron.Filter().noTypes()
-			ids = filter.byNumberIsEqual('Area', 5).getElementIds()
+			fltr = revitron.Filter()
+			ids = fltr.byNumberIsEqual('Area', 5).noTypes().getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -280,8 +297,8 @@ class Filter:
 
 		Example::
 			
-			filter = revitron.Filter().noTypes()
-			ids = filter.byNumberIsLess('Area', 5).getElementIds()
+			fltr = revitron.Filter()
+			ids = fltr.byNumberIsLess('Area', 5).noTypes().getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -308,8 +325,8 @@ class Filter:
 
 		Example::
 			
-			filter = revitron.Filter().noTypes()
-			ids = filter.byNumberIsLessOrEqual('Area', 5).getElementIds()
+			fltr = revitron.Filter()
+			ids = fltr.byNumberIsLessOrEqual('Area', 5).noTypes().getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -334,10 +351,14 @@ class Filter:
 		"""
 		Filters the collection by testing whether a string contains at lease one ot the items in a CSV list.
 
-		Note that by setting the ``invert`` to ``True``, all elements that match one of the items will be removed from the collection.
+		This method is the base method for the ``byStringContainsOneInCsv`` and ``byStringEqualsOneInCsv``
+		methods.
+
+		.. note:: that by setting ``invert`` to ``True``, all elements that match one of the items will be 
+			removed from the collection.
 
 		Args:
-			evaluatorName (class): The filter method to be used to filter
+			evaluatorName (method): The filter method to be used to filter
 			paramName (string): The name of the parameter 
 			csv (string): A comma separated list of items 
 			invert (bool, optional): Inverts the filter. Defaults to False.
@@ -376,8 +397,9 @@ class Filter:
 
 		Example::
 			
-			filter = revitron.Filter
-			ids = filter().byStringContains('param', 'value').noTypes().getElementIds()
+			fltr = revitron.Filter()
+			fltr = fltr.byStringContains('param', 'value').noTypes()
+			ids = fltr.getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -401,7 +423,15 @@ class Filter:
 		"""
 		Filters the collection by testing whether a string contains at lease one ot the items in a CSV list.
 
-		Note that by setting the ``invert`` to ``True``, all elements that match one of the items will be removed from the collection.
+		.. note:: that by setting ``invert`` to ``True``, all elements that match one of the items will be 
+			removed from the collection.
+
+		Example::
+
+			fltr = revitron.Filter()
+			fltr = fltr.byStringContainsOneInCsv('Family', 'some, words', False)
+			fltr = fltr.noTypes()
+			elements = fltr.getElements()
 
 		Args:
 			paramName (string): The name of the parameter 
@@ -420,8 +450,8 @@ class Filter:
 
 		Example::
 			
-			filter = revitron.Filter
-			ids = filter().byStringEquals('param', 'value').noTypes().getElementIds()
+			fltr = revitron.Filter()
+			ids = fltr.byStringEquals('param', 'value').noTypes().getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -446,7 +476,15 @@ class Filter:
 		"""
 		Filters the collection by testing whether a string equals at lease one ot the items in a CSV list.
 
-		Note that by setting the ``invert`` to ``True``, all elements that match one of the items will be removed from the collection.
+		.. note:: that by setting ``invert`` to ``True``, all elements that match one of the items will be 
+			removed from the collection.
+
+		Example::
+
+			fltr = revitron.Filter()
+			fltr = fltr.byStringEqualsOneInCsv('Family', 'some, words', False)
+			fltr = fltr.noTypes()
+			elements = fltr.getElements()
 
 		Args:
 			paramName (string): The name of the parameter 
@@ -462,6 +500,12 @@ class Filter:
 	def byStringBeginsWith(self, paramName, value, invert = False):
 		"""
 		Filters the collection by a string at the beginning of a parameter value.
+
+		Example::
+			
+			fltr = revitron.Filter()
+			fltr = fltr.byStringBeginsWith('param', 'value').noTypes()
+			ids = fltr.getElementIds()
 
 		Args:
 			paramName (string): The parameter name
@@ -511,7 +555,7 @@ class Filter:
 
 		Returns:
 			list: The list of excluded elements
-		"""        
+		"""
 		try:
 			return self.collector.ToElements()
 		except:

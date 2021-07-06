@@ -198,6 +198,18 @@ Getting the **Revitron** bounding box object of the first element in the selecti
     bbox = _(el).getBbox()
     print(bbox)
 
+Document Context
+----------------
+
+In order to filter elements and using ``revitron.Filter`` with any other model than the active one, 
+it is possible to temporarily change the document context as follows:
+
+.. code-block:: python
+
+    with revitron.Document(anyOtherDoc):
+        fltr = revitron.Filter().noTypes()
+        elements = fltr.getElements()
+
 Storing Configurations
 ----------------------
 
