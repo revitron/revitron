@@ -199,6 +199,9 @@ class Filter:
 		"""
 		Filters the collection by class.
 
+		Args:
+			cls (class): A class to filter the elements
+
 		Returns:
 			object: The Filter instance
 		"""
