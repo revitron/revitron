@@ -13,9 +13,6 @@ testsConfig="$testsTemp/config.json"
 
 mkdir -p $testsTemp
 
-cd "$revitronDir/../.."
-pyrevitDir=`pwd`
-
 while getopts 'g:r:' opt; do
 	case $opt in
 		g)
@@ -32,11 +29,18 @@ done
 
 echo "{ \"glob\": \"$glob\" }" > $testsConfig
 
+cd "$revitronDir/../.."
+
 bin/pyrevit run $testsPy $testsRvt --revit=$revitVersion --purge
 
+clear 
+
 echo
-echo "Unit Tests"
-echo "=========="
+echo "Revitron Unit Tests"
+echo "======================================================================"
+echo "Test pattern:   $glob"
+echo "Revit version:  $revitVersion"
+echo "----------------------------------------------------------------------"
 echo
 
 cat $testsLog
