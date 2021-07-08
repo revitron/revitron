@@ -6,6 +6,8 @@ The ``transaction`` submodule contains a wrapper class to simplify the usage of 
 	t.close()
 	
 """
+import __main__
+import os
 from pyrevit import script
 
 
@@ -30,7 +32,14 @@ class Transaction:
 		if doc.IsModifiable:
 			self.transaction = revitron.DB.SubTransaction(doc)
 		else:
-			self.transaction = revitron.DB.Transaction(doc, script.get_button().get_title())
+			try:
+				name = script.get_button().get_title()
+			except:
+				name = '{} - {}'.format(
+					os.path.basename(os.path.dirname(__main__.__file__)),
+					os.path.basename(__main__.__file__).replace('.py', '')
+				)
+			self.transaction = revitron.DB.Transaction(doc, name)
 		self.transaction.Start()
 		if suppressWarnings:
 			options = self.transaction.GetFailureHandlingOptions()
