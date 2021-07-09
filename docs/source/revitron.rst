@@ -23,6 +23,7 @@ Submodules
    revitron.failure
    revitron.filter
    revitron.geometry
+   revitron.grid
    revitron.link
    revitron.parameter
    revitron.raytrace

@@ -1,3 +1,7 @@
+html.dark {
+	--bg-highlight: transparent;
+}
+
 .landing .headerlink:after {
 	display: none !important;
 }
