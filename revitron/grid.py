@@ -84,11 +84,15 @@ class OrthoGrid(Grid):
 		"""
 		An object that contains one ``X`` and one ``Y`` property, both dicts containing
 		grid line elements where the grid name serves as key. 
-		The ``X`` property contains all grid lines that are parallel to the X axis while 
-		the ``Y`` one contains all line parallel to the Y axis. 
+
+		The ``X`` property contains all grid lines that are defined by a single value on the X axis 
+		and the the ``Y`` property contains all grid lines that are defined by a single value on the Y axis. 
+
+		.. note:: Note that the lines of the **X** property are by definition always parallel to the **Y** axis
+			since they are defined by a single **X** value and vice versa.
 
 		Returns:
-			object: An object containing orthogonal grid elements split into X and Y direction
+			object: An object containing orthogonal grid elements split into X and Y lines
 		"""
 		return self._lines
 
@@ -97,14 +101,15 @@ class OrthoGrid(Grid):
 		"""
 		Create an object that contains one ``X`` and one ``Y`` property, both dicts containing
 		grid line elements where the grid name serves as key. 
-		The ``X`` property contains all grid lines that are parallel to the X axis while 
-		the ``Y`` one contains all line parallel to the Y axis. 
+
+		The ``X`` property contains all grid lines that are defined by a single value on the X axis 
+		and the the ``Y`` property contains all grid lines that are defined by a single value on the Y axis. 
 
 		Args:
 			typeFilterCsv (string, optional): A CSV filter. Defaults to False.
 
 		Returns:
-			object: An object containing orthogonal grid elements split into X and Y direction
+			object: An object containing orthogonal grid elements split into X and Y lines
 		"""
 		if hasattr(self, '_lines'):
 			return self._lines
@@ -117,9 +122,9 @@ class OrthoGrid(Grid):
 				p0 = line.Curve.GetEndPoint(0)
 				p1 = line.Curve.GetEndPoint(1)
 				if round(p0.X, 3) == round(p1.X, 3):
-					y[line.Name] = line
-				if round(p0.Y, 3) == round(p1.Y, 3):
 					x[line.Name] = line
+				if round(p0.Y, 3) == round(p1.Y, 3):
+					y[line.Name] = line
 			except:
 				pass
 		return revitron.AttrDict({'X': x, 'Y': y})
@@ -128,10 +133,10 @@ class OrthoGrid(Grid):
 	def _getLinesByPosition(self):
 		"""
 		Create an object that contains one ``X`` and one ``Y`` property, both dicts containing
-		grid line elements where the **position** of the grid line in orthogonal direction serves as key. 
-		The ``X`` property contains all grid lines that are parallel to the X axis while 
-		the ``Y`` one contains all line parallel to the Y axis. 
-		In case of a grid line parallel to the X axis, its Y position serves as key and vice versa.
+		grid line elements that are defined by a single value on an axis where that value serves as dict key. 
+
+		The ``X`` property contains all grid lines that are defined by a single value on the X axis 
+		and the the ``Y`` property contains all grid lines that are defined by a single value on the Y axis. 
 
 		Returns:
 			object: An object containing orthogonal grid elements split into X and Y direction
@@ -142,10 +147,10 @@ class OrthoGrid(Grid):
 			y = dict()
 			for line in self._lines.X.values():
 				p0 = line.Curve.GetEndPoint(0)
-				x[round(p0.Y, 3)] = line
+				x[round(p0.X, 3)] = line
 			for line in self._lines.Y.values():
 				p0 = line.Curve.GetEndPoint(0)
-				y[round(p0.X, 3)] = line
+				y[round(p0.Y, 3)] = line
 			self._linesByPosition = revitron.AttrDict({'X': x, 'Y': y})
 		return self._linesByPosition
 
@@ -163,18 +168,18 @@ class OrthoGrid(Grid):
 		top = None
 		left = None
 		lines = self._getLinesByPosition()
-		xLinePosY = sorted(lines.X.keys(), reverse=True)
-		yLinePosX = sorted(lines.Y.keys())
-		for y in xLinePosY:
-			if y < point.Y:
-				break
-			top = y
-		for x in yLinePosX:
+		xLinePos = sorted(lines.X.keys())
+		yLinePos = sorted(lines.Y.keys(), reverse=True)
+		for x in xLinePos:
 			if x > point.X:
 				break
 			left = x
+		for y in yLinePos:
+			if y < point.Y:
+				break
+			top = y
 		if top and left:
-			return OrthoGridIntersection(lines.X[top], lines.Y[left])
+			return OrthoGridIntersection(lines.X[left], lines.Y[top])
 
 
 	def closestIntersectionToPointBottomRight(self, point):
@@ -190,18 +195,18 @@ class OrthoGrid(Grid):
 		bottom = None
 		right = None
 		lines = self._getLinesByPosition()
-		xLinePosY = sorted(lines.X.keys(), reverse=True)
-		yLinePosX = sorted(lines.Y.keys())
-		for y in xLinePosY:
-			bottom = y
-			if y < point.Y:
-				break
-		for x in yLinePosX:
+		xLinePos = sorted(lines.X.keys())
+		yLinePos = sorted(lines.Y.keys(), reverse=True)
+		for x in xLinePos:
 			right = x
 			if x > point.X:
 				break
+		for y in yLinePos:
+			bottom = y
+			if y < point.Y:
+				break
 		if bottom and right:
-			return OrthoGridIntersection(lines.X[bottom], lines.Y[right])
+			return OrthoGridIntersection(lines.X[right], lines.Y[bottom])
 
 
 class OrthoGridIntersection:
@@ -210,7 +215,7 @@ class OrthoGridIntersection:
 	of two orthogonal grid lines.
 	"""
 
-	def __init__(self, gridX, gridY):
+	def __init__(self, lineX, lineY):
 		"""
 		Create a new intersection object based on two orthogonal grid lines.
 
@@ -218,46 +223,48 @@ class OrthoGridIntersection:
 			gridX (object): A Revit grid element
 			gridY (object): A Revit grid element
 		"""
-		self._gridX = gridX
-		self._gridY = gridY
+		self._lineX = lineX
+		self._lineY = lineY
 		self._nameX = ''
 		self._nameY = ''
 		self._X = None
 		self._Y = None
-		if gridX:
-			self._Y = gridX.Curve.GetEndPoint(0).Y
-			self._nameX = gridX.Name
-		if gridY:
-			self._X = gridY.Curve.GetEndPoint(0).X
-			self._nameY = gridY.Name
+		if lineX:
+			self._X = lineX.Curve.GetEndPoint(0).X
+			self._nameX = lineX.Name
+		if lineY:
+			self._Y = lineY.Curve.GetEndPoint(0).Y
+			self._nameY = lineY.Name
 
 
 	@property
-	def gridX(self):
+	def lineX(self):
 		"""
-		The Revit grid element that is parallel to the **X** axis.
+		The Revit grid line element that is defined by a single value on the **X** axis
+		and is parallel to the **Y** axis.
 
 		Returns:
 			object: A Revit grid element
 		"""
-		return self._gridX
+		return self._lineX
 
 
 	@property
-	def gridY(self):
+	def lineY(self):
 		"""
-		The Revit grid element that is parallel to the **Y** axis.
+		The Revit grid line element that is defined by a single value on the **Y** axis
+		and is parallel to the **X** axis.
 
 		Returns:
 			object: A Revit grid element
 		"""
-		return self._gridY
+		return self._lineY
 
 
 	@property
 	def nameX(self):
 		"""
-		The name of the grid element that is parallel to the **X** axis.
+		The name of the grid line element that is defined by a single value on the **X** axis.
 
 		Returns:
 			string: The name of the grid
@@ -268,7 +275,7 @@ class OrthoGridIntersection:
 	@property
 	def nameY(self):
 		"""
-		The name of the grid element that is parallel to the **Y** axis.
+		The name of the grid line element that is defined by a single value on the **Y** axis.
 
 		Returns:
 			string: The name of the grid
