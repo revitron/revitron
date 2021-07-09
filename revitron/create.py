@@ -95,7 +95,31 @@ class Create:
 		if not familySymbol.IsActive:
 			familySymbol.Activate()
 		return revitron.DOC.Create.NewFamilyInstance(location, familySymbol, structuralType)
-		
+
+
+	@staticmethod
+	def GridLineLinear(start, end, name):
+		"""
+		Create a new linear grid line.
+
+		Args:
+			start (object): A Revit ``XYZ`` element
+			end (object): A Revit ``XYZ`` element
+			name (string): The grid name
+
+		Returns:
+			object: A Revit grid element
+		"""
+		import revitron
+		line = revitron.DB.Line.CreateBound(start, end)
+		try:
+			grid = revitron.DB.Grid.Create(revitron.DOC, line)
+			grid.Name = name
+			return grid
+		except:
+			revitron.Log().error('Can\'t create grid line "{}"'.format(name))
+			return None
+
 
 	@staticmethod
 	def roomTag(room, location, typeId = False, viewId = False):
@@ -130,7 +154,7 @@ class Create:
 			if tag.IsValidType(typeId):
 				tag.ChangeTypeId(typeId)
 		
-		return tag        
+		return tag
 
 
 	@staticmethod
