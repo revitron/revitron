@@ -7,15 +7,15 @@ orthogonal grids.
 
 class Grid(object):
 	"""
-	The ``Grid`` class is the base class for other grid classes such as the ``OrthoGrid`` class. A grid object contains 
-	a collection of grid lines. That collection can be filtered when creating a grid instance.
+	The ``Grid`` class is the base class for other grid classes such as the :class:`OrthoGrid` class. 
+	A grid object contains a collection of grid lines. That collection can be filtered when creating a grid instance.
 
 	The following example will create a grid object based on all grid lines with a type name
 	that either contains "main" or "sub"::
 
 		grid = revitron.Grid('main, sub')
 	
-	Alternatively you can create a grid object only including orthogonal grid lines::
+	Alternatively you can create a :class:`OrthoGrid` object only including orthogonal grid lines::
 
 		ortho = revitron.OrthoGrid('main, sub')
 	"""
@@ -255,7 +255,7 @@ class OrthoGrid(Grid):
 
 class OrthoGridIntersection:
 	"""
-	An ``OrthoGridIntersction`` object contains all relevant information about an intersection 
+	An ``OrthoGridIntersection`` object contains all relevant information about an intersection 
 	of two orthogonal grid lines.
 	"""
 
