@@ -79,6 +79,50 @@ class OrthoGrid(Grid):
 	"""
 
 
+	@staticmethod
+	def newLineX(X, name):
+		"""
+		Create a new grid line that is defined by single **X** value and therefore is parallel to the **Y** axis.
+
+		.. note:: Note that the grid line created by this methods marks a position on the **X** axis that
+			is represented by a line that is parallel to the **Y** axis.
+
+		Args:
+			X (float): The position on the X axis
+			name (string): The name of the new grid line
+
+		Returns:
+			object: A Revit grid element
+		"""
+		import revitron
+		xyz = revitron.DB.XYZ
+		start = xyz(X, 50, 0)
+		end = xyz(X, -50, 0)
+		return revitron.Create.GridLineLinear(start, end, name)
+
+	
+	@staticmethod
+	def newLineY(Y, name):
+		"""
+		Create a new grid line that is defined by single **Y** value and therefore is parallel to the **X** axis.
+
+		.. note:: Note that the grid line created by this methods marks a position on the **Y** axis that
+			is represented by a line that is parallel to the **X** axis.
+
+		Args:
+			Y (float): The position on the Y axis
+			name (string): The name of the new grid line
+
+		Returns:
+			object: A Revit grid element
+		"""
+		import revitron
+		xyz = revitron.DB.XYZ
+		start = xyz(-50, Y, 0)
+		end = xyz(50, Y, 0)
+		return revitron.Create.GridLineLinear(start, end, name)
+
+
 	@property
 	def lines(self):
 		"""
