@@ -243,5 +243,5 @@ class PDFExporter:
 		
 		nr = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Number'))
 		name = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Name'))
-		rvt = re.sub(r'\.rvt$', '', os.path.basename(revitron.DOC.PathName))
-		return '{}/{}*Sheet*{}*{}*.pdf'.format(self.output, rvt, nr, name)  
+		printToFileName = re.sub(r'\.pdf$', '', os.path.basename(self.manager.PrintToFileName))
+		return '{}/{}*Sheet*{}*{}*.pdf'.format(self.output, printToFileName, nr, name)  

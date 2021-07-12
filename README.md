@@ -4,21 +4,49 @@
 
 Revitron is a [Revit API](https://www.revitapidocs.com/) wrapper written in Python. It helps you to develop clean and powerful Revit plugins for [pyRevit](https://github.com/eirannejad/pyRevit). 
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/revitron/revitron?label=version)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/revitron/revitron?label=version&color=222222)
 ![GitHub](https://img.shields.io/github/license/revitron/revitron?color=222222)
 ![GitHub top language](https://img.shields.io/github/languages/top/revitron/revitron?color=222222)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/revitron/revitron?color=222222)
 ![Read the Docs](https://img.shields.io/readthedocs/revitron?color=222222)
 ![](https://img.shields.io/badge/Revit-2017--2022-222222)
 
-## Docs
+- [Installation](#installation)
+	- [Using the pyRevit UI](#using-the-pyrevit-ui)
+	- [Using the pyRevit CLI](#using-the-pyrevit-cli)
+	- [Bundled Version](#bundled-version)
+- [Documentation](#documentation)
 
-An installation guide, the API reference and the UI docs can be found [here](https://revitron.readthedocs.io).     
+## Installation
 
-## Unit Tests
+There are three options for installing Revitron and the [Revitron UI](https://revitron-ui.readthedocs.io/) &mdash; using the [pyRevit UI](#using-the-pyrevit-ui), using the [pyRevit CLI](#using-the-pyrevit-cli) or installing the [full bundle](#bundled-version).
 
-> :point_up: Note that this extension is only tested on Revit `2017`, `2019`, `2020`, `2021` and `2022`, but may as well work on other versions.
+> ☝ Note that in order to use the Revitron package manager or the bundle installer, [Git](https://git-scm.com/) must be installed on your computer.
 
-Revitron unit tests need their own pyRevit UI to run. Since they are only needed to develop the library extension and would only bother normal users, all unit tests are located in a [separate repository](https://github.com/revitron/revitron-tests) and can be installed as an independent UI extension if required.
+### Using the pyRevit UI
+
+To use the *Revit UI* to install this extensions, open the *pyRevit* tab, click on *pyRevit > Extensions* to open the extensions manager and follow [these](https://www.notion.so/Install-Extensions-0753ab78c0ce46149f962acc50892491) instructions.
+
+### Using the pyRevit CLI
+
+In case you want to use the command line to install *Revitron* and the *Revitron UI*, use the following command:
+
+	pyrevit extend lib revitron https://github.com/revitron/revitron.git
+	pyrevit extend ui revitron https://github.com/revitron/revitron-ui.git
+
+### Bundled Version
+
+There is also a bundle installer available that will install *pyRevit* including the *Revitron* and the *Revitron UI* packages.
+
+1. Right-click [here](https://raw.githubusercontent.com/revitron/installer/master/install.bat) to download the installer. Make sure it keeps the `.bat` extension.
+2. Move the `install.bat` to the directory, where you want to install *pyRevit*.
+3. Double-click the `install.bat` file.
+4. Start *Revit*.
+
+## Documentation
+
+The full documentation and API reference as well as some cheat sheets can be found [here](https://revitron.readthedocs.io/).
+
+---
 
 &copy; 2020-2021 [Marc Anton Dahmen](https://marcdahmen.de) &mdash; MIT license
