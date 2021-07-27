@@ -19,6 +19,8 @@ Or setting parameter values::
 	_(element).set('parameter', value)
 	
 """
+import numbers
+
 
 class Element:
 	"""
@@ -42,7 +44,6 @@ class Element:
 			element (object): The Revit element or an element ID
 		"""   
 		import revitron
-		import numbers
 		if isinstance(element, revitron.DB.ElementId):
 			self._element = revitron.DOC.GetElement(element)  
 		elif isinstance(element, numbers.Integral):

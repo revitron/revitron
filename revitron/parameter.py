@@ -5,6 +5,7 @@ this submodule is one of the most elementary submodules of the **Revitron** pack
 It contains all classes related to parameters, built-in parameters and value providers.
 """
 import re
+import numbers
 
 
 class Parameter:
@@ -248,7 +249,9 @@ class Parameter:
 	
 	def set(self, value, paramType = 'Text'):
 		"""
-		Set a parameter value for an element.
+		Set a parameter value for an element. The parameter will be automatically created if not existing.
+		The parameter type can be specified. If not type is given, it will be determined automatically in 
+		case of text, integer or float values.
 
 		Note:
 		
@@ -280,6 +283,10 @@ class Parameter:
 		"""
 		if not self.name:
 			return False
+		if isinstance(value, numbers.Integral):
+			paramType = 'Integer'
+		if isinstance(value, float):
+			paramType = 'Number'
 		if self.parameter == None:
 			from revitron import _
 			if Parameter.bind(self.element.Category.Name, self.name, paramType, _(self.element).isType()):
