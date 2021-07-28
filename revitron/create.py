@@ -70,10 +70,15 @@ class Create:
 			location = revitron.DB.XYZ(0, 0, 0)
 		if revitron.Document(familyDoc).isFamily():
 			extrusion = familyDoc.FamilyCreate.NewExtrusion(
-			    isSolid, curveArrayArray, sketchPlane, height
+			    isSolid,
+			    curveArrayArray,
+			    sketchPlane,
+			    height
 			)
 			revitron.DB.ElementTransformUtils.MoveElement(
-			    familyDoc, extrusion.Id, location
+			    familyDoc,
+			    extrusion.Id,
+			    location
 			)
 			return extrusion
 
@@ -104,7 +109,9 @@ class Create:
 		if not familySymbol.IsActive:
 			familySymbol.Activate()
 		return revitron.DOC.Create.NewFamilyInstance(
-		    location, familySymbol, structuralType
+		    location,
+		    familySymbol,
+		    structuralType
 		)
 
 	@staticmethod
@@ -160,7 +167,9 @@ class Create:
 
 		location = revitron.DB.UV(location.X, location.Y)
 		tag = revitron.DOC.Create.NewRoomTag(
-		    revitron.DB.LinkElementId(room.Id), location, viewId
+		    revitron.DB.LinkElementId(room.Id),
+		    location,
+		    viewId
 		)
 
 		if typeId:

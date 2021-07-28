@@ -41,8 +41,8 @@ class Room(Element):
 		room = self.element
 		options = revitron.DB.SpatialElementBoundaryOptions()
 		boundaryLocation = revitron.DB.AreaVolumeSettings.\
-               GetAreaVolumeSettings(revitron.DOC).\
-               GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
+                                                   GetAreaVolumeSettings(revitron.DOC).\
+                                                   GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
 		options.SpatialElementBoundaryLocation = boundaryLocation
 		curveList = []
 		for boundaryList in room.GetBoundarySegments(options):
@@ -88,8 +88,8 @@ class Room(Element):
 		room = self.element
 		options = revitron.DB.SpatialElementBoundaryOptions()
 		boundaryLocation = revitron.DB.AreaVolumeSettings.\
-               GetAreaVolumeSettings(revitron.DOC).\
-               GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
+                                                   GetAreaVolumeSettings(revitron.DOC).\
+                                                   GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
 		options.SpatialElementBoundaryLocation = boundaryLocation
 		curves = dict()
 		points = []
@@ -105,11 +105,19 @@ class Room(Element):
 			longest = curves[max(curveLengths)]
 
 			tempInset = revitron.DB.CurveLoop.CreateViaOffset(
-			    longest, inset, revitron.DB.XYZ(0, 0, 1)
+			    longest,
+			    inset,
+			    revitron.DB.XYZ(0,
+			                    0,
+			                    1)
 			)
 			if tempInset.GetExactLength() > max(curveLengths):
 				tempInset = revitron.DB.CurveLoop.CreateViaOffset(
-				    longest, inset, revitron.DB.XYZ(0, 0, -1)
+				    longest,
+				    inset,
+				    revitron.DB.XYZ(0,
+				                    0,
+				                    -1)
 				)
 
 			for c in tempInset:
@@ -279,13 +287,19 @@ class Room(Element):
 			raytracer = revitron.Raytracer(point, view3D)
 			try:
 				intersectionsTop.append(
-				    raytracer.findIntersection(revitron.DB.XYZ(0, 0, 1), elementFilter).Z
+				    raytracer.findIntersection(revitron.DB.XYZ(0,
+				                                               0,
+				                                               1),
+				                               elementFilter).Z
 				)
 			except:
 				pass
 			try:
 				intersectionsBottom.append(
-				    raytracer.findIntersection(revitron.DB.XYZ(0, 0, -1), elementFilter).Z
+				    raytracer.findIntersection(revitron.DB.XYZ(0,
+				                                               0,
+				                                               -1),
+				                               elementFilter).Z
 				)
 			except:
 				pass

@@ -9,7 +9,8 @@ class CatergoryTests(utils.RevitronTestCase):
 
 	def testGetBic(self):
 		self.assertEqual(
-		    revitron.Category('Walls').getBic(), revitron.DB.BuiltInCategory.OST_Walls
+		    revitron.Category('Walls').getBic(),
+		    revitron.DB.BuiltInCategory.OST_Walls
 		)
 
 	def testBicGet(self):
@@ -22,7 +23,8 @@ class CatergoryTests(utils.RevitronTestCase):
 		    revitron.DB.BuiltInCategory.OST_AreaSchemeLines
 		)
 		self.assertEqual(
-		    revitron.BuiltInCategory('Walls').get(), revitron.DB.BuiltInCategory.OST_Walls
+		    revitron.BuiltInCategory('Walls').get(),
+		    revitron.DB.BuiltInCategory.OST_Walls
 		)
 		self.assertEqual(
 		    revitron.BuiltInCategory('OST_Walls').get(),

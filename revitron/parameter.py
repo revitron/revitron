@@ -49,7 +49,8 @@ class Parameter:
 			try:
 				import revitron
 				self.parameter = element.get_Parameter(
-				    getattr(revitron.DB.BuiltInParameter, name)
+				    getattr(revitron.DB.BuiltInParameter,
+				            name)
 				)
 			except:
 				pass
@@ -100,7 +101,8 @@ class Parameter:
 				group = paramFile.Groups.Create('REVITRON')
 			pt = getattr(revitron.DB.ParameterType, paramType)
 			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
-			    paramName, pt
+			    paramName,
+			    pt
 			)
 			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
 
@@ -284,7 +286,9 @@ class Parameter:
 		if self.parameter == None:
 			from revitron import _
 			if Parameter.bind(
-			    self.element.Category.Name, self.name, paramType,
+			    self.element.Category.Name,
+			    self.name,
+			    paramType,
 			    _(self.element).isType()
 			):
 				self.parameter = self.element.LookupParameter(self.name)
