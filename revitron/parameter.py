@@ -297,6 +297,15 @@ class Parameter:
 		if not self.parameter.IsReadOnly:
 			self.parameter.Set(value)
 
+	@property
+	def definitionType(self):
+		"""
+		The defenition parameter type.
+
+		Returns:
+			string: The definition parameter type name 
+		"""
+		return self.parameter.Definition.ParameterType
 
 	def unit(self):
 		"""
