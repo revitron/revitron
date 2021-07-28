@@ -307,9 +307,10 @@ class Parameter:
 		"""
 		return self.parameter.Definition.ParameterType
 
+	@property
 	def unit(self):
 		"""
-		Return the displayed unit type of a parameter. 
+		The displayed unit type of a parameter. 
 
 		Note that since Revit 2021 the preferred return value is of type ``ForgeTypeId``. 
 
