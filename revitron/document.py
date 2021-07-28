@@ -25,8 +25,8 @@ class Document:
 		    fltr = revitron.Filter().noTypes()
 		    elements = fltr.getElements()
 	"""
-	
-	def __init__(self, doc = None):
+
+	def __init__(self, doc=None):
 		"""
 		Inits a new Document instance.
 
@@ -38,7 +38,6 @@ class Document:
 			self.doc = doc
 		else:
 			self.doc = revitron.DOC
-	
 
 	def __enter__(self):
 		"""
@@ -49,7 +48,6 @@ class Document:
 		import revitron
 		self.cache = revitron.DOC
 		revitron.DOC = self.doc
-
 
 	def __exit__(self, execType, execValue, traceback):
 		"""
@@ -63,8 +61,7 @@ class Document:
 		import revitron
 		revitron.DOC = self.cache
 
-
-	def getDuplicateInstances(self, preferOlderElement = False):
+	def getDuplicateInstances(self, preferOlderElement=False):
 		"""
 		Returns a list of duplicate family instances. 
 		By default, the list contains always the younger more recently created duplicate instance.
@@ -80,7 +77,9 @@ class Document:
 		"""
 		import revitron
 		if revitron.REVIT_VERSION < '2018':
-			revitron.Log().error('Method revitron.Document.getDuplicateInstances() is not supported by this Revit version!')
+			revitron.Log().error(
+			    'Method revitron.Document.getDuplicateInstances() is not supported by this Revit version!'
+			)
 			return []
 		index = 1
 		if preferOlderElement:
@@ -89,13 +88,12 @@ class Document:
 		duplicates = []
 		for warning in self.doc.GetWarnings():
 			if warning.GetFailureDefinitionId().Guid == of.DuplicateInstances.Guid:
-				ids = warning.GetFailingElements()		
+				ids = warning.GetFailingElements()
 				duplicates.append(ids[index])
 				duplicates = list(set(duplicates))
 		return duplicates
 
-
-	def getLinkedDocuments(self, scope = None):
+	def getLinkedDocuments(self, scope=None):
 		"""
 		Returns a dictionary of all linked documents.
 		The key is the ID of the link and the value is the actual document object.
@@ -109,7 +107,8 @@ class Document:
 		import revitron
 		linkedDocuments = dict()
 		extension = '.rvt'
-		for link in revitron.Filter(scope).byCategory('RVT Links').noTypes().getElements():
+		for link in revitron.Filter(scope).byCategory('RVT Links'
+		                                              ).noTypes().getElements():
 			linkType = revitron.Parameter(link, 'Type').getValueString()
 			if linkType.endswith(extension):
 				linkType = linkType[:-len(extension)]
@@ -119,7 +118,6 @@ class Document:
 						linkedDocuments[link.Id] = openDoc
 		return linkedDocuments
 
-
 	def getPath(self):
 		"""
 		Returns the path to the document.
@@ -128,8 +126,7 @@ class Document:
 			string: The path
 		"""
 		return self.doc.PathName
-	
-	
+
 	def isFamily(self):
 		"""
 		Checks whether the document is a family.
@@ -143,8 +140,7 @@ class Document:
 		except:
 			pass
 		return False
-	
-	
+
 	@staticmethod
 	def isOpen(path):
 		"""
@@ -155,8 +151,8 @@ class Document:
 
 		Returns:
 			boolean: True in case the document is open
-		"""   
-		import revitron     
+		"""
+		import revitron
 		try:
 			for doc in revitron.APP.Documents:
 				if path == doc.PathName:
@@ -164,8 +160,8 @@ class Document:
 		except:
 			pass
 		return False
-	
-	
+
+
 class DocumentConfigStorage:
 	"""
 	The ``DocumentConfigStorage`` allows for easily storing project configuration items.
@@ -185,22 +181,21 @@ class DocumentConfigStorage:
 		revitron.DocumentConfigStorage().set('namespace.item', value)
 	
 	"""
-	
+
 	def __init__(self):
 		"""
 		Inits a new ``DocumentConfigStorage`` object.
 		"""
 		import revitron
-		
+
 		self.storageName = 'REVITRON_CONFIG'
 		self.info = revitron.DOC.ProjectInformation
 		raw = revitron._(self.info).get(self.storageName)
 		self.storage = dict()
-		
+
 		if raw:
 			self.storage = json.loads(raw)
-		
-			
+
 	def get(self, key, default=None):
 		"""
 		Returns storage entry for a given key.
@@ -218,8 +213,7 @@ class DocumentConfigStorage:
 			mixed: The stored value 
 		"""
 		return self.storage.get(key, default)
-	
-	
+
 	def set(self, key, data):
 		"""
 		Updates or creates a config storage entry.
@@ -234,7 +228,7 @@ class DocumentConfigStorage:
 			data (mixed): The value of the entry
 		"""
 		import revitron
-		
+
 		self.storage[key] = data
 		# Remove empty items.
 		self.storage = dict((k, v) for k, v in self.storage.iteritems() if v)

@@ -4,7 +4,7 @@ import utils
 
 
 class RoomTagTests(utils.RevitronTestCase):
-	
+
 	def testCreate(self):
 
 		room = self.fixture.createRoom()
@@ -23,7 +23,7 @@ class RoomTagTests(utils.RevitronTestCase):
 		tag = revitron.RoomTag.topRight(room)
 		t.commit()
 		self.assertEquals(tag.Id.IntegerValue, _(room).getTags()[0].Id.IntegerValue)
-  
+
 		t = revitron.Transaction()
 		tag = revitron.RoomTag.bottomLeft(room)
 		t.commit()
@@ -33,5 +33,6 @@ class RoomTagTests(utils.RevitronTestCase):
 		tag = revitron.RoomTag.bottomRight(room)
 		t.commit()
 		self.assertEquals(tag.Id.IntegerValue, _(room).getTags()[0].Id.IntegerValue)
+
 
 utils.run(RoomTagTests)

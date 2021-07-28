@@ -8,7 +8,6 @@ class Unit:
 	The Unit class contains helpers for handling units.
 	"""
 
-	
 	@staticmethod
 	def convertToInternalUnit(value, unit):
 		"""

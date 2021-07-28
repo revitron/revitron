@@ -24,7 +24,7 @@ class DWGExporter:
 	"""
 	Export sheets as DWG named by a file naming template. 
 	"""
-	
+
 	def __init__(self, setupName):
 		"""
 		Inits a new DWGExporter instance.
@@ -33,10 +33,11 @@ class DWGExporter:
 			setupName (string): The name of a stored export setup
 		"""
 		import revitron
-		self.options = revitron.DB.DWGExportOptions().GetPredefinedOptions(revitron.DOC, setupName)
-		
+		self.options = revitron.DB.DWGExportOptions().GetPredefinedOptions(
+		    revitron.DOC, setupName
+		)
 
-	def exportSheet(self, sheet, directory, unit, template = False):
+	def exportSheet(self, sheet, directory, unit, template=False):
 		"""
 		Exports a sheet.
 
@@ -50,7 +51,7 @@ class DWGExporter:
 			string: The path of the exported PDF. False on error.
 		"""
 		import revitron
-		
+
 		if revitron.Element(sheet).getClassName() != 'ViewSheet':
 			revitron.Log().warning('Element is not a sheet!')
 			return False
@@ -58,35 +59,40 @@ class DWGExporter:
 		if not directory:
 			revitron.Log().warning('There is no DWG export directory defined!')
 			sys.exit()
-			
+
 		if not template:
 			template = '{Sheet Number}-{Sheet Name}'
-	  
-		fullPath = os.path.join(directory, revitron.ParameterTemplate(sheet, template).render() + '.dwg')
+
+		fullPath = os.path.join(
+		    directory,
+		    revitron.ParameterTemplate(sheet, template).render() + '.dwg'
+		)
 
 		path = os.path.dirname(fullPath)
 		file = os.path.basename(fullPath)
 
 		if not os.path.exists(path):
 			os.makedirs(path)
-		
+
 		db = revitron.DB
 		self.options.MergedViews = True
 		self.options.TargetUnit = unit
-		
-		success = revitron.DOC.Export(path, file, List[db.ElementId]([sheet.Id]), self.options)
-		
+
+		success = revitron.DOC.Export(
+		    path, file, List[db.ElementId]([sheet.Id]), self.options
+		)
+
 		if success:
 			return fullPath
-		
+
 		return False
-		
+
 
 class PDFExporter:
 	"""
 	Export sheets as PDF named by a file naming template. 
 	"""
-	
+
 	def __init__(self, printer, output):
 		"""
 		Inits a new PDFExporter instance.
@@ -96,7 +102,7 @@ class PDFExporter:
 			output (string): The printer output directory 
 		"""
 		import revitron
-		
+
 		if not printer or not output:
 			revitron.Log().warning('PDF exporter is not configured!')
 			sys.exit()
@@ -105,24 +111,25 @@ class PDFExporter:
 		self.output = output
 		self.manager = revitron.DOC.PrintManager
 		self.sizes = dict()
-		
+
 		if self.manager.PrinterName.lower() != self.printer.lower():
 			print('Setting current printer to: ' + self.printer)
 			print('Please submit your sheets to be exported again ...')
 			self.manager.SelectNewPrintDriver(self.printer)
 			self.manager.Apply()
 			sys.exit()
-			
-		self.manager.PrintRange = revitron.DB.PrintRange.Select    
+
+		self.manager.PrintRange = revitron.DB.PrintRange.Select
 		self.manager.PrintToFile = True
 		self.manager.CombinedFile = False
 		self.manager.Apply()
-		
+
 		for size in self.manager.PaperSizes:
 			self.sizes[size.Name] = size
-		
-		
-	def printSheet(self, sheet, size, orientation = 'Landscape', directory = False, template = False):
+
+	def printSheet(
+	    self, sheet, size, orientation='Landscape', directory=False, template=False
+	):
 		"""
 		Prints a sheet.
 
@@ -137,36 +144,39 @@ class PDFExporter:
 			string: The path of the exported PDF. False on error.
 		"""
 		import revitron
-		
+
 		if revitron.Element(sheet).getClassName() != 'ViewSheet':
 			revitron.Log().warning('Element is not a sheet!')
 			return False
 
 		if not directory:
 			directory = self.output
-			
+
 		if not template:
 			template = '{Sheet Number}-{Sheet Name}'
-	  
-		path = os.path.join(directory, revitron.ParameterTemplate(sheet, template).render() + '.pdf')
+
+		path = os.path.join(
+		    directory,
+		    revitron.ParameterTemplate(sheet, template).render() + '.pdf'
+		)
 
 		if not os.path.exists(os.path.dirname(path)):
 			os.makedirs(os.path.dirname(path))
-		
+
 		transaction = revitron.Transaction()
-		
+
 		viewSet = revitron.DB.ViewSet()
 		viewSet.Insert(sheet)
-  
+
 		viewSheetSetting = self.manager.ViewSheetSetting
 		viewSheetSetting.CurrentViewSheetSet.Views = viewSet
 		viewSheetSetting.SaveAs("_temp_")
-  
+
 		self.manager.PrintSetup.SaveAs("_temp_")
 		self.manager.Apply()
 
 		orientation = getattr(revitron.DB.PageOrientationType, orientation)
-  
+
 		# Set current print page settings.
 		printParameters = self.manager.PrintSetup.CurrentPrintSetting.PrintParameters
 		printParameters.ZoomType = revitron.DB.ZoomType.Zoom
@@ -184,23 +194,23 @@ class PDFExporter:
 		printParameters.PageOrientation = orientation
 		printParameters.PaperSize = self.sizes[size]
 		printParameters.RasterQuality = revitron.DB.RasterQualityType.High
-  
+
 		# Again save settings.
 		try:
 			self.manager.PrintSetup.Save()
 		except:
 			self.manager.PrintSetup.SaveAs("_temp2_")
-		
+
 		self.manager.Apply()
 		self.manager.SubmitPrint(sheet)
 		viewSheetSetting.Delete()
-  
+
 		transaction.rollback()
-  
+
 		# Move file form temp output to directory.
 		timePassed = time.time()
 		moved = False
-		
+
 		while (time.time() - timePassed) < 30 and not moved:
 			time.sleep(0.5)
 			tempFiles = glob.glob(self.tempOutputPattern(sheet))
@@ -213,12 +223,11 @@ class PDFExporter:
 						moved = True
 					except:
 						pass
-  
+
 		if moved:
 			return path
-		
+
 		return False
-  
 
 	def tempOutputPattern(self, sheet):
 		"""
@@ -240,8 +249,10 @@ class PDFExporter:
 			string: The generated glob pattern
 		"""
 		import revitron
-		
+
 		nr = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Number'))
 		name = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Name'))
-		printToFileName = re.sub(r'\.pdf$', '', os.path.basename(self.manager.PrintToFileName))
-		return '{}/{}*Sheet*{}*{}*.pdf'.format(self.output, printToFileName, nr, name)  
+		printToFileName = re.sub(
+		    r'\.pdf$', '', os.path.basename(self.manager.PrintToFileName)
+		)
+		return '{}/{}*Sheet*{}*{}*.pdf'.format(self.output, printToFileName, nr, name)

@@ -49,4 +49,5 @@ class GridTests(utils.RevitronTestCase):
 		self.assertEqual(''.join(orthoYNames), 'D')
 		self.assertNotEquals(''.join(orthoXNames), 'BCD')
 
+
 utils.run(GridTests)

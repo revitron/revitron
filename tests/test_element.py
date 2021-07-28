@@ -4,12 +4,12 @@ import utils
 
 
 class ElementTests(utils.RevitronTestCase):
-	
+
 	def testGetBbox(self):
 		wall = self.fixture.createWall([0, 10], [10, 10])
 		bbox = _(wall).getBbox().bbox
 		self.assertEquals(bbox.Max.X, 10.0)
-	
+
 	def testGetClassName(self):
 		wall = self.fixture.createWall()
 		self.assertEquals(_(wall).getClassName(), 'Wall')
@@ -28,5 +28,6 @@ class ElementTests(utils.RevitronTestCase):
 			self.assertTrue(_(item).isType())
 		wall = self.fixture.createWall()
 		self.assertFalse(_(wall).isType())
+
 
 utils.run(ElementTests)

@@ -2,21 +2,22 @@
 This submodule provides helpers related to **Revit** views.
 """
 
+
 class ViewSheetList:
 	"""
 	The ViewSheetList class creates a list of custom view objects based on a list of sheets. 
-	"""    
-	
+	"""
+
 	def __init__(self, sheets):
 		"""
 		Inits an new ViewSheetList object. 
 
 		Args:
 			sheets (list): A list with sheets or sheet ids
-		"""      
+		"""
 		import revitron
-		
-		self.views = []  
+
+		self.views = []
 		for sheet in sheets:
 			if isinstance(sheet, revitron.DB.ElementId):
 				sheet = revitron.DOC.GetElement(sheet)
@@ -27,8 +28,7 @@ class ViewSheetList:
 					item.sheet = sheet
 					item.view = revitron.DOC.GetElement(viewId)
 					self.views.append(item)
-	
-	
+
 	def get(self):
 		"""
 		Returns the list of view objects. The view objects have the following properties:
@@ -45,5 +45,5 @@ class ViewSheetList:
 
 		Returns:
 			list: A list with view objects as described above
-		"""        
+		"""
 		return self.views

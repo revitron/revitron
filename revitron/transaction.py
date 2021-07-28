@@ -15,8 +15,8 @@ class Transaction:
 	"""
 	A transaction helper class. 
 	"""
-	
-	def __init__(self, doc = None, suppressWarnings = False):
+
+	def __init__(self, doc=None, suppressWarnings=False):
 		"""
 		Inits a new transaction. 
 
@@ -36,8 +36,8 @@ class Transaction:
 				name = script.get_button().get_title()
 			except:
 				name = '{} - {}'.format(
-					os.path.basename(os.path.dirname(__main__.__file__)),
-					os.path.basename(__main__.__file__).replace('.py', '')
+				    os.path.basename(os.path.dirname(__main__.__file__)),
+				    os.path.basename(__main__.__file__).replace('.py', '')
 				)
 			self.transaction = revitron.DB.Transaction(doc, name)
 		self.transaction.Start()
@@ -45,14 +45,12 @@ class Transaction:
 			options = self.transaction.GetFailureHandlingOptions()
 			options.SetFailuresPreprocessor(revitron.WarningSwallower())
 			self.transaction.SetFailureHandlingOptions(options)
-		
 
 	def __enter__(self):
 		"""
 		Enter transaction context.
 		"""
 		pass
-
 
 	def __exit__(self, execType, execValue, traceback):
 		"""
@@ -65,17 +63,14 @@ class Transaction:
 		"""
 		self.commit()
 
-
 	def commit(self):
 		"""
 		Commits the open transaction.
 		"""
 		self.transaction.Commit()
-		
-	
+
 	def rollback(self):
 		"""
 		Rolls back the open transaction.
 		"""
 		self.transaction.RollBack()
-	

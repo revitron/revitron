@@ -9,8 +9,8 @@ class Room(Element):
 	"""
 	A wrapper class for room elements.
 	"""
-	
-	def getBboxCenter(self, inRoomOnly = False):
+
+	def getBboxCenter(self, inRoomOnly=False):
 		"""
 		Get the center point of a room's bounding box.
 
@@ -21,16 +21,15 @@ class Room(Element):
 			object: A Revit point object
 		"""
 		import revitron
-		
+
 		room = self.element
 		bbox = self.getBbox()
-		
+
 		point = bbox.getCenterPoint()
 
 		if room.IsPointInRoom(point) or not inRoomOnly:
 			return point
-	
-	  
+
 	def getBoundary(self):
 		"""
 		Get the boundary of a given room. 
@@ -42,15 +41,14 @@ class Room(Element):
 		room = self.element
 		options = revitron.DB.SpatialElementBoundaryOptions()
 		boundaryLocation = revitron.DB.AreaVolumeSettings.\
-						   GetAreaVolumeSettings(revitron.DOC).\
-						   GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)   
+               GetAreaVolumeSettings(revitron.DOC).\
+               GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
 		options.SpatialElementBoundaryLocation = boundaryLocation
 		curveList = []
 		for boundaryList in room.GetBoundarySegments(options):
 			for boundary in boundaryList:
 				curveList.append(boundary.GetCurve())
 		return curveList
-
 
 	def getBoundaryPoints(self):
 		"""
@@ -64,7 +62,7 @@ class Room(Element):
 		curveList = self.getBoundary()
 		points = []
 		for curve in curveList:
-			# If the curve is an arc, first tessellate the curve 
+			# If the curve is an arc, first tessellate the curve
 			# and extend the points array with the polyline points.
 			if 'Arc' in str(curve.GetType()):
 				points.extend(curve.Tessellate())
@@ -72,8 +70,7 @@ class Room(Element):
 				points.append(curve.GetEndPoint(0))
 		return points
 
-
-	def getBoundaryInsetPoints(self, inset = 0.1):
+	def getBoundaryInsetPoints(self, inset=0.1):
 		"""
 		Get all points along an inset of the room boundary. 
 		
@@ -91,13 +88,13 @@ class Room(Element):
 		room = self.element
 		options = revitron.DB.SpatialElementBoundaryOptions()
 		boundaryLocation = revitron.DB.AreaVolumeSettings.\
-						   GetAreaVolumeSettings(revitron.DOC).\
-						   GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
+               GetAreaVolumeSettings(revitron.DOC).\
+               GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
 		options.SpatialElementBoundaryLocation = boundaryLocation
 		curves = dict()
 		points = []
 
-		try:            
+		try:
 			for boundaryList in room.GetBoundarySegments(options):
 				cl = revitron.DB.CurveLoop()
 				for x in boundaryList:
@@ -107,9 +104,13 @@ class Room(Element):
 			curveLengths = curves.keys()
 			longest = curves[max(curveLengths)]
 
-			tempInset = revitron.DB.CurveLoop.CreateViaOffset(longest, inset, revitron.DB.XYZ(0,0,1))
+			tempInset = revitron.DB.CurveLoop.CreateViaOffset(
+			    longest, inset, revitron.DB.XYZ(0, 0, 1)
+			)
 			if tempInset.GetExactLength() > max(curveLengths):
-				tempInset = revitron.DB.CurveLoop.CreateViaOffset(longest, inset, revitron.DB.XYZ(0,0,-1))
+				tempInset = revitron.DB.CurveLoop.CreateViaOffset(
+				    longest, inset, revitron.DB.XYZ(0, 0, -1)
+				)
 
 			for c in tempInset:
 				points.append(c.GetEndPoint(0))
@@ -120,9 +121,8 @@ class Room(Element):
 			pass
 
 		return points
-	 
 
-	def getPointClosest(self, point, inset = 0.1):
+	def getPointClosest(self, point, inset=0.1):
 		"""
 		Get the point on a room boundary that is the closest to a given point.
 
@@ -144,9 +144,8 @@ class Room(Element):
 					closestDistance = d
 					closestPoint = p
 		return closestPoint
-		
-	
-	def getPointTopLeft(self, inset = 0.1):
+
+	def getPointTopLeft(self, inset=0.1):
 		"""
 		Get the most top left point of a room boundary.
 
@@ -159,10 +158,9 @@ class Room(Element):
 		import revitron
 		bbox = self.getBbox()
 		bboxTopLeft = revitron.DB.XYZ(bbox.Min.X, bbox.Max.Y, bbox.Min.Z)
-		return self.getPointClosest(bboxTopLeft, inset)   
-	 
-	 
-	def getPointTopRight(self, inset = 0.1):
+		return self.getPointClosest(bboxTopLeft, inset)
+
+	def getPointTopRight(self, inset=0.1):
 		"""
 		Get the most top right point of a room boundary.
 
@@ -175,10 +173,9 @@ class Room(Element):
 		import revitron
 		bbox = self.getBbox()
 		bboxTopLeft = revitron.DB.XYZ(bbox.Max.X, bbox.Max.Y, bbox.Min.Z)
-		return self.getPointClosest(bboxTopLeft, inset)   
-	
-	
-	def getPointBottomLeft(self, inset = 0.1):
+		return self.getPointClosest(bboxTopLeft, inset)
+
+	def getPointBottomLeft(self, inset=0.1):
 		"""
 		Get the most bottom left point of a room boundary.
 
@@ -191,10 +188,9 @@ class Room(Element):
 		import revitron
 		bbox = self.getBbox()
 		bboxTopLeft = revitron.DB.XYZ(bbox.Min.X, bbox.Min.Y, bbox.Min.Z)
-		return self.getPointClosest(bboxTopLeft, inset)   
-	
-	
-	def getPointBottomRight(self, inset = 0.1):
+		return self.getPointClosest(bboxTopLeft, inset)
+
+	def getPointBottomRight(self, inset=0.1):
 		"""
 		Get the most bottom right point of a room boundary.
 
@@ -209,8 +205,7 @@ class Room(Element):
 		bboxTopLeft = revitron.DB.XYZ(bbox.Max.X, bbox.Min.Y, bbox.Min.Z)
 		return self.getPointClosest(bboxTopLeft, inset)
 
-
-	def getPointGrid(self, size = 5, inset = 0.05):
+	def getPointGrid(self, size=5, inset=0.05):
 		"""
 		Generates a point grid based on a given size within the room boundary. 
 
@@ -228,14 +223,14 @@ class Room(Element):
 		bbox = self.getBbox()
 
 		if isinstance(bbox, revitron.BoundingBox):
-			
+
 			tlp = revitron.DB.XYZ(bbox.Min.X, bbox.Max.Y, bbox.Min.Z)
 			brp = revitron.DB.XYZ(bbox.Max.X, bbox.Min.Y, bbox.Min.Z)
 			lengthX = bbox.Max.X - bbox.Min.X
 			lengthY = bbox.Max.Y - bbox.Min.Y
 			fieldSizeX = ((lengthX - (2 * inset)) / math.ceil(lengthX / size))
 			fieldSizeY = ((lengthY - (2 * inset)) / math.ceil(lengthY / size))
-			
+
 			_x = tlp.X + inset
 			while (_x < brp.X):
 				_y = brp.Y + inset
@@ -245,11 +240,10 @@ class Room(Element):
 						points.append(p)
 					_y = _y + fieldSizeY
 				_x = _x + fieldSizeX
-			
+
 			return points
 
-
-	def traceHeight(self, view3D, elementFilter = None, gridSize = 5, inset = 0.05):
+	def traceHeight(self, view3D, elementFilter=None, gridSize=5, inset=0.05):
 		"""
 		Traces the room heights and returns an object containing the min/max bottom and min/max top points.
 
@@ -276,7 +270,7 @@ class Room(Element):
 				points = points + boundaryPoints
 			# Set z to the room center.
 			z = self.getBboxCenter().Z
-			
+
 		intersectionsTop = []
 		intersectionsBottom = []
 
@@ -284,32 +278,32 @@ class Room(Element):
 			point = revitron.DB.XYZ(point.X, point.Y, z)
 			raytracer = revitron.Raytracer(point, view3D)
 			try:
-				intersectionsTop.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,1), elementFilter).Z)
+				intersectionsTop.append(
+				    raytracer.findIntersection(revitron.DB.XYZ(0, 0, 1), elementFilter).Z
+				)
 			except:
 				pass
 			try:
-				intersectionsBottom.append(raytracer.findIntersection(revitron.DB.XYZ(0,0,-1), elementFilter).Z)
+				intersectionsBottom.append(
+				    raytracer.findIntersection(revitron.DB.XYZ(0, 0, -1), elementFilter).Z
+				)
 			except:
 				pass
 
 		try:
 			top = revitron.AttrDict({
-				'min': min(intersectionsTop),
-				'max': max(intersectionsTop)
+			    'min': min(intersectionsTop),
+			    'max': max(intersectionsTop)
 			})
 		except:
 			top = None
 
 		try:
 			bottom = revitron.AttrDict({
-				'min': min(intersectionsBottom),
-				'max': max(intersectionsBottom)
+			    'min': min(intersectionsBottom),
+			    'max': max(intersectionsBottom)
 			})
 		except:
 			bottom = None
 
-		return revitron.AttrDict({
-			'top': top,
-			'bottom': bottom
-		})
-		
+		return revitron.AttrDict({'top': top, 'bottom': bottom})

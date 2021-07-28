@@ -20,7 +20,6 @@ class Grid(object):
 		ortho = revitron.OrthoGrid('main, sub')
 	"""
 
-
 	def __init__(self, typeFilterCsv=False):
 		"""
 		Creates a new ``Grid`` instance. A comma separated string can be passed as an argument to filter 
@@ -31,7 +30,6 @@ class Grid(object):
 		"""
 		self._lines = self._getLines(typeFilterCsv)
 
-
 	@property
 	def lines(self):
 		"""
@@ -41,7 +39,6 @@ class Grid(object):
 			dict: A dict of Revit grid line elements where the grid name serves as key
 		"""
 		return self._lines
-
 
 	def _getLines(self, typeFilterCsv=False):
 		"""
@@ -78,7 +75,6 @@ class OrthoGrid(Grid):
 		grid = revitron.OrthoGrid('main, sub')
 	"""
 
-
 	@staticmethod
 	def newLineX(X, name):
 		"""
@@ -100,7 +96,6 @@ class OrthoGrid(Grid):
 		end = xyz(X, -50, 0)
 		return revitron.Create.GridLineLinear(start, end, name)
 
-	
 	@staticmethod
 	def newLineY(Y, name):
 		"""
@@ -122,7 +117,6 @@ class OrthoGrid(Grid):
 		end = xyz(50, Y, 0)
 		return revitron.Create.GridLineLinear(start, end, name)
 
-
 	@property
 	def lines(self):
 		"""
@@ -139,7 +133,6 @@ class OrthoGrid(Grid):
 			object: An object containing orthogonal grid elements split into X and Y lines
 		"""
 		return self._lines
-
 
 	def _getLines(self, typeFilterCsv=False):
 		"""
@@ -173,7 +166,6 @@ class OrthoGrid(Grid):
 				pass
 		return revitron.AttrDict({'X': x, 'Y': y})
 
-
 	def _getLinesByPosition(self):
 		"""
 		Create an object that contains one ``X`` and one ``Y`` property, both dicts containing
@@ -197,7 +189,6 @@ class OrthoGrid(Grid):
 				y[round(p0.Y, 3)] = line
 			self._linesByPosition = revitron.AttrDict({'X': x, 'Y': y})
 		return self._linesByPosition
-
 
 	def closestIntersectionToPointTopLeft(self, point):
 		"""
@@ -224,7 +215,6 @@ class OrthoGrid(Grid):
 			top = y
 		if top and left:
 			return OrthoGridIntersection(lines.X[left], lines.Y[top])
-
 
 	def closestIntersectionToPointBottomRight(self, point):
 		"""
@@ -280,7 +270,6 @@ class OrthoGridIntersection:
 			self._Y = lineY.Curve.GetEndPoint(0).Y
 			self._nameY = lineY.Name
 
-
 	@property
 	def lineX(self):
 		"""
@@ -291,7 +280,6 @@ class OrthoGridIntersection:
 			object: A Revit grid element
 		"""
 		return self._lineX
-
 
 	@property
 	def lineY(self):
@@ -304,7 +292,6 @@ class OrthoGridIntersection:
 		"""
 		return self._lineY
 
-
 	@property
 	def nameX(self):
 		"""
@@ -314,7 +301,6 @@ class OrthoGridIntersection:
 			string: The name of the grid
 		"""
 		return self._nameX
-
 
 	@property
 	def nameY(self):
@@ -326,7 +312,6 @@ class OrthoGridIntersection:
 		"""
 		return self._nameY
 
-
 	@property
 	def X(self):
 		"""
@@ -336,7 +321,6 @@ class OrthoGridIntersection:
 			float: The X coordinate
 		"""
 		return self._X
-
 
 	@property
 	def Y(self):

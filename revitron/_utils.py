@@ -25,26 +25,27 @@ class AttrDict(dict):
 	Traceback (most recent call last):
 	TypeError: 'int' object is not callable
 	"""
+
 	def __init__(self, *args, **kwargs):
 		dict.__init__(self, *args, **kwargs)
 		self.__dict__ = self
-		
-  
+
+
 class Log:
-	
+
 	def __init__(self):
 		import __main__ as main
 		self.logger = logger.get_logger(os.path.basename(main.__file__))
-		
+
 	def error(self, message):
 		self.logger.error(message)
 
 	def warning(self, message):
 		self.logger.warning(message)
-  
-		
+
+
 class String:
-	
+
 	@staticmethod
 	def sanitize(string):
 		string = string.replace('ü', 'ue')
@@ -54,6 +55,6 @@ class String:
 		string = string.replace('ä', 'ae')
 		string = string.replace('Ä', 'Ae')
 		string = re.sub('[^a-zA-Z0-9_\-]', '_', string)
-		string = re.sub('_+', '_', string) 
+		string = re.sub('_+', '_', string)
 		string = re.sub('(-_|_-)', '-', string)
 		return string

@@ -7,9 +7,9 @@ class RoomTag:
 	"""
 	This class contains methods to create room tags in given locations.
 	"""
-	
+
 	@staticmethod
-	def create(room, location, tagTypeId = False, viewId = False):
+	def create(room, location, tagTypeId=False, viewId=False):
 		"""
 		Create a room tag in a given location.
 
@@ -25,20 +25,19 @@ class RoomTag:
 		"""
 		import revitron
 		from revitron import _
-		
+
 		if not viewId:
 			viewId = revitron.ACTIVE_VIEW.Id
-			
+
 		for tagId in _(room).getTags():
 			tag = _(tagId).element
 			if tag.OwnerViewId.IntegerValue == viewId.IntegerValue:
 				_(tagId).delete()
-			
+
 		return revitron.Create.roomTag(room, location, tagTypeId, viewId)
 
-
 	@staticmethod
-	def center(room, tagTypeId = False, viewId = False):
+	def center(room, tagTypeId=False, viewId=False):
 		"""
 		Create a room tag in the bounding box center.
    
@@ -55,9 +54,8 @@ class RoomTag:
 		from revitron import _
 		return RoomTag.create(room, _(room).getBboxCenter(), tagTypeId, viewId)
 
-
 	@staticmethod
-	def topLeft(room, tagTypeId = False, viewId = False):
+	def topLeft(room, tagTypeId=False, viewId=False):
 		"""
 		Create a room tag in the top left corner. 
   
@@ -74,9 +72,8 @@ class RoomTag:
 		from revitron import _
 		return RoomTag.create(room, _(room).getPointTopLeft(), tagTypeId, viewId)
 
-
 	@staticmethod
-	def topRight(room, tagTypeId = False, viewId = False):
+	def topRight(room, tagTypeId=False, viewId=False):
 		"""
 		Create a room tag in the top right corner. 
   
@@ -93,9 +90,8 @@ class RoomTag:
 		from revitron import _
 		return RoomTag.create(room, _(room).getPointTopRight(), tagTypeId, viewId)
 
-
 	@staticmethod
-	def bottomLeft(room, tagTypeId = False, viewId = False):
+	def bottomLeft(room, tagTypeId=False, viewId=False):
 		"""
 		Create a room tag in the bottom left corner. 
   
@@ -112,9 +108,8 @@ class RoomTag:
 		from revitron import _
 		return RoomTag.create(room, _(room).getPointBottomLeft(), tagTypeId, viewId)
 
-
 	@staticmethod
-	def bottomRight(room, tagTypeId = False, viewId = False):
+	def bottomRight(room, tagTypeId=False, viewId=False):
 		"""
 		Create a room tag in the bottom right corner. 
   

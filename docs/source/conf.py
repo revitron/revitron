@@ -14,6 +14,7 @@ import os
 import sys
 import datetime
 import revitron_sphinx_theme
+
 sys.path.insert(0, os.path.abspath('../..'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../revitron'))
 
@@ -22,9 +23,10 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 
 project = 'Revitron'
-copyright = '{}, <a href="https://marcdahmen.de">Marc Anton Dahmen</a>'.format(datetime.datetime.now().year)
+copyright = '{}, <a href="https://marcdahmen.de">Marc Anton Dahmen</a>'.format(
+    datetime.datetime.now().year
+)
 author = 'Marc Anton Dahmen'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -32,12 +34,8 @@ author = 'Marc Anton Dahmen'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 
-    'sphinx.ext.coverage', 
-    'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode',
-    'autodocsumm',
-    'sphinxext.opengraph'
+    'sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode', 'autodocsumm', 'sphinxext.opengraph'
 ]
 
 autodoc_mock_imports = ['pyrevit', 'Autodesk', 'clr', 'System', 'Microsoft']
@@ -72,7 +70,6 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['modules.rst']
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -84,7 +81,7 @@ html_theme = 'revitron_sphinx_theme'
 html_theme_options = {
     'navigation_depth': 5,
     'github_url': 'https://github.com/revitron/revitron',
-	'color_scheme': 'dark'
+    'color_scheme': 'dark'
 }
 
 html_logo = '_static/revitron.svg'
@@ -92,13 +89,18 @@ html_title = 'Revitron'
 html_favicon = '_static/favicon.ico'
 
 html_context = {
-	'landing_page': {
-		'menu': [
-			{'title': 'Revitron UI', 'url': 'https://revitron-ui.readthedocs.io/'},
-			{'title': 'Developer Guide', 'url': 'revitron.html'},
-			{'title': '♡ Sponsor', 'url': 'https://github.com/sponsors/marcantondahmen'}
-		]
-	}
+    'landing_page': {
+        'menu': [{
+            'title': 'Revitron UI',
+            'url': 'https://revitron-ui.readthedocs.io/'
+        }, {
+            'title': 'Developer Guide',
+            'url': 'revitron.html'
+        }, {
+            'title': '♡ Sponsor',
+            'url': 'https://github.com/sponsors/marcantondahmen'
+        }]
+    }
 }
 
 html_sidebars = {}
