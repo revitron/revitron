@@ -108,7 +108,7 @@ from revitron.transmissiondata import *
 from revitron.unit import *
 from revitron.view import *
 
-parent = os.path.dirname 
+parent = os.path.dirname
 
 try:
 	DOC = __revit__.ActiveUIDocument.Document
@@ -117,7 +117,6 @@ try:
 	ACTIVE_VIEW = DOC.ActiveView
 except:
 	pass
-
 
 DB = Autodesk.Revit.DB
 LIB_DIR = parent(parent(__file__))
@@ -134,14 +133,11 @@ def _(element):
 
 	Returns:
 		mixed: A Revitron element instance
-	"""    
+	"""
 	category = Element(element).getParameter('Category').getValueString()
-	
-	switcher = {
-		'RVT Links': LinkRvt,
-		'Rooms': Room
-	}
-	
+
+	switcher = {'RVT Links': LinkRvt, 'Rooms': Room}
+
 	wrapper = switcher.get(category, Element)
-	
+
 	return wrapper(element)

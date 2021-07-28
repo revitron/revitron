@@ -5,7 +5,6 @@ import unittest
 import inspect
 import json
 
-
 revitronDir = os.path.dirname(os.path.dirname(__file__))
 testsDir = os.path.join(revitronDir, 'tests')
 tempDir = os.path.join(testsDir, 'temp')
@@ -33,5 +32,5 @@ for file in glob.glob(r'{}\{}'.format(testsDir, config['glob'])):
 	for name, obj in inspect.getmembers(sys.modules[module]):
 		if inspect.isclass(obj):
 			suite.addTest(unittest.TestLoader().loadTestsFromTestCase(obj))
-		
+
 utils.runSuite(suite)

@@ -26,7 +26,6 @@ class Geometry:
 		import revitron
 		self._geometry = element.get_Geometry(revitron.DB.Options())
 
-
 	def getFaces(self):
 		"""
 		Get a list of all faces of a given element.
@@ -42,7 +41,6 @@ class Geometry:
 			except:
 				pass
 		return faces
-
 
 	def getSolids(self):
 		"""

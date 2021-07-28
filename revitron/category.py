@@ -4,6 +4,7 @@ submodule provides the ``Category`` and ``BuiltInCategory`` classes in order
 to access **Revit** category objects as well as builtin categories by name.
 """
 
+
 class Category:
 	"""
 	A wrapper class for category objects which can be instantiated by a category name.
@@ -25,8 +26,7 @@ class Category:
 			if cat.Name == name:
 				self.category = cat
 				break
-	
-	
+
 	def get(self):
 		"""
 		Returns the category object.
@@ -35,8 +35,7 @@ class Category:
 			object: The category object
 		"""
 		return self.category
-	
-	
+
 	def getBic(self):
 		"""
 		Returns the built-in category for a given category.
@@ -102,7 +101,6 @@ class BuiltInCategory:
 				self.bic = getattr(revitron.DB.BuiltInCategory, name)
 			except:
 				pass
-		
 
 	def get(self):
 		"""

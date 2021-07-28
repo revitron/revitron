@@ -35,22 +35,21 @@ class Element:
 		from revitron import _
 		value = _(element).get('parameter')
 	"""
-	 
+
 	def __init__(self, element):
 		"""
 		Inits a new element instance.
 
 		Args:
 			element (object): The Revit element or an element ID
-		"""   
+		"""
 		import revitron
 		if isinstance(element, revitron.DB.ElementId):
-			self._element = revitron.DOC.GetElement(element)  
+			self._element = revitron.DOC.GetElement(element)
 		elif isinstance(element, numbers.Integral):
 			self._element = revitron.DOC.GetElement(revitron.DB.ElementId(element))
 		else:
 			self._element = element
-	
 
 	def __getattr__(self, name):
 		"""
@@ -67,10 +66,15 @@ class Element:
 			method: An empty method
 		"""
 		from revitron import Log
-		def method(*args):
-			Log().warning('Failed to call unkown method "{}" for element of class "{}"'.format(name, self.getClassName()))
-		return method
 
+		def method(*args):
+			Log().warning(
+			    'Failed to call unkown method "{}" for element of class "{}"'.format(
+			        name, self.getClassName()
+			    )
+			)
+
+		return method
 
 	@property
 	def element(self):
@@ -81,7 +85,6 @@ class Element:
 			object: The Revit element object
 		"""
 		return self._element
-		
 
 	def delete(self):
 		"""
@@ -93,8 +96,7 @@ class Element:
 		"""
 		import revitron
 		revitron.DOC.Delete(self._element.Id)
-		
-		
+
 	def getBbox(self):
 		"""
 		Returns a bounding box for the element.
@@ -107,7 +109,6 @@ class Element:
 			return revitron.BoundingBox(self._element)
 		except:
 			return False
-	
 
 	def getCategoryName(self):
 		"""
@@ -115,13 +116,12 @@ class Element:
 
 		Returns:
 			string: The category name
-		"""  
+		"""
 		try:
-			return self._element.Category.Name 
+			return self._element.Category.Name
 		except:
 			return ''
 
-	
 	def getClassName(self):
 		"""
 		Returns the class name of the element.
@@ -131,7 +131,6 @@ class Element:
 		"""
 		return self._element.__class__.__name__
 
-	
 	def getFamilyName(self):
 		"""
 		Returns the family name of the element.
@@ -141,7 +140,6 @@ class Element:
 		"""
 		return self.getParameter('Family').getValueString()
 
-
 	def getFamilyAndTypeName(self):
 		"""
 		Returns the family name of the element.
@@ -150,8 +148,7 @@ class Element:
 			string: The family name
 		"""
 		return self.getParameter('Family and Type').getValueString()
-	
-	
+
 	def get(self, paramName):
 		"""
 		Returns a parameter value.
@@ -168,9 +165,8 @@ class Element:
 		"""
 		import revitron
 		return revitron.Parameter(self._element, paramName).get()
-	
-	
-	def getDependent(self, filterClass = None):
+
+	def getDependent(self, filterClass=None):
 		"""
 		Returns a list of dependent elements.
 
@@ -182,14 +178,14 @@ class Element:
 		"""
 		import revitron
 		from revitron import _
-		# The GetDependentElements() method doesn't exist in older Revit API versions. 
+		# The GetDependentElements() method doesn't exist in older Revit API versions.
 		# Therefore it is required to fallback to a more compatible way of getting those dependent elements
 		# in case an execption is raised.
 		# The fallback solution basically tries to get the list of affected IDs when trying to delete
 		# the actual parent element within a transaction that will be cancelled.
 		try:
 			fltr = None
-			if filterClass:		
+			if filterClass:
 				fltr = revitron.DB.ElementClassFilter(filterClass)
 			dependentIds = self._element.GetDependentElements(fltr)
 		except:
@@ -197,14 +193,14 @@ class Element:
 			ids = revitron.DOC.Delete(self._element.Id)
 			sub.rollback()
 			if filterClass:
-				dependentIds = revitron.Filter(ids).byClass(filterClass).noTypes().getElementIds()
+				dependentIds = revitron.Filter(ids).byClass(filterClass
+				                                            ).noTypes().getElementIds()
 			else:
 				dependentIds = revitron.Filter(ids).noTypes().getElementIds()
 		dependent = []
 		for eId in dependentIds:
 			dependent.append(_(eId).element)
 		return dependent
-
 
 	def getFromType(self, paramName):
 		"""
@@ -219,13 +215,12 @@ class Element:
 
 		Returns:
 			mixed: The parameter value
-		"""  
+		"""
 		from revitron import _
 		try:
 			return _(self._element.GetTypeId()).get(paramName)
 		except:
 			return ''
-	
 
 	def getGeometry(self):
 		"""
@@ -236,7 +231,6 @@ class Element:
 		"""
 		import revitron
 		return revitron.Geometry(self._element)
-
 
 	def getParameter(self, paramName):
 		"""
@@ -250,8 +244,7 @@ class Element:
 		"""
 		import revitron
 		return revitron.Parameter(self._element, paramName)
-	  
-	  
+
 	def getTags(self):
 		"""
 		Get possibly existing tags of an element.
@@ -260,15 +253,12 @@ class Element:
 			list: A list of Revit tag objects depending on the element class
 		"""
 		import revitron
-		
+
 		category = self.getParameter('Category').getValueString()
-	
-		switcher = {
-			'Rooms': revitron.DB.SpatialElementTag
-		}
-		
+
+		switcher = {'Rooms': revitron.DB.SpatialElementTag}
+
 		return self.getDependent(switcher.get(category))
-		
 
 	def isNotOwned(self):
 		"""
@@ -278,8 +268,10 @@ class Element:
 			boolean: True if the element is not owned by another user.
 		"""
 		import revitron
-		return str(revitron.DB.WorksharingUtils.GetCheckoutStatus(revitron.DOC, self._element.Id)) != 'OwnedByOtherUser'
-
+		return str(
+		    revitron.DB.WorksharingUtils.
+		    GetCheckoutStatus(revitron.DOC, self._element.Id)
+		) != 'OwnedByOtherUser'
 
 	def isType(self):
 		"""
@@ -289,15 +281,13 @@ class Element:
 			bool: True if element is a type.
 		"""
 		className = self.getClassName()
-		return (className.endswith('Type') or 
-				className.endswith('Symbol') or 
-				className == 'MEPBuildingConstruction' or
-				className == 'SiteLocation' or 
-				className == 'BrowserOrganization' or 
-				className == 'TilePattern')
+		return (
+		    className.endswith('Type') or className.endswith('Symbol')
+		    or className == 'MEPBuildingConstruction' or className == 'SiteLocation'
+		    or className == 'BrowserOrganization' or className == 'TilePattern'
+		)
 
-
-	def set(self, paramName, value, paramType = 'Text'):
+	def set(self, paramName, value, paramType='Text'):
 		"""
 		Sets a parameter value.
 
@@ -326,7 +316,7 @@ class Element:
 
 		Returns:
 			object: The element instance
-		"""        
+		"""
 		import revitron
 		revitron.Parameter(self._element, paramName).set(value, paramType)
 		return self

@@ -20,8 +20,7 @@ class Raytracer:
 		self.point = point
 		self.view3D = view3D
 
-
-	def findIntersection(self, direction, elementFilter = None):
+	def findIntersection(self, direction, elementFilter=None):
 		"""
 		Finds and returns an intersection point of a ray in a given direction based on an optional element filter. 
 
@@ -32,13 +31,13 @@ class Raytracer:
 		Returns:
 			object: A Revit XYZ object or False on errors.
 		"""
-		import revitron 
+		import revitron
 		DB = revitron.DB
 
 		if elementFilter:
-			intersector = DB.ReferenceIntersector(elementFilter, 
-												  DB.FindReferenceTarget.Face, 
-												  self.view3D)
+			intersector = DB.ReferenceIntersector(
+			    elementFilter, DB.FindReferenceTarget.Face, self.view3D
+			)
 		else:
 			intersector = DB.ReferenceIntersector(self.view3D)
 
@@ -47,4 +46,3 @@ class Raytracer:
 			return context.GetReference().GlobalPoint
 		except:
 			return False
-

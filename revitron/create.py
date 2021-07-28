@@ -7,7 +7,7 @@ The ``create`` submodule and its ``Create`` class contain helpful shorthand meth
 Note that some methods are also directly accessible in element classes such as ``Room``::
 
 	tag = _(room).tagCenter()
-"""	
+"""
 import os
 
 
@@ -15,7 +15,7 @@ class Create:
 	"""
 	A collection of shorthand methods to create **Revit** elements.
 	"""
-	
+
 	@staticmethod
 	def familyDoc(template, savePath):
 		"""
@@ -42,9 +42,15 @@ class Create:
 		famDoc.SaveAs(savePath, opt)
 		return famDoc
 
-
 	@staticmethod
-	def familyExtrusion(familyDoc, curveArrayArray, sketchPlane, height = 10.0, location = False, isSolid = True):
+	def familyExtrusion(
+	    familyDoc,
+	    curveArrayArray,
+	    sketchPlane,
+	    height=10.0,
+	    location=False,
+	    isSolid=True
+	):
 		"""
 		Creates an extrusion within a given family document.
 
@@ -63,13 +69,16 @@ class Create:
 		if not location:
 			location = revitron.DB.XYZ(0, 0, 0)
 		if revitron.Document(familyDoc).isFamily():
-			extrusion = familyDoc.FamilyCreate.NewExtrusion(isSolid, curveArrayArray, sketchPlane, height)
-			revitron.DB.ElementTransformUtils.MoveElement(familyDoc, extrusion.Id, location)
+			extrusion = familyDoc.FamilyCreate.NewExtrusion(
+			    isSolid, curveArrayArray, sketchPlane, height
+			)
+			revitron.DB.ElementTransformUtils.MoveElement(
+			    familyDoc, extrusion.Id, location
+			)
 			return extrusion
 
-
 	@staticmethod
-	def familyInstance(familySymbolId, location, structuralType = False):
+	def familyInstance(familySymbolId, location, structuralType=False):
 		"""
 		Creates a new family instance.
 
@@ -88,14 +97,15 @@ class Create:
 			object: The family instance.
 		"""
 		import revitron
-		from revitron import _ 
+		from revitron import _
 		if not structuralType:
 			structuralType = revitron.DB.Structure.StructuralType.NonStructural
 		familySymbol = _(familySymbolId).element
 		if not familySymbol.IsActive:
 			familySymbol.Activate()
-		return revitron.DOC.Create.NewFamilyInstance(location, familySymbol, structuralType)
-
+		return revitron.DOC.Create.NewFamilyInstance(
+		    location, familySymbol, structuralType
+		)
 
 	@staticmethod
 	def GridLineLinear(start, end, name):
@@ -120,9 +130,8 @@ class Create:
 			revitron.Log().error('Can\'t create grid line "{}"'.format(name))
 			return None
 
-
 	@staticmethod
-	def roomTag(room, location, typeId = False, viewId = False):
+	def roomTag(room, location, typeId=False, viewId=False):
 		"""
 		Creates a room tag for a given room element.
 
@@ -136,7 +145,7 @@ class Create:
 			object: The Revit ``RoomTag`` element
 		"""
 		import revitron
-		from revitron import _ 
+		from revitron import _
 
 		if not viewId:
 			viewId = revitron.ACTIVE_VIEW.Id
@@ -144,18 +153,21 @@ class Create:
 		clsName = _(room).getClassName()
 
 		if clsName != 'Room':
-			revitron.Log().error('Can\'t tag an element of class "{}" with a room tag.'.format(clsName))
+			revitron.Log().error(
+			    'Can\'t tag an element of class "{}" with a room tag.'.format(clsName)
+			)
 			return False
-		
+
 		location = revitron.DB.UV(location.X, location.Y)
-		tag = revitron.DOC.Create.NewRoomTag(revitron.DB.LinkElementId(room.Id), location, viewId)
+		tag = revitron.DOC.Create.NewRoomTag(
+		    revitron.DB.LinkElementId(room.Id), location, viewId
+		)
 
 		if typeId:
 			if tag.IsValidType(typeId):
 				tag.ChangeTypeId(typeId)
-		
-		return tag
 
+		return tag
 
 	@staticmethod
 	def view3D():
@@ -165,13 +177,13 @@ class Create:
 		Returns:
 			object: A Revit 3D view element
 		"""
-		import revitron 
+		import revitron
 		view3DType = None
 
-		for viewFamilyType in revitron.Filter().byClass(revitron.DB.ViewFamilyType).onlyTypes().getElements():
+		for viewFamilyType in revitron.Filter().byClass(revitron.DB.ViewFamilyType
+		                                                ).onlyTypes().getElements():
 			if viewFamilyType.FamilyName == '3D View':
 				view3DType = viewFamilyType
 				break
-		
-		return revitron.DB.View3D.CreateIsometric(revitron.DOC, view3DType.Id)	
 
+		return revitron.DB.View3D.CreateIsometric(revitron.DOC, view3DType.Id)

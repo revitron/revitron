@@ -19,8 +19,8 @@ class Parameter:
 		The fastest way of getting or setting parameter values is using the ``_(element).get('parameter')``
 		shortcut `function <revitron.html#function>`_ or an instance of the :doc:`revitron.element` class.
 	"""
-	
-	def __init__(self, element, name):        
+
+	def __init__(self, element, name):
 		"""
 		Init a new parameter instance.
 
@@ -48,13 +48,14 @@ class Parameter:
 		if not self.exists():
 			try:
 				import revitron
-				self.parameter = element.get_Parameter(getattr(revitron.DB.BuiltInParameter, name))
+				self.parameter = element.get_Parameter(
+				    getattr(revitron.DB.BuiltInParameter, name)
+				)
 			except:
 				pass
-	
-	
+
 	@staticmethod
-	def bind(category, paramName, paramType = 'Text', typeBinding = False):
+	def bind(category, paramName, paramType='Text', typeBinding=False):
 		"""
 		Bind a new parameter to a category.
 
@@ -69,15 +70,15 @@ class Parameter:
 			boolean: Returns True on success and False on error.
 		"""
 		import revitron
-	
-		paramFile = revitron.APP.OpenSharedParameterFile()    
-			
+
+		paramFile = revitron.APP.OpenSharedParameterFile()
+
 		if paramFile is None:
 			print('Please define a shared parameters file.')
 			return False
-		
+
 		definition = None
-		
+
 		# Try to get an existing parameter definition with the given name.
 		for group in paramFile.Groups:
 			for item in group.Definitions:
@@ -98,15 +99,17 @@ class Parameter:
 			if not group:
 				group = paramFile.Groups.Create('REVITRON')
 			pt = getattr(revitron.DB.ParameterType, paramType)
-			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(paramName, pt)
+			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
+			    paramName, pt
+			)
 			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
-		
+
 		# Try to get the parameter binding for the definition.
 		binding = revitron.DOC.ParameterBindings[definition]
 
 		# Add the given category to the categories list as the initial item
 		# and try to access currently bound categories to add them as well.
-		# In case the given category is already among the bound categories, 
+		# In case the given category is already among the bound categories,
 		# stop the further execution and return False.
 		# In case the category is not bound yet, remove the binding from the parameter
 		# binding map.
@@ -130,11 +133,10 @@ class Parameter:
 			binding = revitron.APP.Create.NewTypeBinding(categorySet)
 		else:
 			binding = revitron.APP.Create.NewInstanceBinding(categorySet)
-			
-		revitron.DOC.ParameterBindings.Insert(definition, binding)
-	
-		return True
 
+		revitron.DOC.ParameterBindings.Insert(definition, binding)
+
+		return True
 
 	def exists(self):
 		"""
@@ -144,8 +146,7 @@ class Parameter:
 			boolean: True if existing
 		"""
 		return (self.parameter != None)
-		
-	   
+
 	def hasValue(self):
 		"""
 		Checks if parameter has a value.
@@ -155,8 +156,7 @@ class Parameter:
 		"""
 		if self.exists():
 			return (self.parameter.HasValue)
-	
-	
+
 	def get(self):
 		"""
 		Return the parameter value.
@@ -174,18 +174,17 @@ class Parameter:
 			storageType = str(self.parameter.StorageType)
 		else:
 			storageType = 'String'
-		
+
 		switcher = {
-			'String': self.getString,
-			'ValueString': self.getValueString,
-			'Integer': self.getInteger,
-			'Double': self.getDouble,
-			'ElementId': self.getElementId
+		    'String': self.getString,
+		    'ValueString': self.getValueString,
+		    'Integer': self.getInteger,
+		    'Double': self.getDouble,
+		    'ElementId': self.getElementId
 		}
-		
+
 		value = switcher.get(storageType)
 		return value()
-		
 
 	def getString(self):
 		"""
@@ -197,8 +196,7 @@ class Parameter:
 		if self.hasValue():
 			return self.parameter.AsString()
 		return ''
-	
-	
+
 	def getValueString(self):
 		"""
 		Return the parameter value as value string.
@@ -209,8 +207,7 @@ class Parameter:
 		if self.hasValue():
 			return self.parameter.AsValueString()
 		return ''
-	
-	
+
 	def getInteger(self):
 		"""
 		Return the parameter value as integer.
@@ -221,8 +218,7 @@ class Parameter:
 		if self.hasValue():
 			return self.parameter.AsInteger()
 		return 0
-	
-	
+
 	def getDouble(self):
 		"""
 		Return the parameter value as double.
@@ -233,8 +229,7 @@ class Parameter:
 		if self.hasValue():
 			return self.parameter.AsDouble()
 		return 0.0
-	
-	
+
 	def getElementId(self):
 		"""
 		Return the parameter value as ElementId.
@@ -245,9 +240,8 @@ class Parameter:
 		if self.hasValue():
 			return self.parameter.AsElementId()
 		return 0
-	
-	
-	def set(self, value, paramType = 'Text'):
+
+	def set(self, value, paramType='Text'):
 		"""
 		Set a parameter value for an element. The parameter will be automatically created if not existing.
 		The parameter type can be specified. If not type is given, it will be determined automatically in 
@@ -289,7 +283,10 @@ class Parameter:
 			paramType = 'Number'
 		if self.parameter == None:
 			from revitron import _
-			if Parameter.bind(self.element.Category.Name, self.name, paramType, _(self.element).isType()):
+			if Parameter.bind(
+			    self.element.Category.Name, self.name, paramType,
+			    _(self.element).isType()
+			):
 				self.parameter = self.element.LookupParameter(self.name)
 			else:
 				print('Error setting value of parameter "{}"'.format(self.name))
@@ -333,20 +330,22 @@ class ParameterNameList:
 		Inits a new ParameterNameList instance including all parameter names in the document.
 		"""
 		import revitron
-			
+
 		self.parameters = []
-		
+
 		for name in BuiltInParameterNameMap().map:
 			self.parameters.append(name)
-		
-		for param in revitron.Filter().byClass(revitron.DB.SharedParameterElement).getElements():
+
+		for param in revitron.Filter().byClass(revitron.DB.SharedParameterElement
+		                                       ).getElements():
 			self.parameters.append(param.GetDefinition().Name)
-			
-		for param in revitron.Filter().byClass(revitron.DB.ParameterElement).getElements():
+
+		for param in revitron.Filter().byClass(revitron.DB.ParameterElement
+		                                       ).getElements():
 			self.parameters.append(param.GetDefinition().Name)
-			
+
 		self.parameters = sorted(list(set(self.parameters)))
-		
+
 	def get(self):
 		"""
 		Returns the parameter list.
@@ -371,9 +370,9 @@ class ParameterValueProviders:
 
 		Args:
 			name (string): Name
-		"""      
+		"""
 		import revitron
-		
+
 		self.providers = []
 		paramIds = []
 		it = revitron.DOC.ParameterBindings.ForwardIterator()
@@ -382,28 +381,27 @@ class ParameterValueProviders:
 				paramIds.append(it.Key.Id)
 		if not paramIds:
 			try:
-				paramIds = BuiltInParameterNameMap().get(name)  
-			except: 
-				pass   
-		for paramId in paramIds:    
+				paramIds = BuiltInParameterNameMap().get(name)
+			except:
+				pass
+		for paramId in paramIds:
 			self.providers.append(revitron.DB.ParameterValueProvider(paramId))
 
-		 
 	def get(self):
 		"""
 		Returns the list of value providers.
 
 		Returns:
 			list: The list of value providers
-		"""            
+		"""
 		return self.providers
-	
-	
+
+
 class BuiltInParameterNameMap:
 	""" 
 	A helper class for mapping lists of built-in parameter names to their representation visible to the user.
 	"""
-	
+
 	def __init__(self):
 		"""
 		Inits a new BuiltInParameterNameMap instance. The map is a dictionary where the key
@@ -411,7 +409,7 @@ class BuiltInParameterNameMap:
 		represented by that name.
 		"""
 		import revitron
-		
+
 		self.map = dict()
 		for item in dir(revitron.DB.BuiltInParameter):
 			try:
@@ -422,7 +420,6 @@ class BuiltInParameterNameMap:
 				self.map[name].append(revitron.DB.ElementId(int(bip)))
 			except:
 				pass
-			
 
 	def get(self, name):
 		"""
@@ -435,8 +432,8 @@ class BuiltInParameterNameMap:
 			list: The list of built-in parameters
 		"""
 		return self.map[name]
-	
-	
+
+
 class ParameterTemplate:
 	"""
 	Create a string based on a parameter template where parameter names are wrapped in :code:`{...}` and get substituted with their value::
@@ -449,8 +446,8 @@ class ParameterTemplate:
 		This sheet of the project {%Project Name%} has the number {Sheet Number}
 
 	"""
-	
-	def __init__(self, element, template, sanitize = True):
+
+	def __init__(self, element, template, sanitize=True):
 		"""
 		Inits a new ParameterTemplate instance.
 
@@ -465,8 +462,7 @@ class ParameterTemplate:
 		self.element = element
 		self.template = template
 		self.sanitize = sanitize
-		
-		
+
 	def reCallback(self, match):
 		"""
 		The callback function used by the ``get()`` method.
@@ -478,7 +474,7 @@ class ParameterTemplate:
 			string: The processed string
 		"""
 		import revitron
-		
+
 		parameter = match.group(1)
 
 		try:
@@ -487,13 +483,12 @@ class ParameterTemplate:
 			string = str(revitron.Element(self.projectInfo).get(parameter))
 		except:
 			string = str(revitron.Element(self.element).get(parameter))
-		
+
 		if self.sanitize:
 			string = revitron.String.sanitize(string)
-			
+
 		return string
-	
-	
+
 	def render(self):
 		"""
 		Returns the rendered template string.

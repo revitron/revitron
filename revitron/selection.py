@@ -13,7 +13,7 @@ class Selection:
 		for element in revitron.Selection.get():
 			...
 	"""
-	
+
 	@staticmethod
 	def get():
 		"""
@@ -21,12 +21,14 @@ class Selection:
 
 		Returns:
 			list: The list of selected elements
-		"""   
+		"""
 		import revitron
-			 
-		return [revitron.DOC.GetElement(elId) for elId in revitron.UIDOC.Selection.GetElementIds()]
-	
-	
+
+		return [
+		    revitron.DOC.GetElement(elId)
+		    for elId in revitron.UIDOC.Selection.GetElementIds()
+		]
+
 	@staticmethod
 	def first():
 		"""
@@ -36,8 +38,7 @@ class Selection:
 			object: The first element in a list of selected elements
 		"""
 		return Selection.get()[0]
-	
-	
+
 	@staticmethod
 	def set(ids):
 		"""
@@ -45,8 +46,8 @@ class Selection:
 
 		Args:
 			ids (list): A list of element ids
-		"""    
+		"""
 		import revitron
-			
+
 		revitron.UIDOC.Selection.SetElementIds(List[revitron.DB.ElementId](ids))
 		revitron.UIDOC.RefreshActiveView()

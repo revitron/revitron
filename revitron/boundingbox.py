@@ -3,6 +3,7 @@ The ``boundingbox`` submodule complements the **Revit API** bounding box methods
 by a simple helper class for working with bounding box elements.
 """
 
+
 class BoundingBox:
 	"""
 	A ``BoundingBox`` class instance is a wrapper element for Revit bounding box object.  
@@ -15,8 +16,7 @@ class BoundingBox:
 	
 		bbox = _(element).getBbox()
 		
-	"""    
-	
+	"""
 
 	def __init__(self, element):
 		"""
@@ -27,7 +27,7 @@ class BoundingBox:
 
 		Args:
 			element (object): A Revit Element
-		"""        
+		"""
 		import revitron
 		self.bbox = False
 		if revitron._(element).get('Scope Box'):
@@ -37,7 +37,6 @@ class BoundingBox:
 		else:
 			self.bbox = element.get_BoundingBox(None)
 
-	
 	@property
 	def Min(self):
 		"""
@@ -51,7 +50,6 @@ class BoundingBox:
 		except:
 			pass
 
-	
 	@property
 	def Max(self):
 		"""
@@ -64,7 +62,6 @@ class BoundingBox:
 			return self.bbox.Max
 		except:
 			pass
-
 
 	def containsXY(self, bbox2):
 		"""
@@ -81,13 +78,12 @@ class BoundingBox:
 			boolean: True if the bounding box entirely contains bbox2
 		"""
 		import revitron
-		
+
 		if isinstance(bbox2, revitron.BoundingBox):
 			bbox2 = bbox2.bbox
 		if self.hasPointXY(bbox2.Min) and self.hasPointXY(bbox2.Max):
 			return True
 		return False
-	
 
 	def getCenterPoint(self):
 		"""
@@ -96,11 +92,9 @@ class BoundingBox:
 		Returns:
 			object: A Revit XYZ object.
 		"""
-		import revitron
 		return (self.Min + self.Max) / 2
 
-	
-	def hasPointXY(self, point): 
+	def hasPointXY(self, point):
 		"""
 		Checks whether a point is inside a bounding box. Only in X and Y dimensions.
 
@@ -109,9 +103,7 @@ class BoundingBox:
 
 		Returns:
 			boolean: True if the bounding box has the point inside
-		"""        
+		"""
 		if self.bbox.Min.X <= point.X <= self.bbox.Max.X and self.bbox.Min.Y <= point.Y <= self.bbox.Max.Y:
 			return True
 		return False
-	
-	
