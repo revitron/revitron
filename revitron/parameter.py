@@ -49,7 +49,8 @@ class Parameter:
 			try:
 				import revitron
 				self.parameter = element.get_Parameter(
-				    getattr(revitron.DB.BuiltInParameter, name)
+				    getattr(revitron.DB.BuiltInParameter,
+				            name)
 				)
 			except:
 				pass
@@ -100,7 +101,8 @@ class Parameter:
 				group = paramFile.Groups.Create('REVITRON')
 			pt = getattr(revitron.DB.ParameterType, paramType)
 			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
-			    paramName, pt
+			    paramName,
+			    pt
 			)
 			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
 
@@ -241,7 +243,7 @@ class Parameter:
 			return self.parameter.AsElementId()
 		return 0
 
-	def set(self, value, paramType='Text'):
+	def set(self, value, paramType=False):
 		"""
 		Set a parameter value for an element. The parameter will be automatically created if not existing.
 		The parameter type can be specified. If not type is given, it will be determined automatically in 
@@ -273,18 +275,22 @@ class Parameter:
 
 		Args:
 			value (string): The value
-			paramType (string, optional): The `parameter type <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_. Defaults to "Text". 
+			paramType (string, optional): The `parameter type <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_
 		"""
 		if not self.name:
 			return False
-		if isinstance(value, numbers.Integral):
-			paramType = 'Integer'
-		if isinstance(value, float):
-			paramType = 'Number'
+		if not paramType:
+			paramType = 'Text'
+			if isinstance(value, numbers.Integral):
+				paramType = 'Integer'
+			if isinstance(value, float):
+				paramType = 'Number'
 		if self.parameter == None:
 			from revitron import _
 			if Parameter.bind(
-			    self.element.Category.Name, self.name, paramType,
+			    self.element.Category.Name,
+			    self.name,
+			    paramType,
 			    _(self.element).isType()
 			):
 				self.parameter = self.element.LookupParameter(self.name)

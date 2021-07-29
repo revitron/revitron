@@ -70,7 +70,8 @@ class Element:
 		def method(*args):
 			Log().warning(
 			    'Failed to call unkown method "{}" for element of class "{}"'.format(
-			        name, self.getClassName()
+			        name,
+			        self.getClassName()
 			    )
 			)
 
@@ -270,7 +271,8 @@ class Element:
 		import revitron
 		return str(
 		    revitron.DB.WorksharingUtils.
-		    GetCheckoutStatus(revitron.DOC, self._element.Id)
+		    GetCheckoutStatus(revitron.DOC,
+		                      self._element.Id)
 		) != 'OwnedByOtherUser'
 
 	def isType(self):
@@ -287,7 +289,7 @@ class Element:
 		    or className == 'BrowserOrganization' or className == 'TilePattern'
 		)
 
-	def set(self, paramName, value, paramType='Text'):
+	def set(self, paramName, value, paramType=False):
 		"""
 		Sets a parameter value.
 

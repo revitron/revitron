@@ -29,8 +29,10 @@ class Fixture:
 	def createGenericModelFamily(self):
 		temp = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'temp')
 		file = os.path.join(
-		    temp, '{}-genericModel-Revit{}.rfa'.format(
-		        int(time.time()), revitron.APP.VersionNumber
+		    temp,
+		    '{}-genericModel-Revit{}.rfa'.format(
+		        int(time.time()),
+		        revitron.APP.VersionNumber
 		    )
 		)
 		try:
@@ -80,7 +82,9 @@ class Fixture:
 			location = revitron.DB.UV(4, 6)
 		curveArray = self.polygon(points)
 		self.doc.Create.NewRoomBoundaryLines(
-		    revitron.ACTIVE_VIEW.SketchPlane, curveArray, revitron.ACTIVE_VIEW
+		    revitron.ACTIVE_VIEW.SketchPlane,
+		    curveArray,
+		    revitron.ACTIVE_VIEW
 		)
 		room = revitron.DOC.Create.NewRoom(self.level, location)
 		t.Commit()
@@ -89,18 +93,42 @@ class Fixture:
 	def createRoomComplex(self):
 		p = revitron.DB.XYZ
 		points = [
-		    p(3, 0, 0),
-		    p(9, 0, 0),
-		    p(9, 4, 0),
-		    p(14, 4, 0),
-		    p(14, 9, 0),
-		    p(12, 9, 0),
-		    p(12, 12, 0),
-		    p(2, 12, 0),
-		    p(2, 7, 0),
-		    p(0, 7, 0),
-		    p(0, 2, 0),
-		    p(3, 2, 0)
+		    p(3,
+		      0,
+		      0),
+		    p(9,
+		      0,
+		      0),
+		    p(9,
+		      4,
+		      0),
+		    p(14,
+		      4,
+		      0),
+		    p(14,
+		      9,
+		      0),
+		    p(12,
+		      9,
+		      0),
+		    p(12,
+		      12,
+		      0),
+		    p(2,
+		      12,
+		      0),
+		    p(2,
+		      7,
+		      0),
+		    p(0,
+		      7,
+		      0),
+		    p(0,
+		      2,
+		      0),
+		    p(3,
+		      2,
+		      0)
 		]
 		location = revitron.DB.UV(4, 6)
 		return self.createRoom(points, location)

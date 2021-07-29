@@ -37,7 +37,8 @@ class Transaction:
 			except:
 				name = '{} - {}'.format(
 				    os.path.basename(os.path.dirname(__main__.__file__)),
-				    os.path.basename(__main__.__file__).replace('.py', '')
+				    os.path.basename(__main__.__file__).replace('.py',
+				                                                '')
 				)
 			self.transaction = revitron.DB.Transaction(doc, name)
 		self.transaction.Start()

@@ -69,7 +69,8 @@ class Filter:
 		import revitron
 		db = revitron.DB
 		f = db.LogicalOrFilter(
-		    db.ElementIsElementTypeFilter(False), db.ElementIsElementTypeFilter(True)
+		    db.ElementIsElementTypeFilter(False),
+		    db.ElementIsElementTypeFilter(True)
 		)
 
 		self.collector = self.collector.WherePasses(f)
@@ -98,7 +99,8 @@ class Filter:
 				rule = filterRule(valueProvider, evaluator, value, True)
 				_filter = Filter()
 				_filter.collector = revitron.DB.FilteredElementCollector(
-				    revitron.DOC, self.getElementIds()
+				    revitron.DOC,
+				    self.getElementIds()
 				)
 				_filter.parameterFilter(rule, invert)
 				filters.append(_filter)
@@ -230,8 +232,11 @@ class Filter:
 		import revitron
 		value = float(value)
 		self.applyFilter(
-		    revitron.DB.FilterDoubleRule, paramName, value,
-		    revitron.DB.FilterNumericGreater(), invert
+		    revitron.DB.FilterDoubleRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterNumericGreater(),
+		    invert
 		)
 		return self
 
@@ -256,8 +261,11 @@ class Filter:
 		import revitron
 		value = float(value)
 		self.applyFilter(
-		    revitron.DB.FilterDoubleRule, paramName, value,
-		    revitron.DB.FilterNumericGreaterOrEqual(), invert
+		    revitron.DB.FilterDoubleRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterNumericGreaterOrEqual(),
+		    invert
 		)
 		return self
 
@@ -281,8 +289,11 @@ class Filter:
 		import revitron
 		value = float(value)
 		self.applyFilter(
-		    revitron.DB.FilterDoubleRule, paramName, value,
-		    revitron.DB.FilterNumericEquals(), invert
+		    revitron.DB.FilterDoubleRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterNumericEquals(),
+		    invert
 		)
 		return self
 
@@ -306,8 +317,11 @@ class Filter:
 		import revitron
 		value = float(value)
 		self.applyFilter(
-		    revitron.DB.FilterDoubleRule, paramName, value,
-		    revitron.DB.FilterNumericLess(), invert
+		    revitron.DB.FilterDoubleRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterNumericLess(),
+		    invert
 		)
 		return self
 
@@ -331,8 +345,11 @@ class Filter:
 		import revitron
 		value = float(value)
 		self.applyFilter(
-		    revitron.DB.FilterDoubleRule, paramName, value,
-		    revitron.DB.FilterNumericLessOrEqual(), invert
+		    revitron.DB.FilterDoubleRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterNumericLessOrEqual(),
+		    invert
 		)
 		return self
 
@@ -364,7 +381,8 @@ class Filter:
 			_filter = Filter()
 			try:
 				_filter.collector = revitron.DB.FilteredElementCollector(
-				    revitron.DOC, self.getElementIds()
+				    revitron.DOC,
+				    self.getElementIds()
 				)
 			except:
 				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
@@ -401,8 +419,11 @@ class Filter:
 		"""
 		import revitron
 		self.applyFilter(
-		    revitron.DB.FilterStringRule, paramName, value,
-		    revitron.DB.FilterStringContains(), invert
+		    revitron.DB.FilterStringRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterStringContains(),
+		    invert
 		)
 		return self
 
@@ -449,8 +470,11 @@ class Filter:
 		"""
 		import revitron
 		self.applyFilter(
-		    revitron.DB.FilterStringRule, paramName, value,
-		    revitron.DB.FilterStringEquals(), invert
+		    revitron.DB.FilterStringRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterStringEquals(),
+		    invert
 		)
 		return self
 
@@ -498,8 +522,11 @@ class Filter:
 		"""
 		import revitron
 		self.applyFilter(
-		    revitron.DB.FilterStringRule, paramName, value,
-		    revitron.DB.FilterStringBeginsWith(), invert
+		    revitron.DB.FilterStringRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterStringBeginsWith(),
+		    invert
 		)
 		return self
 
@@ -517,8 +544,11 @@ class Filter:
 		"""
 		import revitron
 		self.applyFilter(
-		    revitron.DB.FilterStringRule, paramName, value,
-		    revitron.DB.FilterStringEndsWith(), invert
+		    revitron.DB.FilterStringRule,
+		    paramName,
+		    value,
+		    revitron.DB.FilterStringEndsWith(),
+		    invert
 		)
 		return self
 

@@ -20,48 +20,64 @@ class ParameterTests(utils.RevitronTestCase):
 		t.commit()
 
 		self.assertEquals(
-		    str(revitron.Parameter(wall, 'integer').parameter.StorageType), 'Integer'
+		    str(revitron.Parameter(wall,
+		                           'integer').parameter.StorageType),
+		    'Integer'
 		)
 		self.assertEquals(
-		    str(revitron.Parameter(wall, 'integerAuto').parameter.StorageType), 'Integer'
+		    str(revitron.Parameter(wall,
+		                           'integerAuto').parameter.StorageType),
+		    'Integer'
 		)
 		self.assertEquals(
-		    str(revitron.Parameter(wall, 'number').parameter.StorageType), 'Double'
+		    str(revitron.Parameter(wall,
+		                           'number').parameter.StorageType),
+		    'Double'
 		)
 		self.assertEquals(
-		    str(revitron.Parameter(wall, 'numberAuto').parameter.StorageType), 'Double'
+		    str(revitron.Parameter(wall,
+		                           'numberAuto').parameter.StorageType),
+		    'Double'
 		)
 		self.assertEquals(
-		    str(revitron.Parameter(wall, 'length').parameter.StorageType), 'Double'
+		    str(revitron.Parameter(wall,
+		                           'length').parameter.StorageType),
+		    'Double'
 		)
 
 		self.assertEquals(
 		    'Text',
-		    str(revitron.Parameter(wall, 'text').parameter.Definition.ParameterType)
+		    str(revitron.Parameter(wall,
+		                           'text').parameter.Definition.ParameterType)
 		)
 		self.assertEquals(
 		    'Integer',
-		    str(revitron.Parameter(wall, 'integer').parameter.Definition.ParameterType)
+		    str(revitron.Parameter(wall,
+		                           'integer').parameter.Definition.ParameterType)
 		)
 		self.assertEquals(
 		    'Integer',
 		    str(
-		        revitron.Parameter(wall, 'integerAuto').parameter.Definition.ParameterType
+		        revitron.Parameter(wall,
+		                           'integerAuto').parameter.Definition.ParameterType
 		    )
 		)
 		self.assertEquals(
 		    'Number',
-		    str(revitron.Parameter(wall, 'number').parameter.Definition.ParameterType)
+		    str(revitron.Parameter(wall,
+		                           'number').parameter.Definition.ParameterType)
 		)
 		self.assertEquals(
 		    'Number',
 		    str(
-		        revitron.Parameter(wall, 'numberAuto').parameter.Definition.ParameterType
+		        revitron.Parameter(wall,
+		                           'numberAuto').parameter.Definition.ParameterType
 		    )
 		)
 		self.assertEquals(
 		    'Length',
-		    str(revitron.Parameter(wall, 'length').parameter.Definition.ParameterType)
+		    str(revitron.Parameter(wall,
+		                           'length').parameter.Definition.ParameterType)
 		)
 
 		self.assertEquals(_(wall).get('text'), 'some text')
@@ -91,13 +107,16 @@ class ParameterTests(utils.RevitronTestCase):
 		self.assertEquals(
 		    'Project_Name: Test_Text-10',
 		    revitron.ParameterTemplate(
-		        wall.element, '{%projectParam%}: {param1}-{param2}'
+		        wall.element,
+		        '{%projectParam%}: {param1}-{param2}'
 		    ).render()
 		)
 		self.assertEquals(
 		    'Project Name: Test & Text-10',
 		    revitron.ParameterTemplate(
-		        wall.element, '{%projectParam%}: {param1}-{param2}', False
+		        wall.element,
+		        '{%projectParam%}: {param1}-{param2}',
+		        False
 		    ).render()
 		)
 

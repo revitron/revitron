@@ -34,7 +34,8 @@ class DWGExporter:
 		"""
 		import revitron
 		self.options = revitron.DB.DWGExportOptions().GetPredefinedOptions(
-		    revitron.DOC, setupName
+		    revitron.DOC,
+		    setupName
 		)
 
 	def exportSheet(self, sheet, directory, unit, template=False):
@@ -65,7 +66,8 @@ class DWGExporter:
 
 		fullPath = os.path.join(
 		    directory,
-		    revitron.ParameterTemplate(sheet, template).render() + '.dwg'
+		    revitron.ParameterTemplate(sheet,
+		                               template).render() + '.dwg'
 		)
 
 		path = os.path.dirname(fullPath)
@@ -79,7 +81,10 @@ class DWGExporter:
 		self.options.TargetUnit = unit
 
 		success = revitron.DOC.Export(
-		    path, file, List[db.ElementId]([sheet.Id]), self.options
+		    path,
+		    file,
+		    List[db.ElementId]([sheet.Id]),
+		    self.options
 		)
 
 		if success:
@@ -128,7 +133,12 @@ class PDFExporter:
 			self.sizes[size.Name] = size
 
 	def printSheet(
-	    self, sheet, size, orientation='Landscape', directory=False, template=False
+	    self,
+	    sheet,
+	    size,
+	    orientation='Landscape',
+	    directory=False,
+	    template=False
 	):
 		"""
 		Prints a sheet.
@@ -157,7 +167,8 @@ class PDFExporter:
 
 		path = os.path.join(
 		    directory,
-		    revitron.ParameterTemplate(sheet, template).render() + '.pdf'
+		    revitron.ParameterTemplate(sheet,
+		                               template).render() + '.pdf'
 		)
 
 		if not os.path.exists(os.path.dirname(path)):
@@ -253,6 +264,8 @@ class PDFExporter:
 		nr = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Number'))
 		name = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Name'))
 		printToFileName = re.sub(
-		    r'\.pdf$', '', os.path.basename(self.manager.PrintToFileName)
+		    r'\.pdf$',
+		    '',
+		    os.path.basename(self.manager.PrintToFileName)
 		)
 		return '{}/{}*Sheet*{}*{}*.pdf'.format(self.output, printToFileName, nr, name)
