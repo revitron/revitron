@@ -289,7 +289,7 @@ class Element:
 		    or className == 'BrowserOrganization' or className == 'TilePattern'
 		)
 
-	def set(self, paramName, value, paramType='Text'):
+	def set(self, paramName, value, paramType=False):
 		"""
 		Sets a parameter value.
 
