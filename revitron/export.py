@@ -137,6 +137,7 @@ class PDFExporter:
 	    sheet,
 	    size,
 	    orientation='Landscape',
+	    colorMode='Color',
 	    directory=False,
 	    template=False
 	):
@@ -147,6 +148,7 @@ class PDFExporter:
 			sheet (object): A Revit sheet
 			size (string): A size name like A0 or A4
 			orientation (string, optional): The orientation, 'Landscape' or 'Portrait'. Defaults to 'Landscape'.
+			colorMode (string, optional): The color setting for the printed sheets. Defaults to 'Color'.
 			directory (string, optional): A custom output directory. Defaults to False.
 			template (string, optional): A name template. Defaults to '{Sheet Number}-{Sheet Name}'.
 
@@ -158,6 +160,9 @@ class PDFExporter:
 		if revitron.Element(sheet).getClassName() != 'ViewSheet':
 			revitron.Log().warning('Element is not a sheet!')
 			return False
+
+		if not colorMode:
+			colorMode = 'Color'
 
 		if not directory:
 			directory = self.output
@@ -196,6 +201,7 @@ class PDFExporter:
 		printParameters.PageOrientation = orientation
 		printParameters.PaperSize = self.sizes[size]
 		printParameters.RasterQuality = revitron.DB.RasterQualityType.High
+		printParameters.ColorDepth = getattr(revitron.DB.ColorDepthType, colorMode)
 
 		# Set in-session print settings.
 		printParameters = self.manager.PrintSetup.InSession.PrintParameters
@@ -205,6 +211,7 @@ class PDFExporter:
 		printParameters.PageOrientation = orientation
 		printParameters.PaperSize = self.sizes[size]
 		printParameters.RasterQuality = revitron.DB.RasterQualityType.High
+		printParameters.ColorDepth = getattr(revitron.DB.ColorDepthType, colorMode)
 
 		# Again save settings.
 		try:
