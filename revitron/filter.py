@@ -46,17 +46,23 @@ class Filter:
 			scope (Element ID or list of elements, optional): The optional scope. It can be either a view Id or a list of elements. Defaults to None.
 		"""
 		import revitron
-
-		self.scope = scope
-		if scope:
-			if type(scope) == list:
-				elementIds = []
-				for element in scope:
-					elementIds.append(element.Id)
-				scope = List[revitron.DB.ElementId](elementIds)
-			self.collector = revitron.DB.FilteredElementCollector(revitron.DOC, scope)
+		if scope is not None:
+			if scope:
+				if type(scope) == list:
+					elementIds = []
+					for element in scope:
+						elementIds.append(element.Id)
+					scope = List[revitron.DB.ElementId](elementIds)
+				self.collector = revitron.DB.FilteredElementCollector(revitron.DOC, scope)
+			else:
+				logger = revitron.Log()
+				logger.warning(
+				    'Provided scope for filter is empty! Therefore the filter will be initialized with all elements included.'
+				)
+				self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
 		else:
 			self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
+		self.scope = scope
 
 	def all(self):
 		"""
