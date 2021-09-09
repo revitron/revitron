@@ -1,6 +1,6 @@
 @echo off
 
-set command=commands\%1.py
+set command=%~dp0\commands\%1.py
 set args=%*
 
 if "%~1" == "" (
