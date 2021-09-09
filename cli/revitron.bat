@@ -1,10 +1,14 @@
-echo off
+@echo off
 
 set command=commands\%1.py
 set args=%*
 
-if exist %command% (
-	python %command% %args%
+if "%~1" == "" (
+	echo No command specified!
 ) else (
-	echo Command "%1" not found!
+	if exist %command% (
+		python %command% %args%
+	) else (
+		echo Command "%1" not found!
+	)
 )
