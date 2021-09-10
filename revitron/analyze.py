@@ -5,6 +5,7 @@ as snapshots in a SQLite database to be consumed by other applications or dashbo
 """
 
 import sqlite3
+import re
 from abc import ABCMeta, abstractmethod
 
 
@@ -60,26 +61,29 @@ class ModelAnalyserDatabaseDriver:
 
 	createSnapshotTable = """
 		CREATE TABLE IF NOT EXISTS snapshots(
-			id integer PRIMARY KEY AUTOINCREMENT,
+			snapshotId integer PRIMARY KEY AUTOINCREMENT,
 			timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 		)
 	"""
 
 	insertSnapshot = """
-		INSERT INTO snapshots(id) VALUES(null)
+		INSERT INTO snapshots(snapshotId) VALUES(null)
 	"""
 
 	createDataTable = """
-		CREATE TABLE IF NOT EXISTS {}(
-			id integer PRIMARY KEY AUTOINCREMENT,
-			value {},
-			snapshotId integer
+		CREATE TABLE IF NOT EXISTS {table}(
+			{table}Id integer PRIMARY KEY AUTOINCREMENT,
+			{table}Value {dataType},
+			snapshotId integer,
+			FOREIGN KEY (snapshotId) REFERENCES snapshots (snapshotId)
 		)
 	"""
 
 	insertData = """
-		INSERT INTO {}(value, snapshotId) VALUES(:value, :snapshotId)
+		INSERT INTO {table}({table}Value, snapshotId) VALUES(:value, :snapshotId)
 	"""
+
+	pragmaForeignKeys = 'PRAGMA foreign_keys = ON;'
 
 	def __init__(self, dbFile):
 		"""
@@ -100,6 +104,7 @@ class ModelAnalyserDatabaseDriver:
 		"""
 		conn = sqlite3.connect(self.database)
 		cursor = conn.cursor()
+		cursor.execute(self.pragmaForeignKeys)
 		cursor.execute(self.createSnapshotTable)
 		cursor.execute(self.insertSnapshot)
 		rowId = cursor.lastrowid
@@ -118,12 +123,14 @@ class ModelAnalyserDatabaseDriver:
 			snapshotId (integer): The related snapshot ID
 		"""
 		import revitron
-		table = revitron.String.sanitize(table)
+		table = revitron.String.sanitize(table).replace('_', ' ').title().replace(' ', '')
+		dataType = revitron.String.sanitize(dataType)
 		conn = sqlite3.connect(self.database)
+		conn.execute(self.pragmaForeignKeys)
 		cursor = conn.cursor()
-		cursor.execute(self.createDataTable.format(table, dataType))
+		cursor.execute(self.createDataTable.format(table=table, dataType=dataType))
 		cursor.execute(
-		    self.insertData.format(table),
+		    self.insertData.format(table=table),
 		    {
 		        'value': value,
 		        'snapshotId': snapshotId
