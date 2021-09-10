@@ -231,6 +231,36 @@ class ElementAreaProvider(DataProviderBase):
 		return 'real'
 
 
+class ElementVolumeProvider(DataProviderBase):
+	"""
+	This data provider returns the accumulated area of a set of elements after applying all
+	filters that are defined in the provider configuration.
+	"""
+
+	def run(self):
+		"""
+		Apply filters and accumulate the volume of the filtered elements.
+
+		Returns:
+			integer: The accumulated area
+		"""
+		from revitron import _
+		volume = 0.0
+		for element in self._filterElements():
+			volume += _(element).get('Volume')
+		return volume
+
+	@property
+	def dataType(self):
+		"""
+		The volume data type is ``real``.
+
+		Returns:
+			string: The data type
+		"""
+		return 'real'
+
+
 class WarningCountProvider(DataProviderBase):
 	"""
 	This data provider returns the number of warnings in a model.
