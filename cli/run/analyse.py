@@ -7,9 +7,14 @@ from pyrevit import HOST_APP
 sys.path.append(dirname(dirname(dirname(__file__))))
 
 model = __models__[0]
-uidoc = HOST_APP.uiapp.OpenAndActivateDocument(model)
 
 import revitron
+
+modelPath = revitron.DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(model)
+openOptions = revitron.DB.OpenOptions()
+openOptions.DetachFromCentralOption = revitron.DB.DetachFromCentralOption.DetachAndPreserveWorksets
+
+uidoc = HOST_APP.uiapp.OpenAndActivateDocument(modelPath, openOptions, False)
 
 configFile = os.getenv('REVITRON_ANALYSE_CFG_FILE')
 file = open(configFile)
