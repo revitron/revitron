@@ -1,30 +1,32 @@
 """
-The ``analyse`` module helps you to automate analysing the health and status of a model and to extract 
+The ``analyze`` module helps you to automate analysing the health and status of a model and to extract 
 several types of data and statistics in order to simplifiy BIM quality control. Extracted data is stored 
 as snapshots in a SQLite database to be consumed by other applications or dashboards.
 """
 
 import sqlite3
-import re
+import os
 from abc import ABCMeta, abstractmethod
 
 
-class ModelAnalyser:
+class ModelAnalyzer:
 	"""
-	The ``ModelAnalyser`` class applies a configured set of data providers on a model 
+	The ``ModelAnalyzer`` class applies a configured set of data providers on a model 
 	and creates snapshots with the extracted statistics in a given SQLite database.
 	"""
 
-	def __init__(self, database, providers):
+	def __init__(self, database, providers, path):
 		"""
-		Init a ``ModelAnalyser`` instance.
+		Init a ``ModelAnalyzer`` instance.
 
 		Args:
 			database (string): The path to a configuration JSON file
 			providers (list): A list of :class:`DataProviderBase` classes
+			path (string): The path to the Revit model
 		"""
 		self.providers = providers
-		self.database = ModelAnalyserDatabaseDriver(database)
+		self.database = ModelAnalyzerDatabaseDriver(database)
+		self.path = path
 
 	def snapshot(self):
 		"""
@@ -32,7 +34,7 @@ class ModelAnalyser:
 		"""
 		import revitron
 		logger = revitron.Log()
-		snapshotId = self.database.addSnapshot()
+		snapshotId = self.database.addSnapshot(self.path)
 		for provider in self.providers:
 			module = __import__(__name__)
 			providerClass = provider.get('class')
@@ -53,7 +55,7 @@ class ModelAnalyser:
 				)
 
 
-class ModelAnalyserDatabaseDriver:
+class ModelAnalyzerDatabaseDriver:
 	"""
 	The database driver handles the connection to the SQLite database as well as the actual 
 	creation of the snapshots.
@@ -62,12 +64,13 @@ class ModelAnalyserDatabaseDriver:
 	createSnapshotTable = """
 		CREATE TABLE IF NOT EXISTS snapshots(
 			snapshotId integer PRIMARY KEY AUTOINCREMENT,
+			modelSize real,
 			timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 		)
 	"""
 
 	insertSnapshot = """
-		INSERT INTO snapshots(snapshotId) VALUES(null)
+		INSERT INTO snapshots(snapshotId, modelSize) VALUES(null, :modelSize)
 	"""
 
 	createDataTable = """
@@ -94,19 +97,27 @@ class ModelAnalyserDatabaseDriver:
 		"""
 		self.database = dbFile
 
-	def addSnapshot(self):
+	def addSnapshot(self, path):
 		"""
 		Add a row for a snapshot and return its row ID that can be used to refernce 
 		other related data returned from the configured data providers.
 
 		Returns:
 			integer: The row ID of the snapshot
+
+		Args:
+			path (string): The path to the Revit model
 		"""
+		import revitron
 		conn = sqlite3.connect(self.database)
 		cursor = conn.cursor()
 		cursor.execute(self.pragmaForeignKeys)
 		cursor.execute(self.createSnapshotTable)
-		cursor.execute(self.insertSnapshot)
+		try:
+			modelSize = os.path.getsize(path)
+		except:
+			modelSize = 0
+		cursor.execute(self.insertSnapshot, {'modelSize': modelSize})
 		rowId = cursor.lastrowid
 		conn.commit()
 		conn.close()
