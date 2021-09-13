@@ -1,17 +1,19 @@
+from genericpath import isfile
 import sys
 import json
 import os
-from os.path import dirname, join, abspath
+from os.path import dirname, join, abspath, isfile
 
 try:
-	configFile = sys.argv[2]
+	configFile = abspath(join(os.getcwd(), sys.argv[2]))
+	if not isfile(configFile):
+		configFile = sys.argv[2]
+	file = open(configFile)
+	config = json.load(file)
+	file.close()
 except:
-	print('Please provide a configuration file')
+	print('Please provide a valid configuration file')
 	sys.exit()
-
-file = open(configFile)
-config = json.load(file)
-file.close()
 
 os.environ['REVITRON_ANALYSE_CFG_FILE'] = configFile
 
