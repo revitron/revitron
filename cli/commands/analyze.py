@@ -30,6 +30,6 @@ pyRevitBin = join(pyRevitPath, 'bin', 'pyrevit.exe')
 if not os.path.exists(pyRevitBin):
 	pyRevitBin = 'pyrevit'
 
-task = join(dirname(commandDir), 'run', 'analyse.py')
+task = join(dirname(commandDir), 'run', 'analyze.py')
 
 os.system('{} run {} {} --purge'.format(pyRevitBin, task, model))
