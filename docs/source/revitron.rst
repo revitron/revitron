@@ -12,6 +12,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   revitron.analyze
    revitron.boundingbox
    revitron.category
    revitron.create
