@@ -108,7 +108,6 @@ class ModelAnalyzerDatabaseDriver:
 		Args:
 			path (string): The path to the Revit model
 		"""
-		import revitron
 		conn = sqlite3.connect(self.database)
 		cursor = conn.cursor()
 		cursor.execute(self.pragmaForeignKeys)
@@ -272,6 +271,36 @@ class ElementVolumeProvider(DataProviderBase):
 	def dataType(self):
 		"""
 		The volume data type is ``real``.
+
+		Returns:
+			string: The data type
+		"""
+		return 'real'
+
+
+class ElementLengthProvider(DataProviderBase):
+	"""
+	This data provider returns the accumulated length of a set of elements after applying all
+	filters that are defined in the provider configuration.
+	"""
+
+	def run(self):
+		"""
+		Apply filters and accumulate the length of the filtered elements.
+
+		Returns:
+			integer: The accumulated length
+		"""
+		from revitron import _
+		length = 0.0
+		for element in self._filterElements():
+			length += _(element).get('Length')
+		return length
+
+	@property
+	def dataType(self):
+		"""
+		The length data type is ``real``.
 
 		Returns:
 			string: The data type
