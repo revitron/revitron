@@ -23,6 +23,11 @@ except:
 	print('No model has been defined in the config')
 	sys.exit()
 
+try:
+	revitVersion = ' --revit={}'.format(config['revit'])
+except:
+	revitVersion = ''
+
 commandDir = dirname(__file__)
 pyRevitPath = abspath(join(commandDir, '../../../../'))
 pyRevitBin = join(pyRevitPath, 'bin', 'pyrevit.exe')
@@ -32,4 +37,4 @@ if not os.path.exists(pyRevitBin):
 
 task = join(dirname(commandDir), 'run', 'analyze.py')
 
-os.system('{} run {} {} --purge'.format(pyRevitBin, task, model))
+os.system('{} run {} {} {} --purge'.format(pyRevitBin, task, model, revitVersion))
