@@ -1,40 +1,9 @@
-from genericpath import isfile
 import sys
-import json
-import os
-from os.path import dirname, join, abspath, isfile
+from os.path import dirname
 
-try:
-	configFile = abspath(join(os.getcwd(), sys.argv[2]))
-	if not isfile(configFile):
-		configFile = sys.argv[2]
-	file = open(configFile)
-	config = json.load(file)
-	file.close()
-except:
-	print('Please provide a valid configuration file')
-	sys.exit()
+sys.path.append(dirname(dirname(dirname(__file__))))
 
-os.environ['REVITRON_ANALYSE_CFG_FILE'] = configFile
+import cli
 
-try:
-	model = config['model']
-except:
-	print('No model has been defined in the config')
-	sys.exit()
-
-try:
-	revitVersion = ' --revit={}'.format(config['revit'])
-except:
-	revitVersion = ''
-
-commandDir = dirname(__file__)
-pyRevitPath = abspath(join(commandDir, '../../../../'))
-pyRevitBin = join(pyRevitPath, 'bin', 'pyrevit.exe')
-
-if not os.path.exists(pyRevitBin):
-	pyRevitBin = 'pyrevit'
-
-task = join(dirname(commandDir), 'run', 'analyze.py')
-
-os.system('{} run {} {} {} --purge'.format(pyRevitBin, task, model, revitVersion))
+cmd = cli.Command('analyze')
+cmd.run()

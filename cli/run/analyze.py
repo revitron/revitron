@@ -6,9 +6,12 @@ from pyrevit import HOST_APP
 
 sys.path.append(dirname(dirname(dirname(__file__))))
 
-model = __models__[0]
-
 import revitron
+import cli
+
+cli.CliLog.stdout()
+
+model = __models__[0]
 
 modelPath = revitron.DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(model)
 openOptions = revitron.DB.OpenOptions()
