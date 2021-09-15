@@ -21,7 +21,7 @@ class ModelAnalyzer:
 
 		Args:
 			database (string): The path to a configuration JSON file
-			providers (list): A list of :class:`DataProviderBase` classes
+			providers (list): A list of :class:`AbstractDataProvider` classes
 			path (string): The path to the Revit model
 		"""
 		self.providers = providers
@@ -150,7 +150,7 @@ class ModelAnalyzerDatabaseDriver:
 		conn.close()
 
 
-class DataProviderBase(object):
+class AbstractDataProvider(object):
 	"""
 	The abstract data provider. A data provider must implement a ``run()`` method
 	that actually defines the extracted data.
@@ -202,7 +202,7 @@ class DataProviderBase(object):
 		return 'integer'
 
 
-class ElementCountProvider(DataProviderBase):
+class ElementCountProvider(AbstractDataProvider):
 	"""
 	This data provider returns the count of filtered elements after applying all
 	filters that are defined in the provider configuration.
@@ -218,7 +218,7 @@ class ElementCountProvider(DataProviderBase):
 		return len(self._filterElements())
 
 
-class ElementAreaProvider(DataProviderBase):
+class ElementAreaProvider(AbstractDataProvider):
 	"""
 	This data provider returns the accumulated area of a set of elements after applying all
 	filters that are defined in the provider configuration.
@@ -248,7 +248,7 @@ class ElementAreaProvider(DataProviderBase):
 		return 'real'
 
 
-class ElementVolumeProvider(DataProviderBase):
+class ElementVolumeProvider(AbstractDataProvider):
 	"""
 	This data provider returns the accumulated area of a set of elements after applying all
 	filters that are defined in the provider configuration.
@@ -278,7 +278,7 @@ class ElementVolumeProvider(DataProviderBase):
 		return 'real'
 
 
-class ElementLengthProvider(DataProviderBase):
+class ElementLengthProvider(AbstractDataProvider):
 	"""
 	This data provider returns the accumulated length of a set of elements after applying all
 	filters that are defined in the provider configuration.
@@ -308,7 +308,7 @@ class ElementLengthProvider(DataProviderBase):
 		return 'real'
 
 
-class WarningCountProvider(DataProviderBase):
+class WarningCountProvider(AbstractDataProvider):
 	"""
 	This data provider returns the number of warnings in a model.
 	"""
