@@ -19,6 +19,8 @@ openOptions.DetachFromCentralOption = revitron.DB.DetachFromCentralOption.Detach
 
 uidoc = HOST_APP.uiapp.OpenAndActivateDocument(modelPath, openOptions, False)
 
+reload(revitron)
+
 configFile = os.getenv('REVITRON_ANALYSE_CFG_FILE')
 file = open(configFile)
 config = revitron.AttrDict(json.load(file))
