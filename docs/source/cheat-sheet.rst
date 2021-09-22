@@ -229,3 +229,19 @@ data stored yet and you don't want to check for existence first:
 
     config = revitron.DocumentConfigStorage().get('my.namespace', dict())
     print(config.get('some'))
+
+Opening BIM 360 Models
+----------------------
+
+The ``forge`` submodule provides an easy way to open cloud based models. However, in order to actually be able to 
+*authenticate* and interact with a model, please follow this 
+`tutorial <https://forge.autodesk.com/en/docs/oauth/v1/tutorials/create-app/>`_ and create a custom **Forge app** first. 
+
+After successfully creating such an app, you can open a model using the *client Id*, *client secret*, *project name*
+and *model path* as follows::
+
+    clientId = 'xxxxx'
+    clientSecret = '*****'
+    token = revitron.ForgeAppAuthenticator(clientId, clientSecret).token
+    model = revitron.ForgeModelFinder('My Project', 'rvt/model.rvt', token)
+    doc = model.open()

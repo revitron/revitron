@@ -96,6 +96,7 @@ from revitron.document import *
 from revitron.externalreference import *
 from revitron.failure import *
 from revitron.filter import *
+from revitron.forge import *
 from revitron.geometry import *
 from revitron.grid import *
 from revitron.link import *
