@@ -55,12 +55,6 @@ napoleon_use_rtype = True
 
 # Open Graph extension config. https://pypi.org/project/sphinxext-opengraph/
 ogp_site_url = "https://revitron.readthedocs.io/"
-ogp_image = "https://raw.githubusercontent.com/revitron/revitron/master/docs/source/_static/revitron.png"
-ogp_description_length = 300
-
-ogp_custom_meta_tags = [
-    '<meta name="twitter:card" content="summary_large_image">',
-]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
