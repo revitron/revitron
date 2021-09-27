@@ -331,6 +331,67 @@ class ParameterUtils:
 
 		return True
 
+	@staticmethod
+	def getStorageType(name):
+		"""
+		Get the storage type of a parameter definition by name.
+
+		Args:
+			name (string): The parameter name
+
+		Returns:
+			string: The storage type
+		"""
+		from revitron import DOC
+		try:
+			parameter = ParameterUtils._findDefinition(name)
+			return parameter.StorageType
+		except:
+			try:
+				return DOC.TypeOfStorage[ParameterUtils._findBip(name)]
+			except:
+				return None
+
+	@staticmethod
+	def _findDefinition(name):
+		"""
+		Find a custom parameter in a document.
+
+		Args:
+			name (string): The parameter name
+
+		Returns:
+			object: The parameter object
+		"""
+		from revitron import DOC
+		it = DOC.ParameterBindings.ForwardIterator()
+		while it.MoveNext():
+			if it.Key.Name == name:
+				return it.Key
+		return None
+
+	@staticmethod
+	def _findBip(name):
+		"""
+		Find a built-in parameter by name.
+
+		Args:
+			name (string): The parameter name
+
+		Returns:
+			object: The built-in parameter
+		"""
+		from revitron import DB
+		for item in dir(DB.BuiltInParameter):
+			try:
+				bip = getattr(DB.BuiltInParameter, item)
+				if DB.LabelUtils.GetLabelFor(bip) == name:
+					return bip
+			except:
+				pass
+		return None
+
+
 class ParameterNameList:
 	"""
 	A helper class for listing all parameter names in the active document. 

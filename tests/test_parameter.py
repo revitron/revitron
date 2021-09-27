@@ -120,5 +120,17 @@ class ParameterTests(utils.RevitronTestCase):
 		    ).render()
 		)
 
+	def testParameterStorageTypes(self):
+
+		self.assertEquals(
+		    str(revitron.ParameterUtils.getStorageType('Comments')),
+		    'String'
+		)
+		self.assertEquals(str(revitron.ParameterUtils.getStorageType('Area')), 'Double')
+		self.assertEquals(
+		    str(revitron.ParameterUtils.getStorageType('Number')),
+		    'Integer'
+		)
+
 
 utils.run(ParameterTests)
