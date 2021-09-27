@@ -64,7 +64,7 @@ class Filter:
 			self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
 		self.scope = scope
 
-	def all(self):
+	def _all(self):
 		"""
 		This is just a helper filter that doesn't modify the collection at all to allow for 
 		getting all elements of an instance without actually applying any filter before. 
@@ -82,7 +82,7 @@ class Filter:
 		self.collector = self.collector.WherePasses(f)
 		return self
 
-	def applyFilter(self, filterRule, paramName, value, evaluator, invert=False):
+	def _applyFilter(self, filterRule, paramName, value, evaluator, invert=False):
 		"""
 		Applies a filter.
 
@@ -108,7 +108,7 @@ class Filter:
 				    revitron.DOC,
 				    self.getElementIds()
 				)
-				_filter.parameterFilter(rule, invert)
+				_filter._parameterFilter(rule, invert)
 				filters.append(_filter)
 			except:
 				pass
@@ -121,6 +121,18 @@ class Filter:
 						self.collector.UnionWith(filters[i].collector)
 					else:
 						self.collector.IntersectWith(filters[i].collector)
+
+	def _parameterFilter(self, rule, invert=False):
+		"""
+		Applies a parameter filter.
+
+		Args:
+			rule (object): The filter rule object
+			invert (boolean): Inverts the filter
+		"""
+		import revitron
+		parameterFilter = revitron.DB.ElementParameterFilter(rule, invert)
+		self.collector = self.collector.WherePasses(parameterFilter)
 
 	def byIntersection(self, element):
 		"""
@@ -237,7 +249,7 @@ class Filter:
 		"""
 		import revitron
 		value = float(value)
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterDoubleRule,
 		    paramName,
 		    value,
@@ -266,7 +278,7 @@ class Filter:
 		"""
 		import revitron
 		value = float(value)
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterDoubleRule,
 		    paramName,
 		    value,
@@ -294,7 +306,7 @@ class Filter:
 		"""
 		import revitron
 		value = float(value)
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterDoubleRule,
 		    paramName,
 		    value,
@@ -322,7 +334,7 @@ class Filter:
 		"""
 		import revitron
 		value = float(value)
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterDoubleRule,
 		    paramName,
 		    value,
@@ -350,7 +362,7 @@ class Filter:
 		"""
 		import revitron
 		value = float(value)
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterDoubleRule,
 		    paramName,
 		    value,
@@ -424,7 +436,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -475,7 +487,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -527,7 +539,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -549,7 +561,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -568,7 +580,7 @@ class Filter:
 		try:
 			return self.collector.ToElements()
 		except:
-			self.all()
+			self._all()
 			return self.collector.ToElements()
 
 	def getElementIds(self):
@@ -581,7 +593,7 @@ class Filter:
 		try:
 			return self.collector.ToElementIds()
 		except:
-			self.all()
+			self._all()
 			return self.collector.ToElementIds()
 
 	def noTypes(self):
@@ -603,15 +615,3 @@ class Filter:
 		"""
 		self.collector = self.collector.WhereElementIsElementType()
 		return self
-
-	def parameterFilter(self, rule, invert=False):
-		"""
-		Applies a parameter filter.
-
-		Args:
-			rule (object): The filter rule object
-			invert (boolean): Inverts the filter
-		"""
-		import revitron
-		parameterFilter = revitron.DB.ElementParameterFilter(rule, invert)
-		self.collector = self.collector.WherePasses(parameterFilter)
