@@ -55,91 +55,6 @@ class Parameter:
 			except:
 				pass
 
-	@staticmethod
-	def bind(category, paramName, paramType='Text', typeBinding=False):
-		"""
-		Bind a new parameter to a category.
-
-		Args:
-			category (string): The built-in category 
-			paramName (string): The parameter name
-			paramType (string): The parameter type (see `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_)
-								Defaults to "Text".
-			typeBinding (bool): Bind parameter to type instead of instance. Defaults to False.
-
-		Returns:
-			boolean: Returns True on success and False on error.
-		"""
-		import revitron
-
-		paramFile = revitron.APP.OpenSharedParameterFile()
-
-		if paramFile is None:
-			print('Please define a shared parameters file.')
-			return False
-
-		definition = None
-
-		# Try to get an existing parameter definition with the given name.
-		for group in paramFile.Groups:
-			for item in group.Definitions:
-				if item.Name == paramName:
-					definition = item
-					break
-			if definition:
-				break
-
-		group = None
-
-		# If the definition hasn't been created yet, create it in the REVITRON group.
-		if not definition:
-			for item in paramFile.Groups:
-				if item.Name == 'REVITRON':
-					group = item
-					break
-			if not group:
-				group = paramFile.Groups.Create('REVITRON')
-			pt = getattr(revitron.DB.ParameterType, paramType)
-			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
-			    paramName,
-			    pt
-			)
-			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
-
-		# Try to get the parameter binding for the definition.
-		binding = revitron.DOC.ParameterBindings[definition]
-
-		# Add the given category to the categories list as the initial item
-		# and try to access currently bound categories to add them as well.
-		# In case the given category is already among the bound categories,
-		# stop the further execution and return False.
-		# In case the category is not bound yet, remove the binding from the parameter
-		# binding map.
-		categories = [revitron.Category(category).get()]
-		try:
-			for _cat in binding.Categories:
-				categories.append(_cat)
-				if _cat.Name == category:
-					return False
-			revitron.DOC.ParameterBindings.Remove(definition)
-		except:
-			pass
-
-		# Create a new category set and add all categories, the given and the previously bound ones.
-		categorySet = revitron.APP.Create.NewCategorySet()
-		for _cat in categories:
-			categorySet.Insert(_cat)
-
-		# Create the binding.
-		if typeBinding:
-			binding = revitron.APP.Create.NewTypeBinding(categorySet)
-		else:
-			binding = revitron.APP.Create.NewInstanceBinding(categorySet)
-
-		revitron.DOC.ParameterBindings.Insert(definition, binding)
-
-		return True
-
 	def exists(self):
 		"""
 		Checks if a parameter exists.
@@ -287,7 +202,7 @@ class Parameter:
 				paramType = 'Number'
 		if self.parameter == None:
 			from revitron import _
-			if Parameter.bind(
+			if ParameterUtils.bind(
 			    self.element.Category.Name,
 			    self.name,
 			    paramType,
@@ -325,6 +240,96 @@ class Parameter:
 		except:
 			return self.parameter.DisplayUnitType
 
+
+class ParameterUtils:
+	"""
+	A collection of static parameter utilities.
+	"""
+
+	@staticmethod
+	def bind(category, paramName, paramType='Text', typeBinding=False):
+		"""
+		Bind a new parameter to a category.
+
+		Args:
+			category (string): The built-in category 
+			paramName (string): The parameter name
+			paramType (string): The parameter type (see `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_)
+								Defaults to "Text".
+			typeBinding (bool): Bind parameter to type instead of instance. Defaults to False.
+
+		Returns:
+			boolean: Returns True on success and False on error.
+		"""
+		import revitron
+
+		paramFile = revitron.APP.OpenSharedParameterFile()
+
+		if paramFile is None:
+			print('Please define a shared parameters file.')
+			return False
+
+		definition = None
+
+		# Try to get an existing parameter definition with the given name.
+		for group in paramFile.Groups:
+			for item in group.Definitions:
+				if item.Name == paramName:
+					definition = item
+					break
+			if definition:
+				break
+
+		group = None
+
+		# If the definition hasn't been created yet, create it in the REVITRON group.
+		if not definition:
+			for item in paramFile.Groups:
+				if item.Name == 'REVITRON':
+					group = item
+					break
+			if not group:
+				group = paramFile.Groups.Create('REVITRON')
+			pt = getattr(revitron.DB.ParameterType, paramType)
+			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
+			    paramName,
+			    pt
+			)
+			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
+
+		# Try to get the parameter binding for the definition.
+		binding = revitron.DOC.ParameterBindings[definition]
+
+		# Add the given category to the categories list as the initial item
+		# and try to access currently bound categories to add them as well.
+		# In case the given category is already among the bound categories,
+		# stop the further execution and return False.
+		# In case the category is not bound yet, remove the binding from the parameter
+		# binding map.
+		categories = [revitron.Category(category).get()]
+		try:
+			for _cat in binding.Categories:
+				categories.append(_cat)
+				if _cat.Name == category:
+					return False
+			revitron.DOC.ParameterBindings.Remove(definition)
+		except:
+			pass
+
+		# Create a new category set and add all categories, the given and the previously bound ones.
+		categorySet = revitron.APP.Create.NewCategorySet()
+		for _cat in categories:
+			categorySet.Insert(_cat)
+
+		# Create the binding.
+		if typeBinding:
+			binding = revitron.APP.Create.NewTypeBinding(categorySet)
+		else:
+			binding = revitron.APP.Create.NewInstanceBinding(categorySet)
+
+		revitron.DOC.ParameterBindings.Insert(definition, binding)
+
+		return True
 
 class ParameterNameList:
 	"""
@@ -435,7 +440,7 @@ class BuiltInParameterNameMap:
 			name (string): The parameter name visible to the user
 
 		Returns:
-			list: The list of built-in parameters
+			list: The list of built-in parameter ids
 		"""
 		return self.map[name]
 
