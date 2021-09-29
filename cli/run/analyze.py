@@ -11,10 +11,14 @@ import cli
 
 cli.CliLog.stdout()
 
-model = __models__[0]
+modelPath = revitron.DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(__models__[0])
 
-modelPath = revitron.DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(model)
+worksetConfig = revitron.DB.WorksetConfiguration(
+    revitron.DB.WorksetConfigurationOption.OpenAllWorksets
+)
+
 openOptions = revitron.DB.OpenOptions()
+openOptions.SetOpenWorksetsConfiguration(worksetConfig)
 openOptions.DetachFromCentralOption = revitron.DB.DetachFromCentralOption.DetachAndPreserveWorksets
 
 uidoc = HOST_APP.uiapp.OpenAndActivateDocument(modelPath, openOptions, False)
