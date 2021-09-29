@@ -9,15 +9,14 @@ class ParameterTests(utils.RevitronTestCase):
 
 		wall = self.fixture.createWall()
 
-		t = revitron.Transaction()
-		_(wall).set('text', 'some text')
-		_(wall).set('integer', 5, 'Integer')
-		_(wall).set('integerAuto', 5)
-		_(wall).set('number', 10.5, 'Number')
-		_(wall).set('numberAuto', 10.5)
-		_(wall).set('length', 5, 'Length')
-		_(wall).set('Comments', 'some comment')
-		t.commit()
+		with revitron.Transaction():
+			_(wall).set('text', 'some text')
+			_(wall).set('integer', 5, 'Integer')
+			_(wall).set('integerAuto', 5)
+			_(wall).set('number', 10.5, 'Number')
+			_(wall).set('numberAuto', 10.5)
+			_(wall).set('length', 5, 'Length')
+			_(wall).set('Comments', 'some comment')
 
 		self.assertEquals(
 		    str(revitron.Parameter(wall,
@@ -99,10 +98,9 @@ class ParameterTests(utils.RevitronTestCase):
 		wall = _(self.fixture.createWall())
 		info = _(revitron.DOC.ProjectInformation)
 
-		t = revitron.Transaction()
-		wall.set('param1', 'Test & Text').set('param2', 10, 'Integer')
-		info.set('projectParam', 'Project Name')
-		t.commit()
+		with revitron.Transaction():
+			wall.set('param1', 'Test & Text').set('param2', 10, 'Integer')
+			info.set('projectParam', 'Project Name')
 
 		self.assertEquals(
 		    'Project_Name: Test_Text-10',
@@ -122,6 +120,16 @@ class ParameterTests(utils.RevitronTestCase):
 
 	def testParameterStorageTypes(self):
 
+		wall = _(self.fixture.createWall())
+
+		with revitron.Transaction():
+			wall.set('param1', 'Test & Text').set('param2', 10, 'Integer')
+
+		self.assertEquals(str(revitron.ParameterUtils.getStorageType('param1')), 'String')
+		self.assertEquals(
+		    str(revitron.ParameterUtils.getStorageType('param2')),
+		    'Integer'
+		)
 		self.assertEquals(
 		    str(revitron.ParameterUtils.getStorageType('Comments')),
 		    'String'

@@ -101,17 +101,20 @@ class Filter:
 		# While iterating that list, the parameter filter is applied each time
 		# to a fresh element collector that will be later merged or intersected with the others.
 		for valueProvider in revitron.ParameterValueProviders(paramName).get():
-			try:
+			# Build filter rule based on filter type.
+			if 'Double' in str(filterRule):
+				rule = filterRule(valueProvider, evaluator, value, 0.001)
+			elif 'Integer' in str(filterRule):
+				rule = filterRule(valueProvider, evaluator, value)
+			else:
 				rule = filterRule(valueProvider, evaluator, value, True)
-				_filter = Filter()
-				_filter.collector = revitron.DB.FilteredElementCollector(
-				    revitron.DOC,
-				    self.getElementIds()
-				)
-				_filter._parameterFilter(rule, invert)
-				filters.append(_filter)
-			except:
-				pass
+			_filter = Filter()
+			_filter.collector = revitron.DB.FilteredElementCollector(
+			    revitron.DOC,
+			    self.getElementIds()
+			)
+			_filter._parameterFilter(rule, invert)
+			filters.append(_filter)
 
 		if len(filters):
 			self.collector = filters[0].collector
@@ -133,6 +136,37 @@ class Filter:
 		import revitron
 		parameterFilter = revitron.DB.ElementParameterFilter(rule, invert)
 		self.collector = self.collector.WherePasses(parameterFilter)
+
+	def _getNumericFilterValue(self, value, paramName):
+		"""
+		Get the correct numeric filter value based on the storage type of a given parameter.
+
+		Args:
+			value (integer|float): A filter value
+			paramName (string): The parameter name
+
+		Returns:
+			object: A filter value of the correct type
+		"""
+		from revitron import ParameterUtils
+		if ParameterUtils.getStorageType(paramName) == 'Integer':
+			return int(value)
+		return float(value)
+
+	def _getNumericFilterRule(self, paramName):
+		"""
+		Get the correct numeric filter rule based on the storage type of a given parameter.
+
+		Args:
+			paramName (string): The parameter name
+
+		Returns:
+			object: A filter rule object for double or integer
+		"""
+		from revitron import DB, ParameterUtils
+		if ParameterUtils.getStorageType(paramName) == 'Integer':
+			return DB.FilterIntegerRule
+		return DB.FilterDoubleRule
 
 	def byIntersection(self, element):
 		"""
@@ -248,11 +282,11 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
 		self._applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value,
+		                                paramName),
 		    revitron.DB.FilterNumericGreater(),
 		    invert
 		)
@@ -277,11 +311,11 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
 		self._applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value,
+		                                paramName),
 		    revitron.DB.FilterNumericGreaterOrEqual(),
 		    invert
 		)
@@ -305,11 +339,11 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
 		self._applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value,
+		                                paramName),
 		    revitron.DB.FilterNumericEquals(),
 		    invert
 		)
@@ -333,11 +367,11 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
 		self._applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value,
+		                                paramName),
 		    revitron.DB.FilterNumericLess(),
 		    invert
 		)
@@ -361,11 +395,11 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
 		self._applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value,
+		                                paramName),
 		    revitron.DB.FilterNumericLessOrEqual(),
 		    invert
 		)
