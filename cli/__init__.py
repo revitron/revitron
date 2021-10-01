@@ -68,7 +68,7 @@ class Command():
 		CliLog.show()
 
 	def setEnv(self):
-		os.environ['REVITRON_ANALYSE_CFG_FILE'] = self.configFile
+		os.environ['REVITRON_CLI_CONFIG'] = self.configFile
 
 
 class CliLog:

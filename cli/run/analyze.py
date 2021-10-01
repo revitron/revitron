@@ -25,7 +25,7 @@ uidoc = HOST_APP.uiapp.OpenAndActivateDocument(modelPath, openOptions, False)
 
 reload(revitron)
 
-configFile = os.getenv('REVITRON_ANALYSE_CFG_FILE')
+configFile = os.getenv('REVITRON_CLI_CONFIG')
 file = open(configFile)
 config = revitron.AttrDict(json.load(file))
 file.close()
