@@ -21,9 +21,7 @@ openOptions = revitron.DB.OpenOptions()
 openOptions.SetOpenWorksetsConfiguration(worksetConfig)
 openOptions.DetachFromCentralOption = revitron.DB.DetachFromCentralOption.DetachAndPreserveWorksets
 
-uidoc = HOST_APP.uiapp.OpenAndActivateDocument(modelPath, openOptions, False)
-
-reload(revitron)
+revitron.DOC = HOST_APP.uiapp.Application.OpenDocumentFile(modelPath, openOptions)
 
 configFile = os.getenv('REVITRON_CLI_CONFIG')
 file = open(configFile)
