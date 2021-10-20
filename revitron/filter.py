@@ -108,13 +108,15 @@ class Filter:
 				rule = filterRule(valueProvider, evaluator, value)
 			else:
 				rule = filterRule(valueProvider, evaluator, value, True)
-			_filter = Filter()
-			_filter.collector = revitron.DB.FilteredElementCollector(
-			    revitron.DOC,
-			    self.getElementIds()
-			)
-			_filter._parameterFilter(rule, invert)
-			filters.append(_filter)
+			_ids = self.getElementIds()
+			if _ids:
+				_filter = Filter()
+				_filter.collector = revitron.DB.FilteredElementCollector(
+				    revitron.DOC,
+				    _ids
+				)
+				_filter._parameterFilter(rule, invert)
+				filters.append(_filter)
 
 		if len(filters):
 			self.collector = filters[0].collector
