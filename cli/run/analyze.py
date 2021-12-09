@@ -23,10 +23,5 @@ openOptions.DetachFromCentralOption = revitron.DB.DetachFromCentralOption.Detach
 
 revitron.DOC = HOST_APP.uiapp.Application.OpenDocumentFile(modelPath, openOptions)
 
-configFile = os.getenv('REVITRON_CLI_CONFIG')
-file = open(configFile)
-config = revitron.AttrDict(json.load(file))
-file.close()
-
-analyzer = revitron.ModelAnalyzer(config)
+analyzer = revitron.ModelAnalyzer(os.getenv('REVITRON_CLI_CONFIG'))
 analyzer.snapshot()
