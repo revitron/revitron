@@ -33,7 +33,8 @@ class AbstractStorageDriver:
 		Add a new snapshot.
 
 		Args:
-			dataProviderResults (list): The list of :class:`DataProviderResult` objects
+			dataProviderResults (list): The list of 
+				:class:`revitron.analyze.DataProviderResult` objects
 			modelSize (float): The local file's size in bytes
 		"""
 		pass
@@ -50,7 +51,8 @@ class SQLiteStorageDriver(AbstractStorageDriver):
 		Add a new row to the snapshots table.
 
 		Args:
-			dataProviderResults (list): The list of :class:`DataProviderResult` objects
+			dataProviderResults (list): The list of 
+				:class:`revitron.analyze.DataProviderResult` objects
 			modelSize (float): The local file's size in bytes
 		"""
 		try:
