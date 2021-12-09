@@ -1,10 +1,19 @@
 Developer Guide
 ===============
+	
 
 .. automodule:: revitron
    :members:
    :undoc-members:
    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   revitron.analyze
 
 Submodules
 ----------
@@ -12,7 +21,6 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   revitron.analyze
    revitron.boundingbox
    revitron.category
    revitron.create

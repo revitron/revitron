@@ -28,5 +28,5 @@ file = open(configFile)
 config = revitron.AttrDict(json.load(file))
 file.close()
 
-analyzer = revitron.ModelAnalyzer(config.database, config.providers, config.model)
+analyzer = revitron.ModelAnalyzer(config)
 analyzer.snapshot()

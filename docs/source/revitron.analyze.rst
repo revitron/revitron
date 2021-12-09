@@ -1,9 +1,17 @@
 revitron.analyze
 ================
+	
 
 .. automodule:: revitron.analyze
    :members:
    :undoc-members:
-   :inherited-members:
    :show-inheritance:
-   :autosummary:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   revitron.analyze.providers
+   revitron.analyze.storage
