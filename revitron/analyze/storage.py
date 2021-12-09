@@ -29,6 +29,13 @@ class AbstractStorageDriver:
 
 	@abstractmethod
 	def add(self, dataProviderResults, modelSize):
+		"""
+		Add a new snapshot.
+
+		Args:
+			dataProviderResults (list): The list of :class:`DataProviderResult` objects
+			modelSize (float): The local file's size in bytes
+		"""
 		pass
 
 
@@ -36,18 +43,6 @@ class SQLiteStorageDriver(AbstractStorageDriver):
 	"""
 	This storage driver handles the connection to the SQLite database as well as the actual 
 	creation of the snapshots.
-	"""
-
-	createTable = """
-		CREATE TABLE IF NOT EXISTS snapshots(
-			id integer PRIMARY KEY AUTOINCREMENT,
-			timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,{}
-			model_size real
-		)
-	"""
-
-	insertRow = """
-		INSERT INTO snapshots(id{}) VALUES(null{})
 	"""
 
 	def add(self, dataProviderResults, modelSize):
@@ -76,7 +71,23 @@ class SQLiteStorageDriver(AbstractStorageDriver):
 			data[name] = item.value
 		conn = sqlite3.connect(file)
 		cursor = conn.cursor()
-		cursor.execute(self.createTable.format(create))
-		cursor.execute(self.insertRow.format(insertColumns, insertParams), data)
+		cursor.execute(self._createTable.format(create))
+		cursor.execute(self._insertRow.format(insertColumns, insertParams), data)
 		conn.commit()
 		conn.close()
+
+	@property
+	def _createTable(self):
+		return """
+			CREATE TABLE IF NOT EXISTS snapshots(
+				id integer PRIMARY KEY AUTOINCREMENT,
+				timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,{}
+				model_size real
+			)
+		"""
+
+	@property
+	def _insertRow(self):
+		return """
+			INSERT INTO snapshots(id{}) VALUES(null{})
+		"""
