@@ -6,6 +6,7 @@ as snapshots in a SQLite database to be consumed by other applications or dashbo
 import json
 import sys
 import os
+from revitron import String
 from revitron.analyze.providers import *
 from revitron.analyze.storage import *
 
@@ -108,7 +109,7 @@ class DataProviderResult:
 		Returns:
 			string: The field name
 		"""
-		return '{} Value'.format(self._name)
+		return String.sanitize('{} value'.format(self._name)).lower()
 
 	@property
 	def value(self):

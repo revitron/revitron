@@ -2,12 +2,12 @@
 This submodule is a collection of storage drivers that can be used to store extracted model information 
 in different types of formats such as SQLite, JSON or API based databases.
 """
-from revitron import String
-from revitron import Log
-from time import time
-from datetime import datetime
 import sqlite3
 import sys
+from revitron import Log
+from pyrevit import script
+from time import time
+from datetime import datetime
 from abc import ABCMeta, abstractmethod
 
 
@@ -40,6 +40,38 @@ class AbstractStorageDriver:
 		pass
 
 
+class JSONStorageDriver(AbstractStorageDriver):
+	"""
+	This storage driver handles appending snapshots to JSON files.
+	"""
+
+	def add(self, dataProviderResults, modelSize):
+		"""
+		Add a new item to JSON file.
+
+		Args:
+			dataProviderResults (list): The list of 
+				:class:`revitron.analyze.DataProviderResult` objects
+			modelSize (float): The local file's size in bytes
+		"""
+		try:
+			file = self.config['file']
+		except:
+			Log().error('No JSON file defined')
+			sys.exit(1)
+		try:
+			snapshots = script.load_json(file)
+		except:
+			snapshots = []
+		data = dict()
+		data['timestamp'] = self.timestamp
+		data['model_size'] = modelSize
+		for item in dataProviderResults:
+			data[item.name] = item.value
+		snapshots.append(data)
+		script.dump_json(snapshots, file)
+
+
 class SQLiteStorageDriver(AbstractStorageDriver):
 	"""
 	This storage driver handles the connection to the SQLite database as well as the actual 
@@ -66,11 +98,10 @@ class SQLiteStorageDriver(AbstractStorageDriver):
 		data = dict()
 		data['model_size'] = modelSize
 		for item in dataProviderResults:
-			name = String.sanitize(item.name).lower()
-			create = '{} {} {},'.format(create, name, item.dataType)
-			insertColumns = '{}, {}'.format(insertColumns, name)
-			insertParams = '{}, :{}'.format(insertParams, name)
-			data[name] = item.value
+			create = '{} {} {},'.format(create, item.name, item.dataType)
+			insertColumns = '{}, {}'.format(insertColumns, item.name)
+			insertParams = '{}, :{}'.format(insertParams, item.name)
+			data[item.name] = item.value
 		conn = sqlite3.connect(file)
 		cursor = conn.cursor()
 		cursor.execute(self._createTable.format(create))
