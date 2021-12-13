@@ -25,6 +25,7 @@ class Command:
 		self.pyRevitBin = self.getPyRevitBin()
 		self.task = self.getTask(command)
 		self.setEnv()
+		CliLog.new('\nRunning: \n{}\n'.format(self.task))
 
 	def getTask(self, command):
 		task = join(dirname(__file__), 'run', '{}.py'.format(command))
@@ -57,44 +58,28 @@ class Command:
 		return pyRevitBin
 
 	def run(self):
-		logFile = 'log'
 		code = os.system(
 		    '{} run {} {} {} > {}'.format(
 		        self.pyRevitBin,
 		        self.task,
 		        self.model,
 		        self.revitVersion,
-		        logFile
+		        Buffer.file
 		    )
 		)
-		log = self.getLog(logFile)
-		os.unlink(logFile)
-		runtime = self.getRuntime(log)
+		log = CliLog.get()
 		print(log)
-		if runtime == '2710' and code == 0:
-			print(
-			    'Successfully finished "{}" command.'.format(
-			        os.path.basename(self.task).replace('.py',
-			                                            '')
-			    )
-			)
-		else:
+		buffer = Buffer.get()
+		print(buffer)
+		if self.getRuntime(buffer) != '2710' or code != 0:
 			print(
 			    'ERROR: Command execution has failed. Please make sure you use IronPython 2.7.10 as your pyRevit runtime.'
 			)
 		return code
 
-	def getLog(self, logFile):
+	def getRuntime(self, buffer):
 		try:
-			with open(logFile, 'r') as file:
-				log = file.read()
-		except:
-			log = ''
-		return log
-
-	def getRuntime(self, log):
-		try:
-			search = re.search(r'Path:\s*"[^"]+\D(\d{3,4})\\pyRevitLoader\.dll"', log)
+			search = re.search(r'Path:\s*"[^"]+\D(\d{3,4})\\pyRevitLoader\.dll"', buffer)
 			runtime = search.group(1)
 		except:
 			runtime = False
@@ -102,3 +87,40 @@ class Command:
 
 	def setEnv(self):
 		os.environ['REVITRON_CLI_CONFIG'] = self.configFile
+
+
+class Buffer:
+
+	file = 'C:\\temp\\revitron.cli.buffer'
+
+	@staticmethod
+	def get():
+		try:
+			with open(Buffer.file, 'r') as file:
+				buffer = file.read()
+		except:
+			buffer = ''
+		if os.path.isfile(Buffer.file):
+			os.unlink(Buffer.file)
+		return buffer
+
+
+class CliLog:
+
+	file = 'C:\\temp\\revitron.cli.log'
+
+	@staticmethod
+	def new(text):
+		with open(CliLog.file, 'w') as f:
+			f.write('{}\n'.format(text))
+
+	@staticmethod
+	def append(text):
+		with open(CliLog.file, 'a') as f:
+			f.write('{}\n'.format(text))
+
+	@staticmethod
+	def get():
+		with open(CliLog.file, 'r') as f:
+			log = f.read()
+		return log

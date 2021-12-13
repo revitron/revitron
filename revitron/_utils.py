@@ -2,6 +2,7 @@
 import re
 import os
 from pyrevit.coreutils import logger
+from cli import CliLog
 
 
 class AttrDict(dict):
@@ -39,9 +40,11 @@ class Log:
 
 	def error(self, message):
 		self.logger.error(message)
+		CliLog.append('Error: {}'.format(message))
 
 	def warning(self, message):
 		self.logger.warning(message)
+		CliLog.append('Warning: {}'.format(message))
 
 
 class String:
