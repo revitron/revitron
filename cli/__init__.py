@@ -1,10 +1,11 @@
+import re
 import sys
 import json
 import os
 from os.path import dirname, join, abspath, isfile, exists
 
 
-class Command():
+class Command:
 
 	def __init__(self, command):
 		configFile = self.getConfigFile()
@@ -24,7 +25,6 @@ class Command():
 		self.pyRevitBin = self.getPyRevitBin()
 		self.task = self.getTask(command)
 		self.setEnv()
-		CliLog.new(self.task)
 
 	def getTask(self, command):
 		task = join(dirname(__file__), 'run', '{}.py'.format(command))
@@ -57,37 +57,48 @@ class Command():
 		return pyRevitBin
 
 	def run(self):
-		os.system(
-		    '{} run {} {} {}'.format(
+		logFile = 'log'
+		code = os.system(
+		    '{} run {} {} {} > {}'.format(
 		        self.pyRevitBin,
 		        self.task,
 		        self.model,
-		        self.revitVersion
+		        self.revitVersion,
+		        logFile
 		    )
 		)
-		CliLog.show()
+		log = self.getLog(logFile)
+		os.unlink(logFile)
+		runtime = self.getRuntime(log)
+		print(log)
+		if runtime == '2710' and code == 0:
+			print(
+			    'Successfully finished "{}" command.'.format(
+			        os.path.basename(self.task).replace('.py',
+			                                            '')
+			    )
+			)
+		else:
+			print(
+			    'ERROR: Command execution has failed. Please make sure you use IronPython 2.7.10 as your pyRevit runtime.'
+			)
+		return code
+
+	def getLog(self, logFile):
+		try:
+			with open(logFile, 'r') as file:
+				log = file.read()
+		except:
+			log = ''
+		return log
+
+	def getRuntime(self, log):
+		try:
+			search = re.search(r'Path:\s*"[^"]+\D(\d{3,4})\\pyRevitLoader\.dll"', log)
+			runtime = search.group(1)
+		except:
+			runtime = False
+		return runtime
 
 	def setEnv(self):
 		os.environ['REVITRON_CLI_CONFIG'] = self.configFile
-
-
-class CliLog:
-
-	file = 'C:\\temp\\revitron.cli.log'
-
-	@staticmethod
-	def new(text):
-		f = open(CliLog.file, 'w')
-		f.write('{}\n'.format(text))
-		f.close()
-
-	@staticmethod
-	def stdout():
-		f = open(CliLog.file, 'a')
-		sys.stdout = f
-
-	@staticmethod
-	def show():
-		sys.stdout = sys.__stdout__
-		with open(CliLog.file, 'r') as f:
-			print(f.read())

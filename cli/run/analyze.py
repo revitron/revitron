@@ -1,5 +1,4 @@
 import os
-import json
 import sys
 from os.path import dirname
 from pyrevit import HOST_APP
@@ -7,9 +6,6 @@ from pyrevit import HOST_APP
 sys.path.append(dirname(dirname(dirname(__file__))))
 
 import revitron
-import cli
-
-cli.CliLog.stdout()
 
 modelPath = revitron.DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(__models__[0])
 
