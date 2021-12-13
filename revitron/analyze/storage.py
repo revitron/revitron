@@ -2,8 +2,10 @@
 This submodule is a collection of storage drivers that can be used to store extracted model information 
 in different types of formats such as SQLite, JSON or API based databases.
 """
+import json
 import sqlite3
 import sys
+import requests
 from revitron import Log
 from pyrevit import script
 from time import time
@@ -19,7 +21,7 @@ class AbstractStorageDriver:
 
 	def __init__(self, config):
 		"""
-		Inits a new storage driver instance with a givenm configuration.
+		Init a new storage driver instance with a givenm configuration.
 
 		Args:
 			config (dict): The driver configuration
@@ -38,6 +40,118 @@ class AbstractStorageDriver:
 			modelSize (float): The local file's size in bytes
 		"""
 		pass
+
+
+class DirectusStorageDriver(AbstractStorageDriver):
+
+	def __init__(self, config):
+		"""
+		Init a new Directus storage driver instance with a givenm configuration.
+
+		Args:
+			config (dict): The driver configuration
+		"""
+		try:
+			self.collection = config['collection']
+			self.host = config['host']
+			self.token = config['token']
+		except:
+			Log().error('Invalid Directus configuration')
+			sys.exit(1)
+		self.timestamp = datetime.fromtimestamp(time()).strftime('%Y-%m-%dT%H:%M:%S')
+
+	@property
+	def _headers(self):
+		return {
+		    'Accept': 'application/json',
+		    'Authorization': 'Bearer {}'.format(self.token),
+		    'Content-Type': 'application/json'
+		}
+
+	def _get(self, endpoint):
+		response = requests.get(
+		    '{}/{}'.format(self.host,
+		                   endpoint),
+		    headers=self._headers
+		)
+		try:
+			responseJson = response.json()
+			return responseJson['data']
+		except:
+			Log().error('Request has failed')
+			print(response.json())
+			return None
+
+	def _post(self, endpoint, data):
+		response = requests.post(
+		    '{}/{}'.format(self.host,
+		                   endpoint),
+		    headers=self._headers,
+		    data=json.dumps(data)
+		)
+		try:
+			responseJson = response.json()
+			return responseJson['data']
+		except:
+			print(response.json())
+			Log().error('Request has failed')
+			return None
+
+	def _getRemoteCollection(self):
+		return self._get('collections/{}'.format(self.collection))
+
+	def _createMissingCollection(self):
+		return self._post(
+		    'collections',
+		    {
+		        'collection': self.collection,
+		        'schema': {},
+		        'meta': {
+		            'icon': 'pie_chart'
+		        }
+		    }
+		)
+
+	def _getRemoteFields(self):
+		fields = []
+		data = self._get('fields/{}'.format(self.collection))
+		if data:
+			for item in data:
+				fields.append(item['field'])
+		return fields
+
+	def _createField(self, name, dataType):
+		data = {
+		    'field': name,
+		    'type': dataType.replace('real',
+		                             'float'),
+		    'schema': {},
+		    'meta': {
+		        'icon': 'data_usage'
+		    }
+		}
+		return self._post('fields/{}'.format(self.collection), data)
+
+	def _createMissingFields(self, dataProviderResults):
+		remoteFields = self._getRemoteFields()
+		if 'model_size' not in remoteFields:
+			self._createField('model_size', 'float')
+		if 'timestamp' not in remoteFields:
+			self._createField('timestamp', 'timestamp')
+		for item in dataProviderResults:
+			if item.name not in remoteFields:
+				self._createField(item.name, item.dataType)
+
+	def add(self, dataProviderResults, modelSize):
+		if self._getRemoteCollection() is None:
+			self._createMissingCollection()
+		self._createMissingFields(dataProviderResults)
+		data = {}
+		data['model_size'] = modelSize
+		data['timestamp'] = self.timestamp
+		for item in dataProviderResults:
+			data[item.name] = item.value
+		self._post('items/{}'.format(self.collection), data)
 
 
 class JSONStorageDriver(AbstractStorageDriver):
