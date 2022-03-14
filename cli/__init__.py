@@ -11,16 +11,11 @@ class Command:
 		configFile = self.getConfigFile()
 		config = self.getConfig(configFile)
 		try:
-			model = config['model']
-		except:
-			print('No model has been defined in the config')
-			sys.exit()
-		try:
 			revitVersion = ' --revit={}'.format(config['revit'])
 		except:
 			revitVersion = ''
 		self.configFile = configFile
-		self.model = model
+		self.target = os.path.join(os.path.dirname(__file__), 'target.rvt')
 		self.revitVersion = revitVersion
 		self.pyRevitBin = self.getPyRevitBin()
 		self.task = self.getTask(command)
@@ -62,7 +57,7 @@ class Command:
 		    '{} run {} {} {} > {}'.format(
 		        self.pyRevitBin,
 		        self.task,
-		        self.model,
+		        self.target,
 		        self.revitVersion,
 		        Buffer.file
 		    )

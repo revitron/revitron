@@ -6,6 +6,8 @@ as snapshots in a SQLite database to be consumed by other applications or dashbo
 import json
 import sys
 import os
+import glob
+import pyrevit
 from revitron import String
 from revitron.analyze.providers import *
 from revitron.analyze.storage import *
@@ -31,7 +33,7 @@ class ModelAnalyzer:
 			self.storageDriver = config['storage']['driver']
 			self.storageConfig = config['storage']['config']
 			self.providers = config['providers']
-			self.model = config['model']
+			self.model = self._getLocalPath(config['model'])
 		except:
 			from revitron import Log
 			Log().error('Invalid analyzer configuration JSON file')
@@ -76,6 +78,28 @@ class ModelAnalyzer:
 		except:
 			modelSize = 0
 		storageDriverInstance.add(results, modelSize)
+
+	def _getLocalPath(self, model):
+		if model['type'] == 'local':
+			return model['path']
+		else:
+			modelGUID = model['modelGUID']
+			projectGUID = model['projectGUID']
+			directory = 'C:\\Users\\{}\\AppData\\Local\\Autodesk\\Revit\\Autodesk Revit {}\\CollaborationCache'.format(
+			    os.getenv('username'),
+			    pyrevit.HOST_APP.uiapp.Application.VersionNumber
+			)
+			pattern = os.path.join(
+			    directory,
+			    '*',
+			    projectGUID,
+			    '{}.rvt'.format(modelGUID)
+			)
+			files = glob.glob(pattern)
+			try:
+				return files[0]
+			except:
+				return ''
 
 
 class DataProviderResult:
