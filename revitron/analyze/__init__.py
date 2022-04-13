@@ -121,6 +121,7 @@ class DataProviderResult:
 		module = __import__(__name__)
 		cls = getattr(module, providerClass)
 		providerInstance = cls(providerConfig)
+		self._valueType = providerInstance.valueType
 		self._value = providerInstance.run()
 		self._name = providerName
 		self._dataType = providerInstance.dataType
@@ -133,7 +134,7 @@ class DataProviderResult:
 		Returns:
 			string: The field name
 		"""
-		return String.sanitize('{} value'.format(self._name)).lower()
+		return '{}__{}'.format(self._valueType, String.sanitize(self._name).lower())
 
 	@property
 	def value(self):

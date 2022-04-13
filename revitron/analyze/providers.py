@@ -2,7 +2,7 @@
 This submodule is a collection of data providers that are used to extract information from a given Revit model.
 """
 
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod, abstractproperty
 
 
 class AbstractDataProvider(object):
@@ -56,6 +56,17 @@ class AbstractDataProvider(object):
 		"""
 		return 'integer'
 
+	@abstractproperty
+	def valueType(self):
+		"""
+		The value type property defines the type of the provided data in the database, such as
+		length, area, volume or count.
+
+		Returns:
+			string: The value type
+		"""
+		pass
+
 
 class ElementCountProvider(AbstractDataProvider):
 	"""
@@ -71,6 +82,16 @@ class ElementCountProvider(AbstractDataProvider):
 			integer: The number of filtered elements
 		"""
 		return len(self._filterElements())
+
+	@property
+	def valueType(self):
+		"""
+		The value type for the counter is ``count``.
+
+		Returns:
+			string: The value type
+		"""
+		return 'num'
 
 
 class ElementAreaProvider(AbstractDataProvider):
@@ -102,6 +123,16 @@ class ElementAreaProvider(AbstractDataProvider):
 		"""
 		return 'real'
 
+	@property
+	def valueType(self):
+		"""
+		The value type is ``area``.
+
+		Returns:
+			string: The value type
+		"""
+		return 'are'
+
 
 class ElementVolumeProvider(AbstractDataProvider):
 	"""
@@ -131,6 +162,16 @@ class ElementVolumeProvider(AbstractDataProvider):
 			string: The data type
 		"""
 		return 'real'
+
+	@property
+	def valueType(self):
+		"""
+		The value type is ``volume``.
+
+		Returns:
+			string: The value type
+		"""
+		return 'vol'
 
 
 class ElementLengthProvider(AbstractDataProvider):
@@ -162,6 +203,16 @@ class ElementLengthProvider(AbstractDataProvider):
 		"""
 		return 'real'
 
+	@property
+	def valueType(self):
+		"""
+		The value type is ``length``.
+
+		Returns:
+			string: The value type
+		"""
+		return 'len'
+
 
 class WarningCountProvider(AbstractDataProvider):
 	"""
@@ -177,3 +228,13 @@ class WarningCountProvider(AbstractDataProvider):
 		"""
 		import revitron
 		return len(revitron.DOC.GetWarnings())
+
+	@property
+	def valueType(self):
+		"""
+		The value type is ``count``.
+
+		Returns:
+			string: The value type
+		"""
+		return 'num'

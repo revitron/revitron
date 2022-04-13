@@ -7,10 +7,10 @@ import sqlite3
 import sys
 import requests
 from revitron import Log
-from pyrevit import script
 from time import time
 from datetime import datetime
 from abc import ABCMeta, abstractmethod
+from collections import OrderedDict
 
 
 class AbstractStorageDriver:
@@ -43,6 +43,9 @@ class AbstractStorageDriver:
 
 
 class DirectusStorageDriver(AbstractStorageDriver):
+	"""
+	This storage driver handles storing snapshots to in Directus using the Directus API.
+	"""
 
 	def __init__(self, config):
 		"""
@@ -143,6 +146,14 @@ class DirectusStorageDriver(AbstractStorageDriver):
 				self._createField(item.name, item.dataType)
 
 	def add(self, dataProviderResults, modelSize):
+		"""
+		Send a POST request to the Directus API in order store a snapshot
+
+		Args:
+			dataProviderResults (list): The list of 
+				:class:`revitron.analyze.DataProviderResult` objects
+			modelSize (float): The model size in bytes
+		"""
 		if self._getRemoteCollection() is None:
 			self._createMissingCollection()
 		self._createMissingFields(dataProviderResults)
@@ -174,16 +185,18 @@ class JSONStorageDriver(AbstractStorageDriver):
 			Log().error('No JSON file defined')
 			sys.exit(1)
 		try:
-			snapshots = script.load_json(file)
+			with open(file) as handle:
+				snapshots = json.load(handle, object_pairs_hook=OrderedDict)
 		except:
 			snapshots = []
-		data = dict()
+		data = OrderedDict()
 		data['timestamp'] = self.timestamp
 		data['model_size'] = modelSize
 		for item in dataProviderResults:
 			data[item.name] = item.value
 		snapshots.append(data)
-		script.dump_json(snapshots, file)
+		with open(file, 'w') as handle:
+			json.dump(snapshots, handle, indent=2)
 
 
 class SQLiteStorageDriver(AbstractStorageDriver):
