@@ -38,22 +38,6 @@ class AbstractDataProvider(object):
 			fltr = evaluator(fltr, *f.get('args'))
 		return fltr.noTypes().getElements()
 
-	def _accumulate(self, accumulated, value):
-		"""
-		Accumulate a value by another value in a fail safe way.
-
-		Args:
-			accumulated (mixes): The accumulated value that is increased
-			value (mixed): The value that is added
-
-		Returns:
-			mixed: The accumulated value
-		"""
-		try:
-			return accumulated + value
-		except:
-			return accumulated
-
 	@abstractmethod
 	def run(self):
 		"""
@@ -126,7 +110,7 @@ class ElementAreaProvider(AbstractDataProvider):
 		from revitron import _
 		area = 0.0
 		for element in self._filterElements():
-			area = self._accumulate(area, _(element).get('Area'))
+			area += _(element).get('Area')
 		return round(area, 3)
 
 	@property
@@ -166,7 +150,7 @@ class ElementVolumeProvider(AbstractDataProvider):
 		from revitron import _
 		volume = 0.0
 		for element in self._filterElements():
-			volume = self._accumulate(volume, _(element).get('Volume'))
+			volume += _(element).get('Volume')
 		return round(volume, 3)
 
 	@property
@@ -206,7 +190,7 @@ class ElementLengthProvider(AbstractDataProvider):
 		from revitron import _
 		length = 0.0
 		for element in self._filterElements():
-			length = self._accumulate(length, _(element).get('Length'))
+			length += _(element).get('Length')
 		return round(length, 3)
 
 	@property

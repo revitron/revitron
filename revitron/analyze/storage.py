@@ -96,8 +96,8 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			responseJson = response.json()
 			return responseJson['data']
 		except:
-			print(response.json())
 			Log().error('Request has failed')
+			print(response.json())
 			return None
 
 	def _getRemoteCollection(self):
