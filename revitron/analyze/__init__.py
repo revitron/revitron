@@ -121,9 +121,9 @@ class DataProviderResult:
 		module = __import__(__name__)
 		cls = getattr(module, providerClass)
 		providerInstance = cls(providerConfig)
-		self._valueType = providerInstance.valueType
 		self._value = providerInstance.run()
 		self._name = providerName
+		self._valueType = providerInstance.valueType
 		self._dataType = providerInstance.dataType
 
 	@property

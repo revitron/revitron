@@ -56,7 +56,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		"""
 		try:
 			self.collection = config['collection']
-			self.host = config['host']
+			self.host = config['host'].rstrip('/')
 			self.token = config['token']
 		except:
 			Log().error('Invalid Directus configuration')
