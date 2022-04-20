@@ -154,10 +154,15 @@ class DirectusStorageDriver(AbstractStorageDriver):
 				:class:`revitron.analyze.DataProviderResult` objects
 			modelSize (float): The model size in bytes
 		"""
+		rowId = 1
+		remoteItems = self._get('items/{}'.format(self.collection))
+		if remoteItems:
+			rowId = len(remoteItems) + 1
 		if self._getRemoteCollection() is None:
 			self._createMissingCollection()
 		self._createMissingFields(dataProviderResults)
 		data = {}
+		data['id'] = rowId
 		data['model_size'] = modelSize
 		data['timestamp'] = self.timestamp
 		for item in dataProviderResults:
