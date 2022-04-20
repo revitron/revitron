@@ -110,7 +110,7 @@ class ElementAreaProvider(AbstractDataProvider):
 		from revitron import _
 		area = 0.0
 		for element in self._filterElements():
-			area += _(element).get('Area')
+			area += _(element).getParameter('Area').getDouble()
 		return round(area, 3)
 
 	@property
@@ -150,7 +150,7 @@ class ElementVolumeProvider(AbstractDataProvider):
 		from revitron import _
 		volume = 0.0
 		for element in self._filterElements():
-			volume += _(element).get('Volume')
+			volume += _(element).getParameter('Volume').getDouble()
 		return round(volume, 3)
 
 	@property
@@ -190,7 +190,7 @@ class ElementLengthProvider(AbstractDataProvider):
 		from revitron import _
 		length = 0.0
 		for element in self._filterElements():
-			length += _(element).get('Length')
+			length += _(element).getParameter('Length').getDouble()
 		return round(length, 3)
 
 	@property
