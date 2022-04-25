@@ -157,8 +157,8 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		rowId = 1
 		remoteItems = self._get('items/{}'.format(self.collection))
 		if remoteItems:
-			latestRow = max(remoteItems, key=lambda x: x['id'])
-			rowId = latestRow['id'] + 1
+			maxId = max(row['id'] for row in remoteItems)
+			rowId = maxId + 1
 		if self._getRemoteCollection() is None:
 			self._createMissingCollection()
 		self._createMissingFields(dataProviderResults)
