@@ -82,7 +82,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			return responseJson['data']
 		except:
 			Log().error('Request has failed')
-			print(response.json())
+			Log().error(response.json())
 			return None
 
 	def _post(self, endpoint, data):
@@ -97,7 +97,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			return responseJson['data']
 		except:
 			Log().error('Request has failed')
-			print(response.json())
+			Log().error(response.json())
 			return None
 
 	def _getRemoteCollection(self):
@@ -157,7 +157,8 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		rowId = 1
 		remoteItems = self._get('items/{}'.format(self.collection))
 		if remoteItems:
-			rowId = len(remoteItems) + 1
+			latestRow = max(remoteItems, key=lambda x: x['id'])
+			rowId = latestRow['id'] + 1
 		if self._getRemoteCollection() is None:
 			self._createMissingCollection()
 		self._createMissingFields(dataProviderResults)
