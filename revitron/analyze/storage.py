@@ -145,6 +145,13 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			if item.name not in remoteFields:
 				self._createField(item.name, item.dataType)
 
+	def _clearCache(self):
+		return requests.post(
+		    '{}/{}'.format(self.host,
+		                   'utils/cache/clear'),
+		    headers=self._headers
+		)
+
 	def add(self, dataProviderResults, modelSize):
 		"""
 		Send a POST request to the Directus API in order store a snapshot
@@ -154,6 +161,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 				:class:`revitron.analyze.DataProviderResult` objects
 			modelSize (float): The model size in bytes
 		"""
+		self._clearCache()
 		rowId = 1
 		remoteItems = self._get('items/{}'.format(self.collection))
 		if remoteItems:
