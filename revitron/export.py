@@ -33,11 +33,11 @@ class CSVExporter:
 
 	def exportSchedule(
 	    self,
-		schedule,
+	    schedule,
 	    directory,
 	    template=False,
-		delimiter=';',
-		hasTitle=False
+	    delimiter=';',
+	    hasTitle=False
 	):
 		"""
 		Exports a schedule.
@@ -73,7 +73,7 @@ class CSVExporter:
 		options = revitron.DB.ViewScheduleExportOptions()
 		options.FieldDelimiter = delimiter
 		options.Title = hasTitle
-		options.TextQualifier = revitron.DB.ExportTextQualifier.None
+		options.TextQualifier = revitron.DB.ExportTextQualifier['None']
 
 		schedule.Export(directory, name, options)
 
