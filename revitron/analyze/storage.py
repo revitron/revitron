@@ -56,7 +56,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			config (dict): The driver configuration
 		"""
 		try:
-			self.collection = 'ana__{}'.format(
+			self.collection = 'ra__{}'.format(
 			    re.sub(r'[^a-z0-9]+',
 			           '_',
 			           config['collection'].lower())
