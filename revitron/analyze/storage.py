@@ -55,7 +55,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			config (dict): The driver configuration
 		"""
 		try:
-			self.collection = config['collection']
+			self.collection = 'analyzer__{}'.format(config['collection'])
 			self.host = config['host'].rstrip('/')
 			self.token = config['token']
 		except:
@@ -71,7 +71,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		    'Content-Type': 'application/json'
 		}
 
-	def _get(self, endpoint):
+	def _get(self, endpoint, log=True):
 		response = requests.get(
 		    '{}/{}'.format(self.host,
 		                   endpoint),
@@ -81,8 +81,9 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			responseJson = response.json()
 			return responseJson['data']
 		except:
-			Log().error('Request has failed')
-			Log().error(response.json())
+			if log:
+				Log().error('Request has failed')
+				Log().error(response.json())
 			return None
 
 	def _post(self, endpoint, data):
@@ -110,7 +111,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		        'collection': self.collection,
 		        'schema': {},
 		        'meta': {
-		            'icon': 'pie_chart'
+		            'icon': 'timeline'
 		        }
 		    }
 		)
@@ -163,7 +164,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		"""
 		self._clearCache()
 		rowId = 1
-		remoteItems = self._get('items/{}'.format(self.collection))
+		remoteItems = self._get('items/{}'.format(self.collection), log=False)
 		if remoteItems:
 			maxId = max(row['id'] for row in remoteItems)
 			rowId = maxId + 1
