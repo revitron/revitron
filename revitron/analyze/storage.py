@@ -3,6 +3,7 @@ This submodule is a collection of storage drivers that can be used to store extr
 in different types of formats such as SQLite, JSON or API based databases.
 """
 import json
+import re
 import sqlite3
 import sys
 import requests
@@ -55,7 +56,11 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			config (dict): The driver configuration
 		"""
 		try:
-			self.collection = 'analyzer__{}'.format(config['collection'])
+			self.collection = 'ana__{}'.format(
+			    re.sub(r'[^a-z0-9]+',
+			           '_',
+			           config['collection'].lower())
+			)
 			self.host = config['host'].rstrip('/')
 			self.token = config['token']
 		except:
