@@ -11,6 +11,7 @@ import pyrevit
 from revitron import String
 from revitron.analyze.providers import *
 from revitron.analyze.storage import *
+from revitron.analyze.history import *
 
 
 class ModelAnalyzer:
@@ -38,6 +39,7 @@ class ModelAnalyzer:
 			from revitron import Log
 			Log().error('Invalid analyzer configuration JSON file')
 			sys.exit(1)
+		self.history = DirectusHistorySynchronizer(config)
 
 	def snapshot(self):
 		"""
@@ -78,6 +80,7 @@ class ModelAnalyzer:
 		except:
 			modelSize = 0
 		storageDriverInstance.add(results, modelSize)
+		self.history.sync()
 
 	def _getLocalPath(self, model):
 		if model['type'] == 'local':

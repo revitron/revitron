@@ -43,6 +43,91 @@ class AbstractStorageDriver:
 		pass
 
 
+class DirectusAPI():
+
+	def __init__(self, host, token, collection):
+		self.host = host
+		self.token = token
+		self.collection = collection
+
+	@property
+	def headers(self):
+		return {
+		    'Accept': 'application/json',
+		    'Authorization': 'Bearer {}'.format(self.token),
+		    'Content-Type': 'application/json'
+		}
+
+	def get(self, endpoint, log=True):
+		response = requests.get('{}/{}'.format(self.host, endpoint), headers=self.headers)
+		try:
+			responseJson = response.json()
+			return responseJson['data']
+		except:
+			if log:
+				Log().error('Request has failed')
+				Log().error(response.json())
+			return None
+
+	def post(self, endpoint, data):
+		response = requests.post(
+		    '{}/{}'.format(self.host,
+		                   endpoint),
+		    headers=self.headers,
+		    data=json.dumps(data)
+		)
+		try:
+			responseJson = response.json()
+			return responseJson['data']
+		except:
+			Log().error(data)
+			Log().error('Request has failed')
+			Log().error(response.json())
+			return None
+
+	def getCollection(self):
+		return self.get('collections/{}'.format(self.collection), False)
+
+	def getFields(self):
+		fields = []
+		data = self.get('fields/{}'.format(self.collection))
+		if data:
+			for item in data:
+				fields.append(item['field'])
+		return fields
+
+	def clearCache(self):
+		return requests.post(
+		    '{}/{}'.format(self.host,
+		                   'utils/cache/clear'),
+		    headers=self.headers
+		)
+
+	def createCollection(self):
+		return self.post(
+		    'collections',
+		    {
+		        'collection': self.collection,
+		        'schema': {},
+		        'meta': {
+		            'icon': 'timeline'
+		        }
+		    }
+		)
+
+	def createField(self, name, dataType):
+		data = {
+		    'field': name,
+		    'type': dataType.replace('real',
+		                             'float'),
+		    'schema': {},
+		    'meta': {
+		        'icon': 'data_usage'
+		    }
+		}
+		return self.post('fields/{}'.format(self.collection), data)
+
+
 class DirectusStorageDriver(AbstractStorageDriver):
 	"""
 	This storage driver handles storing snapshots to in Directus using the Directus API.
@@ -56,107 +141,29 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			config (dict): The driver configuration
 		"""
 		try:
-			self.collection = 'analyze__{}'.format(
+			collection = 'analyze__{}'.format(
 			    re.sub(r'[^a-z0-9]+',
 			           '_',
 			           config['collection'].lower())
 			)
-			self.host = config['host'].rstrip('/')
-			self.token = config['token']
+			host = config['host'].rstrip('/')
+			token = config['token']
 		except:
 			Log().error('Invalid Directus configuration')
 			sys.exit(1)
+		self.api = DirectusAPI(host, token, collection)
+		self.collection = collection
 		self.timestamp = datetime.fromtimestamp(time()).strftime('%Y-%m-%dT%H:%M:%S')
 
-	@property
-	def _headers(self):
-		return {
-		    'Accept': 'application/json',
-		    'Authorization': 'Bearer {}'.format(self.token),
-		    'Content-Type': 'application/json'
-		}
-
-	def _get(self, endpoint, log=True):
-		response = requests.get(
-		    '{}/{}'.format(self.host,
-		                   endpoint),
-		    headers=self._headers
-		)
-		try:
-			responseJson = response.json()
-			return responseJson['data']
-		except:
-			if log:
-				Log().error('Request has failed')
-				Log().error(response.json())
-			return None
-
-	def _post(self, endpoint, data):
-		response = requests.post(
-		    '{}/{}'.format(self.host,
-		                   endpoint),
-		    headers=self._headers,
-		    data=json.dumps(data)
-		)
-		try:
-			responseJson = response.json()
-			return responseJson['data']
-		except:
-			Log().error('Request has failed')
-			Log().error(response.json())
-			return None
-
-	def _getRemoteCollection(self):
-		return self._get('collections/{}'.format(self.collection))
-
-	def _createMissingCollection(self):
-		return self._post(
-		    'collections',
-		    {
-		        'collection': self.collection,
-		        'schema': {},
-		        'meta': {
-		            'icon': 'timeline'
-		        }
-		    }
-		)
-
-	def _getRemoteFields(self):
-		fields = []
-		data = self._get('fields/{}'.format(self.collection))
-		if data:
-			for item in data:
-				fields.append(item['field'])
-		return fields
-
-	def _createField(self, name, dataType):
-		data = {
-		    'field': name,
-		    'type': dataType.replace('real',
-		                             'float'),
-		    'schema': {},
-		    'meta': {
-		        'icon': 'data_usage'
-		    }
-		}
-		return self._post('fields/{}'.format(self.collection), data)
-
 	def _createMissingFields(self, dataProviderResults):
-		remoteFields = self._getRemoteFields()
+		remoteFields = self.api.getFields()
 		if 'model_size' not in remoteFields:
-			self._createField('model_size', 'float')
+			self.api.createField('model_size', 'float')
 		if 'timestamp' not in remoteFields:
-			self._createField('timestamp', 'timestamp')
+			self.api.createField('timestamp', 'timestamp')
 		for item in dataProviderResults:
 			if item.name not in remoteFields:
-				self._createField(item.name, item.dataType)
-
-	def _clearCache(self):
-		return requests.post(
-		    '{}/{}'.format(self.host,
-		                   'utils/cache/clear'),
-		    headers=self._headers
-		)
+				self.api.createField(item.name, item.dataType)
 
 	def add(self, dataProviderResults, modelSize):
 		"""
@@ -167,14 +174,15 @@ class DirectusStorageDriver(AbstractStorageDriver):
 				:class:`revitron.analyze.DataProviderResult` objects
 			modelSize (float): The model size in bytes
 		"""
-		self._clearCache()
+		api = self.api
+		api.clearCache()
 		rowId = 1
-		remoteItems = self._get('items/{}'.format(self.collection), log=False)
+		remoteItems = api.get('items/{}'.format(self.collection), log=False)
 		if remoteItems:
 			maxId = max(row['id'] for row in remoteItems)
 			rowId = maxId + 1
-		if self._getRemoteCollection() is None:
-			self._createMissingCollection()
+		if api.getCollection() is None:
+			api.createCollection()
 		self._createMissingFields(dataProviderResults)
 		data = {}
 		data['id'] = rowId
@@ -182,7 +190,8 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		data['timestamp'] = self.timestamp
 		for item in dataProviderResults:
 			data[item.name] = item.value
-		self._post('items/{}'.format(self.collection), data)
+		api.post('items/{}'.format(self.collection), data)
+		api.clearCache()
 
 
 class JSONStorageDriver(AbstractStorageDriver):
