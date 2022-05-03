@@ -93,6 +93,9 @@ class DirectusHistorySynchronizer():
 			syncId = row[0]
 			if syncId in existingSyncIds:
 				continue
+			filesize = 0
+			if row[5]:
+				filesize = row[5]
 			data.append({
 			    'sync_id': row[0],
 			    'start_time': row[3],
@@ -100,7 +103,7 @@ class DirectusHistorySynchronizer():
 			    'unique_transactions': row[2],
 			    'sync_time': revitron.Date.diffMin(row[3],
 			                                       row[4]),
-			    'filesize': row[5]
+			    'filesize': filesize
 			})
 			if len(data) > 100:
 				directus.post('items/{}'.format(self.collection), data)
