@@ -102,6 +102,8 @@ class DirectusHistorySynchronizer():
 			                                       row[4]),
 			    'filesize': row[5]
 			})
+			if len(data) > 100:
+				directus.post('items/{}'.format(self.collection), data)
+				data = []
 
-		directus.post('items/{}'.format(self.collection), data)
 		directus.clearCache()
