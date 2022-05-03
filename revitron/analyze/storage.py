@@ -141,7 +141,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			config (dict): The driver configuration
 		"""
 		try:
-			collection = 'analyze__{}'.format(
+			collection = 'snapshots__{}'.format(
 			    re.sub(r'[^a-z0-9]+',
 			           '_',
 			           config['collection'].lower())
