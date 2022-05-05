@@ -69,7 +69,7 @@ class DirectusHistorySynchronizer():
 			if name not in remoteFields:
 				directus.createField(name, fields[name])
 
-		items = directus.get('items/{}'.format(self.collection), log=False)
+		items = directus.get('items/{}?limit=-1'.format(self.collection), log=False)
 
 		existingSyncIds = []
 
