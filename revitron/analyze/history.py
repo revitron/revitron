@@ -109,4 +109,7 @@ class DirectusHistorySynchronizer():
 				directus.post('items/{}'.format(self.collection), data)
 				data = []
 
+		if len(data) > 0:
+			directus.post('items/{}'.format(self.collection), data)
+
 		directus.clearCache()
