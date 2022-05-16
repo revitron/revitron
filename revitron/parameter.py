@@ -349,7 +349,7 @@ class ParameterUtils:
 				return storageType
 		try:
 			# Try built-in parameters.
-			return DOC.TypeOfStorage[ParameterUtils._findBuiltInParameter(name)]
+			return str(DOC.TypeOfStorage[ParameterUtils._findBuiltInParameter(name)])
 		except:
 			# Fall back to very slow search in all elements.
 			return ParameterUtils._findStorageTypeInElements(name)
