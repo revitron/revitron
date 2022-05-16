@@ -257,12 +257,26 @@ class Filter:
 		"""
 		Filters the collection by class.
 
+		Example::
+
+			fltr = revitron.Filter()
+			cls = Autodesk.Revit.DB.CurveElement
+			ids = fltr.byClass(cls).noTypes().getElementIds()
+
+		Alternatively it is also possible to use a class name as string instead::
+
+			fltr = revitron.Filter()
+			ids = fltr.byClass('CurveElement').noTypes().getElementIds()
+
 		Args:
-			cls (class): A class to filter the elements
+			cls (class): A class or class name to filter the elements
 
 		Returns:
 			object: The Filter instance
 		"""
+		if isinstance(cls, basestring):
+			import Autodesk.Revit.DB
+			cls = getattr(Autodesk.Revit.DB, cls)
 		self.collector = self.collector.OfClass(cls)
 		return self
 
