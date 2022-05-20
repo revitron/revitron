@@ -71,25 +71,46 @@ class GeometryUtils:
 	"""
 
 	@staticmethod
-	def getAngle(center, p1, p2):
+	def getAbsoluteAngleXY(base, endpoint):
 		"""
-		Calculate the angle in degrees between two vectors that share a common center and 
-		are defined two endpoints.
+		Get the absolute angle between 0 and 360 degrees of a vector counter clockwise relative to the X-axis.
 
 		Args:
-			center (XYZ): A Revit XYZ object that defines the common start point
-			p1 (XYZ): The endpoint of the first vector
-			p2 (XYZ): The endpoint of the second vector
+			base (XYZ): The base point that represents 0,0 of the coordinate system
+			endpoint (XYZ): The endpoint of the line starting from the basepoint that represents the vector in question
 
 		Returns:
-			float: The calculated angle in degrees
+			float: The absolute angle between 0 and 360 degrees
 		"""
-		vector1 = p1 - center
-		vector2 = p2 - center
-		dotProd = vector1.DotProduct(vector2)
-		magnitude1 = p1.DistanceTo(center)
-		magnitude2 = p2.DistanceTo(center)
-		return math.degrees(math.acos(dotProd / (magnitude1 * magnitude2)))
+		from revitron import DB
+		vector = endpoint - base
+		angle = math.degrees(vector.AngleTo(DB.XYZ(1, 0, vector.Z)))
+		if vector.Y < 0:
+			angle = 360 - angle
+		return angle
+
+	@staticmethod
+	def getAngleXY(base, reference, endpoint):
+		"""
+		Get the angle from a vector to a reference. Note that the result returns positiv as well as negative angles
+		depending on the relative location of the reference vector.
+
+		Args:
+			base (XYZ): The base point that represents 0,0 of the coordinate system
+			reference (XYZ): The endpoint of the reference line starting from the basepoint
+			endpoint (XYZ): The endpoint of the line starting from the basepoint that represents the vector in question
+
+		Returns:
+			float: The angle
+		"""
+		alpha = GeometryUtils.getAbsoluteAngleXY(base, endpoint)
+		beta = GeometryUtils.getAbsoluteAngleXY(base, reference)
+		angle = beta - alpha
+		if angle > 180:
+			angle = angle - 360
+		if angle < -180:
+			angle = angle + 360
+		return angle
 
 	@staticmethod
 	def getBoundaryPoints(boundary):
@@ -112,10 +133,13 @@ class GeometryUtils:
 		return boundaryPoints
 
 	@staticmethod
-	def polygonContainsPoint2D(polygonPoints, point):
+	def polygonContainsPointXY(polygonPoints, point):
 		"""
 		Check whether a given polygon that is planar to a horizontal surface
 		contains a given point. Note that both, the polygon as well as the point must share common Z values.
+
+		The algorithm accumulates all angles (positive and negative) between neighboring lines that span from a given point to
+		all vertices of the polygon. In case the accumulated absolute value equals 360, the point is located inside the polygon.
 
 		Args:
 			polygonPoints (list): A list of points
@@ -127,11 +151,11 @@ class GeometryUtils:
 		for p in polygonPoints:
 			if round(p.Z, 3) != round(point.Z, 3):
 				return False
-		prev = polygonPoints[len(polygonPoints) - 1]
 		accumulated = 0
+		prev = -1
 		for n in range(0, len(polygonPoints)):
-			_p = polygonPoints[n]
-			angle = GeometryUtils.getAngle(point, prev, _p)
-			prev = _p
-			accumulated = accumulated + angle
-		return accumulated > 180
+			delta = GeometryUtils.getAngleXY(point, polygonPoints[prev], polygonPoints[n])
+			accumulated += delta
+			prev = n
+		accumulated = round(abs(accumulated))
+		return accumulated == 360
