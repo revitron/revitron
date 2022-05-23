@@ -32,12 +32,7 @@ class CSVExporter:
 		pass
 
 	def exportSchedule(
-	    self,
-	    schedule,
-	    directory,
-	    template=False,
-	    delimiter=';',
-	    hasTitle=False
+	    self, schedule, directory, template=False, delimiter=';', hasTitle=False
 	):
 		"""
 		Exports a schedule.
@@ -96,8 +91,7 @@ class DWGExporter:
 		"""
 		import revitron
 		self.options = revitron.DB.DWGExportOptions().GetPredefinedOptions(
-		    revitron.DOC,
-		    setupName
+		    revitron.DOC, setupName
 		)
 
 	def exportSheet(self, sheet, directory, unit, template=False):
@@ -127,9 +121,7 @@ class DWGExporter:
 			template = '{Sheet Number}-{Sheet Name}'
 
 		fullPath = os.path.join(
-		    directory,
-		    revitron.ParameterTemplate(sheet,
-		                               template).render() + '.dwg'
+		    directory, revitron.ParameterTemplate(sheet, template).render() + '.dwg'
 		)
 
 		path = os.path.dirname(fullPath)
@@ -143,10 +135,7 @@ class DWGExporter:
 		self.options.TargetUnit = unit
 
 		success = revitron.DOC.Export(
-		    path,
-		    file,
-		    List[db.ElementId]([sheet.Id]),
-		    self.options
+		    path, file, List[db.ElementId]([sheet.Id]), self.options
 		)
 
 		if success:
@@ -233,9 +222,7 @@ class PDFExporter:
 			template = '{Sheet Number}-{Sheet Name}'
 
 		path = os.path.join(
-		    directory,
-		    revitron.ParameterTemplate(sheet,
-		                               template).render() + '.pdf'
+		    directory, revitron.ParameterTemplate(sheet, template).render() + '.pdf'
 		)
 
 		if not os.path.exists(os.path.dirname(path)):
@@ -333,8 +320,6 @@ class PDFExporter:
 		nr = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Number'))
 		name = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Name'))
 		printToFileName = re.sub(
-		    r'\.pdf$',
-		    '',
-		    os.path.basename(self.manager.PrintToFileName)
+		    r'\.pdf$', '', os.path.basename(self.manager.PrintToFileName)
 		)
 		return '{}/{}*Sheet*{}*{}*.pdf'.format(self.output, printToFileName, nr, name)

@@ -51,8 +51,7 @@ class ModelAnalyzer:
 		try:
 			storageDriverModule = __import__(__name__)
 			storageDriverClass = getattr(
-			    storageDriverModule,
-			    '{}StorageDriver'.format(self.storageDriver)
+			    storageDriverModule, '{}StorageDriver'.format(self.storageDriver)
 			)
 			storageDriverInstance = storageDriverClass(self.storageConfig)
 		except:
@@ -62,19 +61,9 @@ class ModelAnalyzer:
 			providerClass = provider.get('class')
 			providerName = provider.get('name')
 			providerConfig = provider.get('config')
-			try:
-				results.append(
-				    DataProviderResult(providerClass,
-				                       providerName,
-				                       providerConfig)
-				)
-			except:
-				logger.error(
-				    'Error instanciating {} for provider "{}"'.format(
-				        providerClass,
-				        providerName
-				    )
-				)
+			results.append(
+			    DataProviderResult(providerClass, providerName, providerConfig)
+			)
 		try:
 			modelSize = os.path.getsize(self.model)
 		except:
@@ -89,14 +78,10 @@ class ModelAnalyzer:
 			modelGUID = model['modelGUID']
 			projectGUID = model['projectGUID']
 			directory = 'C:\\Users\\{}\\AppData\\Local\\Autodesk\\Revit\\Autodesk Revit {}\\CollaborationCache'.format(
-			    os.getenv('username'),
-			    pyrevit.HOST_APP.uiapp.Application.VersionNumber
+			    os.getenv('username'), pyrevit.HOST_APP.uiapp.Application.VersionNumber
 			)
 			pattern = os.path.join(
-			    directory,
-			    '*',
-			    projectGUID,
-			    '{}.rvt'.format(modelGUID)
+			    directory, '*', projectGUID, '{}.rvt'.format(modelGUID)
 			)
 			files = glob.glob(pattern)
 			try:

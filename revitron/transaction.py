@@ -58,8 +58,7 @@ class BaseTransaction:
 		except:
 			name = '{} - {}'.format(
 			    os.path.basename(os.path.dirname(__main__.__file__)),
-			    os.path.basename(__main__.__file__).replace('.py',
-			                                                '')
+			    os.path.basename(__main__.__file__).replace('.py', '')
 			)
 		return name
 
@@ -104,16 +103,14 @@ class Transaction(BaseTransaction):
 			self.transaction = revitron.DB.Transaction(doc, name)
 			if rollbackOnError and suppressWarnings:
 				self._setFailureHandlingOptions(
-				    revitron.WarningAndErrorCatcher(),
-				    clearAfterRollback=True
+				    revitron.WarningAndErrorCatcher(), clearAfterRollback=True
 				)
 			else:
 				if suppressWarnings:
 					self._setFailureHandlingOptions(revitron.WarningCatcher())
 				if rollbackOnError:
 					self._setFailureHandlingOptions(
-					    revitron.ErrorCatcher(),
-					    clearAfterRollback=True
+					    revitron.ErrorCatcher(), clearAfterRollback=True
 					)
 		self.transaction.Start()
 

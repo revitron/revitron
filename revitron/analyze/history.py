@@ -22,9 +22,7 @@ class DirectusHistorySynchronizer():
 		try:
 			collection = 'history__{}'.format(
 			    re.sub(
-			        r'[^a-z0-9]+',
-			        '_',
-			        config['storage']['config']['collection'].lower()
+			        r'[^a-z0-9]+', '_', config['storage']['config']['collection'].lower()
 			    )
 			)
 			host = config['storage']['config']['host'].rstrip('/')
@@ -101,8 +99,7 @@ class DirectusHistorySynchronizer():
 			    'start_time': row[3],
 			    'user': row[1],
 			    'unique_transactions': row[2],
-			    'sync_time': revitron.Date.diffMin(row[3],
-			                                       row[4]),
+			    'sync_time': revitron.Date.diffMin(row[3], row[4]),
 			    'filesize': filesize
 			})
 			if len(data) > 100:

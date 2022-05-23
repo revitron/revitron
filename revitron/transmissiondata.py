@@ -68,10 +68,7 @@ class TransmissionData:
 
 				if re.search(source, ref.path, re.IGNORECASE):
 					newPath = target + os.sep + re.sub(
-					    source,
-					    '',
-					    ref.path,
-					    re.IGNORECASE
+					    source, '', ref.path, re.IGNORECASE
 					)
 				else:
 					newPath = target + os.sep + os.path.basename(ref.path)
@@ -114,10 +111,7 @@ class TransmissionData:
 			ref = self.refs[_id]
 			newPath = ref.path.replace(search, replace)
 			self.data.SetDesiredReferenceData(
-			    refId,
-			    revitron.DB.FilePath(newPath),
-			    revitron.DB.PathType.Absolute,
-			    True
+			    refId, revitron.DB.FilePath(newPath), revitron.DB.PathType.Absolute, True
 			)
 
 		self.write()

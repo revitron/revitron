@@ -1,7 +1,6 @@
 """ 
 This submodule contains a wrapper classes for **Revit** room elements.
 """
-import Autodesk
 from revitron.element import Element
 
 
@@ -20,13 +19,9 @@ class Room(Element):
 		Returns:
 			object: A Revit point object
 		"""
-		import revitron
-
 		room = self.element
 		bbox = self.getBbox()
-
 		point = bbox.getCenterPoint()
-
 		if room.IsPointInRoom(point) or not inRoomOnly:
 			return point
 
@@ -40,9 +35,9 @@ class Room(Element):
 		import revitron
 		room = self.element
 		options = revitron.DB.SpatialElementBoundaryOptions()
-		boundaryLocation = revitron.DB.AreaVolumeSettings.\
-                                                   GetAreaVolumeSettings(revitron.DOC).\
-                                                   GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
+		boundaryLocation = revitron.DB.AreaVolumeSettings.GetAreaVolumeSettings(
+		    revitron.DOC
+		).GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
 		options.SpatialElementBoundaryLocation = boundaryLocation
 		curveList = []
 		for boundaryList in room.GetBoundarySegments(options):
@@ -57,8 +52,6 @@ class Room(Element):
 		Returns:
 			list: A list of points
 		"""
-		import revitron
-		room = self.element
 		curveList = self.getBoundary()
 		points = []
 		for curve in curveList:
@@ -87,9 +80,9 @@ class Room(Element):
 		import revitron
 		room = self.element
 		options = revitron.DB.SpatialElementBoundaryOptions()
-		boundaryLocation = revitron.DB.AreaVolumeSettings.\
-                                                   GetAreaVolumeSettings(revitron.DOC).\
-                                                   GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
+		boundaryLocation = revitron.DB.AreaVolumeSettings.GetAreaVolumeSettings(
+		    revitron.DOC
+		).GetSpatialElementBoundaryLocation(revitron.DB.SpatialElementType.Room)
 		options.SpatialElementBoundaryLocation = boundaryLocation
 		curves = dict()
 		points = []
@@ -105,19 +98,11 @@ class Room(Element):
 			longest = curves[max(curveLengths)]
 
 			tempInset = revitron.DB.CurveLoop.CreateViaOffset(
-			    longest,
-			    inset,
-			    revitron.DB.XYZ(0,
-			                    0,
-			                    1)
+			    longest, inset, revitron.DB.XYZ(0, 0, 1)
 			)
 			if tempInset.GetExactLength() > max(curveLengths):
 				tempInset = revitron.DB.CurveLoop.CreateViaOffset(
-				    longest,
-				    inset,
-				    revitron.DB.XYZ(0,
-				                    0,
-				                    -1)
+				    longest, inset, revitron.DB.XYZ(0, 0, -1)
 				)
 
 			for c in tempInset:
@@ -287,35 +272,27 @@ class Room(Element):
 			raytracer = revitron.Raytracer(point, view3D)
 			try:
 				intersectionsTop.append(
-				    raytracer.findIntersection(revitron.DB.XYZ(0,
-				                                               0,
-				                                               1),
-				                               elementFilter).Z
+				    raytracer.findIntersection(revitron.DB.XYZ(0, 0, 1), elementFilter).Z
 				)
 			except:
 				pass
 			try:
 				intersectionsBottom.append(
-				    raytracer.findIntersection(revitron.DB.XYZ(0,
-				                                               0,
-				                                               -1),
-				                               elementFilter).Z
+				    raytracer.findIntersection(revitron.DB.XYZ(0, 0, -1), elementFilter).Z
 				)
 			except:
 				pass
 
 		try:
 			top = revitron.AttrDict({
-			    'min': min(intersectionsTop),
-			    'max': max(intersectionsTop)
+			    'min': min(intersectionsTop), 'max': max(intersectionsTop)
 			})
 		except:
 			top = None
 
 		try:
 			bottom = revitron.AttrDict({
-			    'min': min(intersectionsBottom),
-			    'max': max(intersectionsBottom)
+			    'min': min(intersectionsBottom), 'max': max(intersectionsBottom)
 			})
 		except:
 			bottom = None

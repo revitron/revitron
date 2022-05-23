@@ -75,8 +75,7 @@ class Filter:
 		import revitron
 		db = revitron.DB
 		f = db.LogicalOrFilter(
-		    db.ElementIsElementTypeFilter(False),
-		    db.ElementIsElementTypeFilter(True)
+		    db.ElementIsElementTypeFilter(False), db.ElementIsElementTypeFilter(True)
 		)
 
 		self.collector = self.collector.WherePasses(f)
@@ -112,8 +111,7 @@ class Filter:
 			if _ids:
 				_filter = Filter()
 				_filter.collector = revitron.DB.FilteredElementCollector(
-				    revitron.DOC,
-				    _ids
+				    revitron.DOC, _ids
 				)
 				_filter._parameterFilter(rule, invert)
 				filters.append(_filter)
@@ -301,8 +299,7 @@ class Filter:
 		self._applyFilter(
 		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    self._getNumericFilterValue(value,
-		                                paramName),
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericGreater(),
 		    invert
 		)
@@ -330,8 +327,7 @@ class Filter:
 		self._applyFilter(
 		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    self._getNumericFilterValue(value,
-		                                paramName),
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericGreaterOrEqual(),
 		    invert
 		)
@@ -358,8 +354,7 @@ class Filter:
 		self._applyFilter(
 		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    self._getNumericFilterValue(value,
-		                                paramName),
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericEquals(),
 		    invert
 		)
@@ -386,8 +381,7 @@ class Filter:
 		self._applyFilter(
 		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    self._getNumericFilterValue(value,
-		                                paramName),
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericLess(),
 		    invert
 		)
@@ -414,8 +408,7 @@ class Filter:
 		self._applyFilter(
 		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    self._getNumericFilterValue(value,
-		                                paramName),
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericLessOrEqual(),
 		    invert
 		)
@@ -449,8 +442,7 @@ class Filter:
 			_filter = Filter()
 			try:
 				_filter.collector = revitron.DB.FilteredElementCollector(
-				    revitron.DOC,
-				    self.getElementIds()
+				    revitron.DOC, self.getElementIds()
 				)
 			except:
 				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC)

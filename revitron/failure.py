@@ -57,9 +57,7 @@ class ErrorCatcher(IFailuresPreprocessor):
 			object: The ``FailureProcessingResult.ProceedWithRollBack`` result on error or ``FailureProcessingResult.Continue``.
 		"""
 		return FailureHandler.preprocess(
-		    failuresAccessor,
-		    suppressWarnings=False,
-		    rollbackOnError=True
+		    failuresAccessor, suppressWarnings=False, rollbackOnError=True
 		)
 
 
@@ -83,9 +81,7 @@ class WarningCatcher(IFailuresPreprocessor):
 			object: The ``FailureProcessingResult.Continue`` result
 		"""
 		return FailureHandler.preprocess(
-		    failuresAccessor,
-		    suppressWarnings=True,
-		    rollbackOnError=False
+		    failuresAccessor, suppressWarnings=True, rollbackOnError=False
 		)
 
 
@@ -109,7 +105,5 @@ class WarningAndErrorCatcher(IFailuresPreprocessor):
 			object: The ``FailureProcessingResult.ProceedWithRollBack`` result on error or ``FailureProcessingResult.Continue``.
 		"""
 		return FailureHandler.preprocess(
-		    failuresAccessor,
-		    suppressWarnings=True,
-		    rollbackOnError=True
+		    failuresAccessor, suppressWarnings=True, rollbackOnError=True
 		)

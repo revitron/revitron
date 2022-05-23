@@ -71,8 +71,7 @@ class DirectusAPI():
 
 	def post(self, endpoint, data):
 		response = requests.post(
-		    '{}/{}'.format(self.host,
-		                   endpoint),
+		    '{}/{}'.format(self.host, endpoint),
 		    headers=self.headers,
 		    data=json.dumps(data)
 		)
@@ -98,18 +97,13 @@ class DirectusAPI():
 
 	def clearCache(self):
 		return requests.post(
-		    '{}/{}'.format(self.host,
-		                   'utils/cache/clear'),
-		    headers=self.headers
+		    '{}/{}'.format(self.host, 'utils/cache/clear'), headers=self.headers
 		)
 
 	def createCollection(self):
 		return self.post(
-		    'collections',
-		    {
-		        'collection': self.collection,
-		        'schema': {},
-		        'meta': {
+		    'collections', {
+		        'collection': self.collection, 'schema': {}, 'meta': {
 		            'icon': 'timeline'
 		        }
 		    }
@@ -118,8 +112,7 @@ class DirectusAPI():
 	def createField(self, name, dataType):
 		data = {
 		    'field': name,
-		    'type': dataType.replace('real',
-		                             'float'),
+		    'type': dataType.replace('real', 'float'),
 		    'schema': {},
 		    'meta': {
 		        'icon': 'data_usage'
@@ -142,9 +135,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		"""
 		try:
 			collection = 'snapshots__{}'.format(
-			    re.sub(r'[^a-z0-9]+',
-			           '_',
-			           config['collection'].lower())
+			    re.sub(r'[^a-z0-9]+', '_', config['collection'].lower())
 			)
 			host = config['host'].rstrip('/')
 			token = config['token']
