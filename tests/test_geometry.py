@@ -28,7 +28,5 @@ class GeometryTests(utils.RevitronTestCase):
 		self.assertTrue(contains(polygon2, xyz(-2, 5, 0)))
 		self.assertTrue(contains(polygon2, xyz(-17, 7, 0)))
 
-		self.assertFalse(contains(polygon2, xyz(-17, 7, 0)))
-
 
 utils.run(GeometryTests)
