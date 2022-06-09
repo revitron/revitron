@@ -168,7 +168,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		api = self.api
 		api.clearCache()
 		rowId = 1
-		remoteItems = api.get('items/{}'.format(self.collection), log=False)
+		remoteItems = api.get('items/{}?sort=-id'.format(self.collection), log=False)
 		if remoteItems:
 			maxId = max(row['id'] for row in remoteItems)
 			rowId = maxId + 1
