@@ -32,14 +32,11 @@ try:
 	else:
 		try:
 			modelPath = revitron.DB.ModelPathUtils.ConvertCloudGUIDsToCloudPath(
-			    model['region'],
-			    Guid(model['projectGUID']),
-			    Guid(model['modelGUID'])
+			    model['region'], Guid(model['projectGUID']), Guid(model['modelGUID'])
 			)
 		except:
 			modelPath = revitron.DB.ModelPathUtils.ConvertCloudGUIDsToCloudPath(
-			    Guid(model['projectGUID']),
-			    Guid(model['modelGUID'])
+			    Guid(model['projectGUID']), Guid(model['modelGUID'])
 			)
 except:
 	print('Invalid model configuration')
