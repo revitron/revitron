@@ -62,7 +62,7 @@ class Command:
 
 	def run(self):
 		code = os.system(
-		    '{} run {} {} {} > {}'.format(
+		    '{} run {} {} {} --purge > {}'.format(
 		        self.pyRevitBin,
 		        self.task,
 		        self.target,
