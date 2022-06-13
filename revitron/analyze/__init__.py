@@ -77,17 +77,22 @@ class ModelAnalyzer:
 		else:
 			modelGUID = model['modelGUID']
 			projectGUID = model['projectGUID']
-			directory = 'C:\\Users\\{}\\AppData\\Local\\Autodesk\\Revit\\Autodesk Revit {}\\CollaborationCache'.format(
-			    os.getenv('username'), pyrevit.HOST_APP.uiapp.Application.VersionNumber
-			)
-			pattern = os.path.join(
-			    directory, '*', projectGUID, '{}.rvt'.format(modelGUID)
-			)
-			files = glob.glob(pattern)
-			try:
-				return files[0]
-			except:
-				return ''
+			fileName = os.path.join(projectGUID, '{}.rvt'.format(modelGUID))
+			cliRuntimeCache = os.path.join(os.getcwd(), '_CC', fileName)
+			if os.path.isfile(cliRuntimeCache):
+				return cliRuntimeCache
+			else:
+				cache = r'C:\Users\{}\AppData\Local\Autodesk\Revit\Autodesk Revit {}\CollaborationCache'.format(
+				    os.getenv('username'),
+				    pyrevit.HOST_APP.uiapp.Application.VersionNumber
+				)
+				pattern = os.path.join(cache, '*', fileName)
+				files = glob.glob(pattern)
+				try:
+					return files[0]
+				except:
+					return ''
+			return ''
 
 
 class DataProviderResult:
