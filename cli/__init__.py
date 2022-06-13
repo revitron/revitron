@@ -2,7 +2,15 @@ import re
 import sys
 import json
 import os
+import uuid
+import tempfile
 from os.path import dirname, join, abspath, isfile, exists
+
+processId = uuid.uuid4().hex
+tmp = tempfile.gettempdir()
+
+CLI_BUFFER_FILE = r'{}\revitron.cli.{}.buffer'.format(tmp, processId)
+CLI_LOG_FILE = r'{}\revitron.cli.{}.log'.format(tmp, processId)
 
 
 class Command:
@@ -59,7 +67,7 @@ class Command:
 		        self.task,
 		        self.target,
 		        self.revitVersion,
-		        Buffer.file
+		        CLI_BUFFER_FILE
 		    )
 		)
 		log = CliLog.get()
@@ -86,36 +94,32 @@ class Command:
 
 class Buffer:
 
-	file = 'C:\\temp\\revitron.cli.buffer'
-
 	@staticmethod
 	def get():
 		try:
-			with open(Buffer.file, 'r') as file:
+			with open(CLI_BUFFER_FILE, 'r') as file:
 				buffer = file.read()
 		except:
 			buffer = ''
-		if os.path.isfile(Buffer.file):
-			os.unlink(Buffer.file)
+		if os.path.isfile(CLI_BUFFER_FILE):
+			os.unlink(CLI_BUFFER_FILE)
 		return buffer
 
 
 class CliLog:
 
-	file = 'C:\\temp\\revitron.cli.log'
-
 	@staticmethod
 	def new(text):
-		with open(CliLog.file, 'w') as f:
+		with open(CLI_LOG_FILE, 'w') as f:
 			f.write('{}\n'.format(text))
 
 	@staticmethod
 	def append(text):
-		with open(CliLog.file, 'a') as f:
+		with open(CLI_LOG_FILE, 'a') as f:
 			f.write('{}\n'.format(text))
 
 	@staticmethod
 	def get():
-		with open(CliLog.file, 'r') as f:
+		with open(CLI_LOG_FILE, 'r') as f:
 			log = f.read()
 		return log
