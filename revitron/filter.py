@@ -64,7 +64,7 @@ class Filter:
 			self.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
 		self.scope = scope
 
-	def all(self):
+	def _all(self):
 		"""
 		This is just a helper filter that doesn't modify the collection at all to allow for 
 		getting all elements of an instance without actually applying any filter before. 
@@ -75,14 +75,13 @@ class Filter:
 		import revitron
 		db = revitron.DB
 		f = db.LogicalOrFilter(
-		    db.ElementIsElementTypeFilter(False),
-		    db.ElementIsElementTypeFilter(True)
+		    db.ElementIsElementTypeFilter(False), db.ElementIsElementTypeFilter(True)
 		)
 
 		self.collector = self.collector.WherePasses(f)
 		return self
 
-	def applyFilter(self, filterRule, paramName, value, evaluator, invert=False):
+	def _applyFilter(self, filterRule, paramName, value, evaluator, invert=False):
 		"""
 		Applies a filter.
 
@@ -101,17 +100,21 @@ class Filter:
 		# While iterating that list, the parameter filter is applied each time
 		# to a fresh element collector that will be later merged or intersected with the others.
 		for valueProvider in revitron.ParameterValueProviders(paramName).get():
-			try:
+			# Build filter rule based on filter type.
+			if 'Double' in str(filterRule):
+				rule = filterRule(valueProvider, evaluator, value, 0.001)
+			elif 'Integer' in str(filterRule):
+				rule = filterRule(valueProvider, evaluator, value)
+			else:
 				rule = filterRule(valueProvider, evaluator, value, True)
+			_ids = self.getElementIds()
+			if _ids:
 				_filter = Filter()
 				_filter.collector = revitron.DB.FilteredElementCollector(
-				    revitron.DOC,
-				    self.getElementIds()
+				    revitron.DOC, _ids
 				)
-				_filter.parameterFilter(rule, invert)
+				_filter._parameterFilter(rule, invert)
 				filters.append(_filter)
-			except:
-				pass
 
 		if len(filters):
 			self.collector = filters[0].collector
@@ -121,6 +124,49 @@ class Filter:
 						self.collector.UnionWith(filters[i].collector)
 					else:
 						self.collector.IntersectWith(filters[i].collector)
+
+	def _parameterFilter(self, rule, invert=False):
+		"""
+		Applies a parameter filter.
+
+		Args:
+			rule (object): The filter rule object
+			invert (boolean): Inverts the filter
+		"""
+		import revitron
+		parameterFilter = revitron.DB.ElementParameterFilter(rule, invert)
+		self.collector = self.collector.WherePasses(parameterFilter)
+
+	def _getNumericFilterValue(self, value, paramName):
+		"""
+		Get the correct numeric filter value based on the storage type of a given parameter.
+
+		Args:
+			value (integer|float): A filter value
+			paramName (string): The parameter name
+
+		Returns:
+			object: A filter value of the correct type
+		"""
+		from revitron import ParameterUtils
+		if ParameterUtils.getStorageType(paramName) == 'Integer':
+			return int(value)
+		return float(value)
+
+	def _getNumericFilterRule(self, paramName):
+		"""
+		Get the correct numeric filter rule based on the storage type of a given parameter.
+
+		Args:
+			paramName (string): The parameter name
+
+		Returns:
+			object: A filter rule object for double or integer
+		"""
+		from revitron import DB, ParameterUtils
+		if ParameterUtils.getStorageType(paramName) == 'Integer':
+			return DB.FilterIntegerRule
+		return DB.FilterDoubleRule
 
 	def byIntersection(self, element):
 		"""
@@ -209,12 +255,26 @@ class Filter:
 		"""
 		Filters the collection by class.
 
+		Example::
+
+			fltr = revitron.Filter()
+			cls = Autodesk.Revit.DB.CurveElement
+			ids = fltr.byClass(cls).noTypes().getElementIds()
+
+		Alternatively it is also possible to use a class name as string instead::
+
+			fltr = revitron.Filter()
+			ids = fltr.byClass('CurveElement').noTypes().getElementIds()
+
 		Args:
-			cls (class): A class to filter the elements
+			cls (class): A class or class name to filter the elements
 
 		Returns:
 			object: The Filter instance
 		"""
+		if isinstance(cls, basestring):
+			import Autodesk.Revit.DB
+			cls = getattr(Autodesk.Revit.DB, cls)
 		self.collector = self.collector.OfClass(cls)
 		return self
 
@@ -236,11 +296,10 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
-		self.applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		self._applyFilter(
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericGreater(),
 		    invert
 		)
@@ -265,11 +324,10 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
-		self.applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		self._applyFilter(
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericGreaterOrEqual(),
 		    invert
 		)
@@ -293,11 +351,10 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
-		self.applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		self._applyFilter(
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericEquals(),
 		    invert
 		)
@@ -321,11 +378,10 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
-		self.applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		self._applyFilter(
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericLess(),
 		    invert
 		)
@@ -349,11 +405,10 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		value = float(value)
-		self.applyFilter(
-		    revitron.DB.FilterDoubleRule,
+		self._applyFilter(
+		    self._getNumericFilterRule(paramName),
 		    paramName,
-		    value,
+		    self._getNumericFilterValue(value, paramName),
 		    revitron.DB.FilterNumericLessOrEqual(),
 		    invert
 		)
@@ -387,8 +442,7 @@ class Filter:
 			_filter = Filter()
 			try:
 				_filter.collector = revitron.DB.FilteredElementCollector(
-				    revitron.DOC,
-				    self.getElementIds()
+				    revitron.DOC, self.getElementIds()
 				)
 			except:
 				_filter.collector = revitron.DB.FilteredElementCollector(revitron.DOC)
@@ -424,7 +478,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -475,7 +529,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -527,7 +581,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -549,7 +603,7 @@ class Filter:
 			object: The collector
 		"""
 		import revitron
-		self.applyFilter(
+		self._applyFilter(
 		    revitron.DB.FilterStringRule,
 		    paramName,
 		    value,
@@ -568,7 +622,7 @@ class Filter:
 		try:
 			return self.collector.ToElements()
 		except:
-			self.all()
+			self._all()
 			return self.collector.ToElements()
 
 	def getElementIds(self):
@@ -581,7 +635,7 @@ class Filter:
 		try:
 			return self.collector.ToElementIds()
 		except:
-			self.all()
+			self._all()
 			return self.collector.ToElementIds()
 
 	def noTypes(self):
@@ -603,15 +657,3 @@ class Filter:
 		"""
 		self.collector = self.collector.WhereElementIsElementType()
 		return self
-
-	def parameterFilter(self, rule, invert=False):
-		"""
-		Applies a parameter filter.
-
-		Args:
-			rule (object): The filter rule object
-			invert (boolean): Inverts the filter
-		"""
-		import revitron
-		parameterFilter = revitron.DB.ElementParameterFilter(rule, invert)
-		self.collector = self.collector.WherePasses(parameterFilter)

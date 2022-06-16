@@ -1,0 +1,99 @@
+{
+	"model": {
+		"type": "cloud",
+		"projectGUID":"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+		"modelGUID":"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+		"region": "EMEA"
+	},
+	"storage": {
+		"driver": "Directus",
+		"config": {
+			"token": "YOUR_DIRECTUS_API_KEY",
+			"host": "http://domain.com/",
+			"collection": "Project Name"
+		}
+	},
+	"revit": "2022",
+	"providers": [
+		{
+			"name": "Detail Lines",
+			"class": "ElementCountProvider",
+			"config": {
+				"filters": [
+					{
+						"rule": "byNumberIsEqual",
+						"args": ["Detail Line", 1]
+					}
+				]
+			}
+		},
+		{
+			"name": "Views",
+			"class": "ElementCountProvider",
+			"config": {
+				"filters": [
+					{
+						"rule": "byCategory",
+						"args": ["Views"]
+					}
+				]
+			}
+		},
+		{
+			"name": "Rooms",
+			"class": "ElementCountProvider",
+			"config": {
+				"filters": [
+					{
+						"rule": "byCategory",
+						"args": ["Rooms"]
+					}
+				]
+			}
+		},
+		{
+			"name": "Room Area",
+			"class": "ElementAreaProvider",
+			"config": {
+				"filters": [
+					{
+						"rule": "byCategory",
+						"args": ["Rooms"]
+					},
+					{
+						"rule": "byStringContains",
+						"args": ["Name", "Room"]
+					}
+				]
+			}
+		},
+		{
+			"name": "Volume of Walls",
+			"class": "ElementVolumeProvider",
+			"config": {
+				"filters": [
+					{
+						"rule": "byCategory",
+						"args": ["Walls"]
+					}
+				]
+			}
+		},
+		{
+			"name": "Length of Walls",
+			"class": "ElementLengthProvider",
+			"config": {
+				"filters": [
+					{
+						"rule": "byCategory",
+						"args": ["Walls"]
+					}
+				]
+			}
+		},
+		{
+			"name": "Warnings",
+			"class": "WarningCountProvider"
+		}
+	]
+}

@@ -20,6 +20,63 @@ from pyrevit import script
 from System.Collections.Generic import List
 
 
+class CSVExporter:
+	"""
+	Export a schedule as CSV named by a file naming template. 
+	"""
+
+	def __init__(self):
+		"""
+		Inits a new CSVExporter instance.
+		"""
+		pass
+
+	def exportSchedule(
+	    self, schedule, directory, template=False, delimiter=';', hasTitle=False
+	):
+		"""
+		Exports a schedule.
+
+		Args:
+			schedule (object): A Revit schedule
+			directory (string): A custom output directory. Defaults to False.
+			template (string, optional): A name template. Defaults to '{View Name}'.
+			delimiter (string, optional): A csv delimiter. Defaults to ';'.
+			hasTitle (bool, optional): Set True to export schedule title. Defaults to False.
+
+		Returns:
+			string: The path of the exported CSV. False on error.
+		"""
+		import revitron
+
+		if revitron.Element(schedule).getClassName() != 'ViewSchedule':
+			revitron.Log().warning('Element is not a schedule!')
+			return False
+
+		if not directory:
+			revitron.Log().warning('No directory specified!')
+			return False
+
+		if not template:
+			template = '{View Name}'
+
+		name = revitron.ParameterTemplate(schedule, template).render() + '.csv'
+
+		if not os.path.exists(directory):
+			os.makedirs(directory)
+
+		options = revitron.DB.ViewScheduleExportOptions()
+		options.FieldDelimiter = delimiter
+		options.Title = hasTitle
+		options.TextQualifier = revitron.DB.ExportTextQualifier['None']
+
+		schedule.Export(directory, name, options)
+
+		file = os.path.join(directory, name)
+
+		return file
+
+
 class DWGExporter:
 	"""
 	Export sheets as DWG named by a file naming template. 
@@ -34,8 +91,7 @@ class DWGExporter:
 		"""
 		import revitron
 		self.options = revitron.DB.DWGExportOptions().GetPredefinedOptions(
-		    revitron.DOC,
-		    setupName
+		    revitron.DOC, setupName
 		)
 
 	def exportSheet(self, sheet, directory, unit, template=False):
@@ -65,9 +121,7 @@ class DWGExporter:
 			template = '{Sheet Number}-{Sheet Name}'
 
 		fullPath = os.path.join(
-		    directory,
-		    revitron.ParameterTemplate(sheet,
-		                               template).render() + '.dwg'
+		    directory, revitron.ParameterTemplate(sheet, template).render() + '.dwg'
 		)
 
 		path = os.path.dirname(fullPath)
@@ -81,10 +135,7 @@ class DWGExporter:
 		self.options.TargetUnit = unit
 
 		success = revitron.DOC.Export(
-		    path,
-		    file,
-		    List[db.ElementId]([sheet.Id]),
-		    self.options
+		    path, file, List[db.ElementId]([sheet.Id]), self.options
 		)
 
 		if success:
@@ -171,9 +222,7 @@ class PDFExporter:
 			template = '{Sheet Number}-{Sheet Name}'
 
 		path = os.path.join(
-		    directory,
-		    revitron.ParameterTemplate(sheet,
-		                               template).render() + '.pdf'
+		    directory, revitron.ParameterTemplate(sheet, template).render() + '.pdf'
 		)
 
 		if not os.path.exists(os.path.dirname(path)):
@@ -271,8 +320,6 @@ class PDFExporter:
 		nr = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Number'))
 		name = re.sub(r'[^a-zA-Z0-9]+', '*', revitron.Element(sheet).get('Sheet Name'))
 		printToFileName = re.sub(
-		    r'\.pdf$',
-		    '',
-		    os.path.basename(self.manager.PrintToFileName)
+		    r'\.pdf$', '', os.path.basename(self.manager.PrintToFileName)
 		)
 		return '{}/{}*Sheet*{}*{}*.pdf'.format(self.output, printToFileName, nr, name)

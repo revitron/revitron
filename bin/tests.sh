@@ -7,11 +7,16 @@ cd "`dirname $0`/.."
 revitronDir=`pwd`
 testsPy="$revitronDir/tests/run.py"
 testsTemp="$revitronDir/tests/temp"
-testsRvt="$testsTemp/tests.rvt"
+testsRvt="$testsTemp/target.rvt"
 testsLog="$testsTemp/tests.log"
 testsConfig="$testsTemp/config.json"
+targetFile="https://github.com/revitron/cli-target/raw/master/cli-target-2019.rvt"
 
 mkdir -p $testsTemp
+
+if [ ! -f "$testsRvt" ]; then
+	Powershell -executionpolicy remotesigned wget "$targetFile" -Outfile "$testsRvt"	
+fi
 
 while getopts 'g:r:' opt; do
 	case $opt in

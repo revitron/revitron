@@ -22,6 +22,7 @@ Revitron
 
    get-started
    revitron
+   analyze
    cheat-sheet
    genindex
 
@@ -31,6 +32,7 @@ Revitron
    :hidden:
 
    Revitron UI <https://revitron-ui.readthedocs.io/>
+   Revitron Charts <https://github.com/revitron/revitron-charts>
    User Guide <https://revitron-ui.readthedocs.io/en/latest/user-guide.html>
    GitHub <https://github.com/revitron/revitron>
    ♡ Sponsor <https://github.com/sponsors/marcantondahmen>

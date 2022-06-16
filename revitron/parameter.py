@@ -49,96 +49,10 @@ class Parameter:
 			try:
 				import revitron
 				self.parameter = element.get_Parameter(
-				    getattr(revitron.DB.BuiltInParameter,
-				            name)
+				    getattr(revitron.DB.BuiltInParameter, name)
 				)
 			except:
 				pass
-
-	@staticmethod
-	def bind(category, paramName, paramType='Text', typeBinding=False):
-		"""
-		Bind a new parameter to a category.
-
-		Args:
-			category (string): The built-in category 
-			paramName (string): The parameter name
-			paramType (string): The parameter type (see `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_)
-								Defaults to "Text".
-			typeBinding (bool): Bind parameter to type instead of instance. Defaults to False.
-
-		Returns:
-			boolean: Returns True on success and False on error.
-		"""
-		import revitron
-
-		paramFile = revitron.APP.OpenSharedParameterFile()
-
-		if paramFile is None:
-			print('Please define a shared parameters file.')
-			return False
-
-		definition = None
-
-		# Try to get an existing parameter definition with the given name.
-		for group in paramFile.Groups:
-			for item in group.Definitions:
-				if item.Name == paramName:
-					definition = item
-					break
-			if definition:
-				break
-
-		group = None
-
-		# If the definition hasn't been created yet, create it in the REVITRON group.
-		if not definition:
-			for item in paramFile.Groups:
-				if item.Name == 'REVITRON':
-					group = item
-					break
-			if not group:
-				group = paramFile.Groups.Create('REVITRON')
-			pt = getattr(revitron.DB.ParameterType, paramType)
-			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
-			    paramName,
-			    pt
-			)
-			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
-
-		# Try to get the parameter binding for the definition.
-		binding = revitron.DOC.ParameterBindings[definition]
-
-		# Add the given category to the categories list as the initial item
-		# and try to access currently bound categories to add them as well.
-		# In case the given category is already among the bound categories,
-		# stop the further execution and return False.
-		# In case the category is not bound yet, remove the binding from the parameter
-		# binding map.
-		categories = [revitron.Category(category).get()]
-		try:
-			for _cat in binding.Categories:
-				categories.append(_cat)
-				if _cat.Name == category:
-					return False
-			revitron.DOC.ParameterBindings.Remove(definition)
-		except:
-			pass
-
-		# Create a new category set and add all categories, the given and the previously bound ones.
-		categorySet = revitron.APP.Create.NewCategorySet()
-		for _cat in categories:
-			categorySet.Insert(_cat)
-
-		# Create the binding.
-		if typeBinding:
-			binding = revitron.APP.Create.NewTypeBinding(categorySet)
-		else:
-			binding = revitron.APP.Create.NewInstanceBinding(categorySet)
-
-		revitron.DOC.ParameterBindings.Insert(definition, binding)
-
-		return True
 
 	def exists(self):
 		"""
@@ -287,7 +201,7 @@ class Parameter:
 				paramType = 'Number'
 		if self.parameter == None:
 			from revitron import _
-			if Parameter.bind(
+			if ParameterUtils.bind(
 			    self.element.Category.Name,
 			    self.name,
 			    paramType,
@@ -324,6 +238,255 @@ class Parameter:
 			return self.parameter.GetUnitTypeId()
 		except:
 			return self.parameter.DisplayUnitType
+
+
+class ParameterUtils:
+	"""
+	A collection of static parameter utilities.
+	"""
+
+	@staticmethod
+	def bind(category, paramName, paramType='Text', typeBinding=False):
+		"""
+		Bind a new parameter to a category.
+
+		Args:
+			category (string): The built-in category 
+			paramName (string): The parameter name
+			paramType (string): The parameter type (see `here <https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.htm>`_)
+								Defaults to "Text".
+			typeBinding (bool): Bind parameter to type instead of instance. Defaults to False.
+
+		Returns:
+			boolean: Returns True on success and False on error.
+		"""
+		import revitron
+
+		paramFile = revitron.APP.OpenSharedParameterFile()
+
+		if paramFile is None:
+			print('Please define a shared parameters file.')
+			return False
+
+		definition = None
+
+		# Try to get an existing parameter definition with the given name.
+		for group in paramFile.Groups:
+			definition = group.Definitions.get_Item(paramName)
+			if definition:
+				break
+
+		group = None
+
+		# If the definition hasn't been created yet, create it in the REVITRON group.
+		if not definition:
+			group = paramFile.Groups.get_Item('REVITRON')
+			if not group:
+				group = paramFile.Groups.Create('REVITRON')
+			pt = getattr(revitron.DB.ParameterType, paramType)
+			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
+			    paramName, pt
+			)
+			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
+
+		# Try to get the parameter binding for the definition.
+		binding = revitron.DOC.ParameterBindings[definition]
+
+		# Add the given category to the categories list as the initial item
+		# and try to access currently bound categories to add them as well.
+		# In case the given category is already among the bound categories,
+		# stop the further execution and return False.
+		# In case the category is not bound yet, remove the binding from the parameter
+		# binding map.
+		categories = [revitron.Category(category).get()]
+		try:
+			for _cat in binding.Categories:
+				categories.append(_cat)
+				if _cat.Name == category:
+					return False
+			revitron.DOC.ParameterBindings.Remove(definition)
+		except:
+			pass
+
+		# Create a new category set and add all categories, the given and the previously bound ones.
+		categorySet = revitron.APP.Create.NewCategorySet()
+		for _cat in categories:
+			categorySet.Insert(_cat)
+
+		# Create the binding.
+		if typeBinding:
+			binding = revitron.APP.Create.NewTypeBinding(categorySet)
+		else:
+			binding = revitron.APP.Create.NewInstanceBinding(categorySet)
+
+		revitron.DOC.ParameterBindings.Insert(definition, binding)
+
+		return True
+
+	@staticmethod
+	def getStorageType(name):
+		"""
+		Get the storage type of a parameter definition by name.
+
+		Args:
+			name (string): The parameter name
+
+		Returns:
+			string: The storage type
+		"""
+		from revitron import DOC
+		# Try first project and shared parameters.
+		definition = ParameterUtils._findProjectParameterDefinition(name)
+		if not definition:
+			definition = ParameterUtils._findSharedParameterDefinition(name)
+		if definition:
+			storageType = ParameterUtils._convertParameterTypeToStorageType(
+			    definition.ParameterType.ToString()
+			)
+			if storageType:
+				return storageType
+		try:
+			# Try built-in parameters.
+			return str(DOC.TypeOfStorage[ParameterUtils._findBuiltInParameter(name)])
+		except:
+			# Fall back to very slow search in all elements.
+			return ParameterUtils._findStorageTypeInElements(name)
+
+	@staticmethod
+	def _findProjectParameterDefinition(name):
+		"""
+		Find a custom parameter in a document.
+
+		Args:
+			name (string): The parameter name
+
+		Returns:
+			object: The parameter object
+		"""
+		from revitron import DOC
+		it = DOC.ParameterBindings.ForwardIterator()
+		while it.MoveNext():
+			if it.Key.Name == name:
+				return it.Key
+		return None
+
+	@staticmethod
+	def _findBuiltInParameter(name):
+		"""
+		Find a built-in parameter by name.
+
+		Args:
+			name (string): The parameter name
+
+		Returns:
+			object: The built-in parameter
+		"""
+		from revitron import DB
+		for item in dir(DB.BuiltInParameter):
+			try:
+				bip = getattr(DB.BuiltInParameter, item)
+				if DB.LabelUtils.GetLabelFor(bip) == name:
+					return bip
+			except:
+				pass
+		return None
+
+	@staticmethod
+	def _findSharedParameterDefinition(name):
+		"""
+		Find a shared parameter definition by name.
+
+		Args:
+			name (string): The parameter name
+
+		Returns:
+			object: The shared parameter definition
+		"""
+		from revitron import Filter, DB
+		sharedParameters = Filter().byClass(DB.SharedParameterElement).getElements()
+		for parameter in sharedParameters:
+			definition = parameter.GetDefinition()
+			if name == definition.Name:
+				return definition
+		return None
+
+	@staticmethod
+	def _convertParameterTypeToStorageType(paramType):
+		"""
+		Convert parameter type to storage type in a map of known types. 
+		Note that this map may be incomplete and therefore ``None`` may be returned.
+
+		Args:
+			paramType (string): The name of the parameter type to be converted
+
+		Returns:
+			string: The storage type
+		"""
+		typeMap = {
+		    'Angle': 'Double',
+		    'Area': 'Double',
+		    'Currency': 'Double',
+		    'ElectricalPotential': 'Double',
+		    'ElectricalPowerDensity': 'Double',
+		    'HVACAirflow': 'Double',
+		    'HVACAirflowDensity': 'Double',
+		    'HVACAreaDividedByCoolingLoad': 'Double',
+		    'HVACAreaDividedByHeatingLoad': 'Double',
+		    'HVACCoefficientOfHeatTransfer': 'Double',
+		    'HVACCoolingLoad': 'Double',
+		    'HVACCoolingLoadDividedByArea': 'Double',
+		    'HVACFactor': 'Double',
+		    'HVACHeatGain': 'Double',
+		    'HVACHeatingLoad': 'Double',
+		    'HVACHeatingLoadDividedByArea': 'Double',
+		    'HVACRoughness': 'Double',
+		    'HVACTemperature': 'Double',
+		    'HVACThermalMass': 'Double',
+		    'HVACThermalResistance': 'Double',
+		    'Image': 'ElementId',
+		    'Integer': 'Integer',
+		    'Invalid': 'ElementId',
+		    'Length': 'Double',
+		    'Material': 'ElementId',
+		    'MultilineText': 'String',
+		    'Number': 'Double',
+		    'PipingDensity': 'Double',
+		    'PipingPressure': 'Double',
+		    'PipingRoughness': 'Double',
+		    'PipingTemperature': 'Double',
+		    'PipingViscosity': 'Double',
+		    'ReinforcementCover': 'Double',
+		    'Text': 'String',
+		    'URL': 'String',
+		    'Volume': 'Double',
+		    'YesNo': 'Integer'
+		}
+		if paramType in typeMap:
+			return typeMap[paramType]
+
+	@staticmethod
+	def _findStorageTypeInElements(paramName):
+		"""
+		Find a storage type of a parameter by iterating a list of all elements in 
+		a document and testing if an element contains a parameter with a given name.
+
+		Note:
+
+			This is a very slow way of finding the correct storage type and 
+			should only be used in edge cases where there is no other way of finding out
+			the storage type of a parameter!
+
+		Args:
+			paramName (string): The name of the parameter
+
+		Returns:
+			string: The storage type
+		"""
+		from revitron import Filter
+		for element in Filter().getElements():
+			parameter = element.LookupParameter(paramName)
+			if parameter:
+				return parameter.StorageType.ToString()
 
 
 class ParameterNameList:
@@ -378,7 +541,6 @@ class ParameterValueProviders:
 			name (string): Name
 		"""
 		import revitron
-
 		self.providers = []
 		paramIds = []
 		it = revitron.DOC.ParameterBindings.ForwardIterator()
@@ -435,7 +597,7 @@ class BuiltInParameterNameMap:
 			name (string): The parameter name visible to the user
 
 		Returns:
-			list: The list of built-in parameters
+			list: The list of built-in parameter ids
 		"""
 		return self.map[name]
 

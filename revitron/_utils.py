@@ -2,6 +2,8 @@
 import re
 import os
 from pyrevit.coreutils import logger
+from cli import CliLog
+from datetime import datetime
 
 
 class AttrDict(dict):
@@ -31,6 +33,18 @@ class AttrDict(dict):
 		self.__dict__ = self
 
 
+class Date:
+
+	@staticmethod
+	def diffMin(dateA, dateB):
+		dateFormat = '%Y-%m-%d %H:%M:%S'
+		started = datetime.strptime(dateA, dateFormat)
+		finished = datetime.strptime(dateB, dateFormat)
+		dateDiff = finished - started
+		minutes = round(dateDiff.total_seconds() / 60, 2)
+		return minutes
+
+
 class Log:
 
 	def __init__(self):
@@ -39,9 +53,11 @@ class Log:
 
 	def error(self, message):
 		self.logger.error(message)
+		CliLog.append('Error: {}'.format(message))
 
 	def warning(self, message):
 		self.logger.warning(message)
+		CliLog.append('Warning: {}'.format(message))
 
 
 class String:

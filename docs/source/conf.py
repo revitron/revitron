@@ -34,8 +34,12 @@ author = 'Marc Anton Dahmen'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode', 'autodocsumm', 'sphinxext.opengraph'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.coverage',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
+    'autodocsumm',
+    'sphinxext.opengraph'
 ]
 
 autodoc_mock_imports = ['pyrevit', 'Autodesk', 'clr', 'System', 'Microsoft']
@@ -55,12 +59,6 @@ napoleon_use_rtype = True
 
 # Open Graph extension config. https://pypi.org/project/sphinxext-opengraph/
 ogp_site_url = "https://revitron.readthedocs.io/"
-ogp_image = "https://raw.githubusercontent.com/revitron/revitron/master/docs/source/_static/revitron.png"
-ogp_description_length = 300
-
-ogp_custom_meta_tags = [
-    '<meta name="twitter:card" content="summary_large_image">',
-]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

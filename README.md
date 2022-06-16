@@ -9,7 +9,7 @@ Revitron is a [Revit API](https://www.revitapidocs.com/) wrapper written in Pyth
 ![GitHub top language](https://img.shields.io/github/languages/top/revitron/revitron?color=222222)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/revitron/revitron?color=222222)
 ![Read the Docs](https://img.shields.io/readthedocs/revitron?color=222222)
-![](https://img.shields.io/badge/Revit-2017--2022-222222)
+![](https://img.shields.io/badge/Revit-2019--2022-222222)
 
 - [Installation](#installation)
 	- [Using the pyRevit UI](#using-the-pyrevit-ui)
@@ -49,4 +49,4 @@ The full documentation and API reference as well as some cheat sheets can be fou
 
 ---
 
-&copy; 2020-2021 [Marc Anton Dahmen](https://marcdahmen.de) &mdash; MIT license
+&copy; 2020-2022 [Marc Anton Dahmen](https://marcdahmen.de) &mdash; MIT license

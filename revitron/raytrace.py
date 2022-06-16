@@ -36,9 +36,7 @@ class Raytracer:
 
 		if elementFilter:
 			intersector = DB.ReferenceIntersector(
-			    elementFilter,
-			    DB.FindReferenceTarget.Face,
-			    self.view3D
+			    elementFilter, DB.FindReferenceTarget.Face, self.view3D
 			)
 		else:
 			intersector = DB.ReferenceIntersector(self.view3D)

@@ -16,7 +16,11 @@
 {%- if is_namespace %}
 {{- [pkgname, "namespace"] | join(" ") | e | heading }}
 {% else %}
-{{- "Developer Guide" | e | heading }}
+	{%- if pkgname == "revitron" %}
+		{{- "Developer Guide" | e | heading }}
+	{% else %}
+		{{- pkgname | e | heading }}
+	{% endif %}
 {% endif %}
 
 {%- if modulefirst and not is_namespace %}

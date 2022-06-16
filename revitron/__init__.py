@@ -85,6 +85,7 @@ import pyrevit
 import os
 
 from revitron._utils import *
+from revitron.analyze import *
 from revitron.boundingbox import *
 from revitron.element import *
 from revitron.excel import *
@@ -121,7 +122,7 @@ except:
 DB = Autodesk.Revit.DB
 LIB_DIR = parent(parent(__file__))
 REVIT_VERSION = pyrevit.HOST_APP.uiapp.Application.VersionNumber
-REVITRON_VERSION = '0.2.5'
+REVITRON_VERSION = '0.3.0'
 
 
 def _(element):
