@@ -31,7 +31,6 @@ Submodules
    revitron.externalreference
    revitron.failure
    revitron.filter
-   revitron.forge
    revitron.geometry
    revitron.grid
    revitron.link
