@@ -49,4 +49,4 @@ The full documentation and API reference as well as some cheat sheets can be fou
 
 ---
 
-&copy; 2020-2021 [Marc Anton Dahmen](https://marcdahmen.de) &mdash; MIT license
+&copy; 2020-2022 [Marc Anton Dahmen](https://marcdahmen.de) &mdash; MIT license

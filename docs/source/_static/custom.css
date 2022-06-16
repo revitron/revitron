@@ -9,3 +9,36 @@ html.dark {
 pre, code {
 	tab-size: 4 !important;
 }
+
+th {
+	color: var(--muted);
+}
+
+.image-mockup {
+	border-radius: 0.75rem;
+	overflow: hidden;
+	box-shadow: 0 0.4rem 3rem rgba(0,0,0,0.3),
+				0 1.5rem 1.5rem -1.2rem rgba(0,0,0,0.35);
+}
+
+.buttons-small a {
+	display: inline-flex;
+	padding: 0 1rem;
+	font-size: 1rem;
+	font-weight: 620;
+	line-height: 2.6rem;
+	border: 2px solid var(--border);
+	border-radius: 200px;
+	text-decoration: none;
+	color: var(--text);
+	transition: border-color 0.2s;
+	white-space: pre-wrap;
+}
+
+.buttons-small a:hover {
+	border-color: var(--text);
+}
+
+.buttons-small a:after {
+	display: none;
+}
