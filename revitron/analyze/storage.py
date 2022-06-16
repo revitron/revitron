@@ -44,14 +44,25 @@ class AbstractStorageDriver:
 
 
 class DirectusAPI():
+	"""
+	The **DirectusAPI** class provides the needed tools to interact with the `Directus API <https://docs.directus.io/reference/introduction/>`_.
+	"""
 
 	def __init__(self, host, token, collection):
+		"""
+		Init a new API wrapper instance.
+
+		Args:
+			host (string): The API URL
+			token (string): The API token that is used for authentication
+			collection (string): The collection name
+		"""
 		self.host = host
 		self.token = token
 		self.collection = collection
 
 	@property
-	def headers(self):
+	def _headers(self):
 		return {
 		    'Accept': 'application/json',
 		    'Authorization': 'Bearer {}'.format(self.token),
@@ -59,7 +70,19 @@ class DirectusAPI():
 		}
 
 	def get(self, endpoint, log=True):
-		response = requests.get('{}/{}'.format(self.host, endpoint), headers=self.headers)
+		"""
+		Get data from a given endpoint.
+
+		Args:
+			endpoint (string): The Directus API endpoint
+			log (bool, optional): Enable logging. Defaults to True.
+
+		Returns:
+			dict: The reponse dictionary
+		"""
+		response = requests.get(
+		    '{}/{}'.format(self.host, endpoint), headers=self._headers
+		)
 		try:
 			responseJson = response.json()
 			return responseJson['data']
@@ -70,9 +93,19 @@ class DirectusAPI():
 			return None
 
 	def post(self, endpoint, data):
+		"""
+		Post data to a given enpoint.
+
+		Args:
+			endpoint (string): The endpoint
+			data (dict): The data dict
+
+		Returns:
+			dict: The reponse dictionary
+		"""
 		response = requests.post(
 		    '{}/{}'.format(self.host, endpoint),
-		    headers=self.headers,
+		    headers=self._headers,
 		    data=json.dumps(data)
 		)
 		try:
@@ -84,10 +117,22 @@ class DirectusAPI():
 			Log().error(response.json())
 			return None
 
-	def getCollection(self):
-		return self.get('collections/{}'.format(self.collection), False)
+	def collectionExists(self):
+		"""
+		Test whether a collection exists.	 
+
+		Returns:
+			bool: True if the collection exists
+		"""
+		return self.get('collections/{}'.format(self.collection), False) is not None
 
 	def getFields(self):
+		"""
+		Get the fields list of a collection.
+
+		Returns:
+			list: The list of fields
+		"""
 		fields = []
 		data = self.get('fields/{}'.format(self.collection))
 		if data:
@@ -96,11 +141,23 @@ class DirectusAPI():
 		return fields
 
 	def clearCache(self):
+		"""
+		Clear the Directus cache.
+
+		Returns:
+			dict: The response data
+		"""
 		return requests.post(
-		    '{}/{}'.format(self.host, 'utils/cache/clear'), headers=self.headers
+		    '{}/{}'.format(self.host, 'utils/cache/clear'), headers=self._headers
 		)
 
 	def createCollection(self):
+		"""
+		Create the collection.
+
+		Returns:
+			dict: The response data
+		"""
 		return self.post(
 		    'collections', {
 		        'collection': self.collection, 'schema': {}, 'meta': {
@@ -110,6 +167,16 @@ class DirectusAPI():
 		)
 
 	def createField(self, name, dataType):
+		"""
+		Create a field in the collection.
+
+		Args:
+			name (string): The field name
+			dataType (string): The data type for the field
+
+		Returns:
+			dict: The response data
+		"""
 		data = {
 		    'field': name,
 		    'type': dataType.replace('real', 'float'),
@@ -172,7 +239,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 		if remoteItems:
 			maxId = max(row['id'] for row in remoteItems)
 			rowId = maxId + 1
-		if api.getCollection() is None:
+		if not api.collectionExists():
 			api.createCollection()
 		self._createMissingFields(dataProviderResults)
 		data = {}

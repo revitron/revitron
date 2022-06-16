@@ -49,7 +49,7 @@ class DirectusHistorySynchronizer():
 		directus = self.directus
 		directus.clearCache()
 
-		if directus.getCollection() is None:
+		if not directus.collectionExists():
 			directus.createCollection()
 
 		remoteFields = directus.getFields()
