@@ -52,10 +52,17 @@ class Geometry:
 		solids = []
 		try:
 			for geo in self._geometry:
-				for item in geo.GetInstanceGeometry():
+				try:
+					for item in geo.GetInstanceGeometry():
+						try:
+							if item.Volume:
+								solids.append(item)
+						except:
+							pass
+				except:
 					try:
-						if item.Volume:
-							solids.append(item)
+						if geo.Volume:
+							solids.append(geo)
 					except:
 						pass
 		except:
