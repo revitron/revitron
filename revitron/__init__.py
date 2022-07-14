@@ -18,18 +18,32 @@ However, there are two topics that are in the main focus of many **pyRevit** plu
 Working with Elements
 ---------------------
 
-As mentioned before, one of those core topics is to make elements and their properties easily accessible and editable. 
-Similar to **JavaScript** libraries such as **jQuery**, there is a multi-purpose shorthand `function`_ to wrap 
-generic Revit elements into Revitron objects. Those returned objects allow for getting and setting parameter values, retrieving
-bounding boxes, getting their category and so on.
-
-The following example demonstrates getting a comment of a given element::
+Revitron elements wrap standard Revit elements and expose additional `convenience methods <revitron.element.html>`_
+in order to make working with the API a bit less cumbersome::
 
 	import revitron
+	_element = revitron.Element(element)
+
+Alternatively to the default constructor it is also possible to create element instances by using the 
+following shorthand function::
+
+	from revitron import _
+	_element = _(element)
+
+In both cases ``_element`` is a proper Revitron element. This comes in handy in many situations where a quick access to an 
+element is needed. The following example demonstrates how it is possible to set a parameter value, even though 
+the parameter itself doesn't exist yet::
+
+	from revitron import _
+	_(element).set('ParameterName', value)
+
+In that one line we just set a parameter value and also created the parameter if neccessary.
+In order to get a parameter value of a given element we can use::
+
 	from revitron import _
 	comment = _(element).get('Comments')
 	
-You can find the documentation of more methods to work with elements in the `revitron.element <revitron.element.html>`_ reference. 
+You can find the documentation of more available element methods in the `revitron.element <revitron.element.html>`_ reference.
 	
 Using Filters
 -------------
@@ -47,7 +61,7 @@ a powerful tool to also filter the database by parameter values using human read
 Revitron Module
 ===============
 
-The main Revitron module contains only some global module properties as well as the magic ``_()`` `function`_. 
+The main Revitron module contains only some global module properties as well as the magic ``_()`` function. 
 Specific classes are located in the `submodules`_ listed below.
 
 .. data:: DOC
@@ -77,8 +91,6 @@ Specific classes are located in the `submodules`_ listed below.
 .. data:: REVIT_VERSION
 
 	The version number string of the running Revit application.
-
-.. _function:    
 """
 import Autodesk.Revit.DB
 import pyrevit
