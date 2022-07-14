@@ -6,7 +6,7 @@ Methods like ``revitron.Element(element).get(parameter)`` simplify that process.
 Note:
 
 	Note that there is also the ``_()`` shortcut function available to be even more efficient 
-	in getting properties of Revit elements. `More here <revitron.html#function>`_ ...
+	in getting properties of Revit elements. `More here <revitron.html#working-with-elements>`_ ...
 
 For example getting a parameter value or even a bounding box object works as follows::
 

@@ -53,16 +53,46 @@ class Geometry:
 		solids = []
 		try:
 			for geo in self._geometry:
-				for item in geo.GetInstanceGeometry():
+				try:
+					for item in geo.GetInstanceGeometry():
+						try:
+							if item.Volume:
+								solids.append(item)
+						except:
+							pass
+				except:
 					try:
-						if item.Volume:
-							solids.append(item)
+						if geo.Volume:
+							solids.append(geo)
 					except:
 						pass
 		except:
 			pass
 		return solids
 
+	def getCurves(self, curveType='Line'):
+		"""
+		Get a list of all curves by type of a given element.
+
+		Note:
+			Child classes of Autodesk.DB.Curve can be used.
+
+		Args:
+			curveType (str, optional): The type of curve to return.
+			Defaults to 'Line'.
+
+		Returns:
+			list: A list of curve objects
+		"""
+		curves = []
+		for geo in self._geometry:
+			try:
+				for item in geo.GetInstanceGeometry():
+					if item.GetType().Name == curveType:
+						curves.append(item)
+			except:
+				pass
+		return curves
 
 class GeometryUtils:
 	"""

@@ -17,7 +17,7 @@ class Parameter:
 		In most cases it is not required to actually create a **Parameter** class 
 		instance in order to access paramter values of a given element. 
 		The fastest way of getting or setting parameter values is using the ``_(element).get('parameter')``
-		shortcut `function <revitron.html#function>`_ or an instance of the :doc:`revitron.element` class.
+		shortcut `function <revitron.html#working-with-elements>`_ or an instance of the :doc:`revitron.element` class.
 	"""
 
 	def __init__(self, element, name):
