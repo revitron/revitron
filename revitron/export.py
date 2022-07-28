@@ -39,7 +39,7 @@ class CSVExporter:
 
 		Args:
 			schedule (object): A Revit schedule
-			directory (string): A custom output directory. Defaults to False.
+			directory (string): A custom output directory.
 			template (string, optional): A name template. Defaults to '{View Name}'.
 			delimiter (string, optional): A csv delimiter. Defaults to ';'.
 			hasTitle (bool, optional): Set True to export schedule title. Defaults to False.
