@@ -217,12 +217,12 @@ class Parameter:
 	@property
 	def definitionType(self):
 		"""
-		The defenition parameter type.
+		The definition parameter type.
 
 		Returns:
 			string: The definition parameter type name 
 		"""
-		return self.parameter.Definition.ParameterType
+		return ParameterUtils.getParameterTypeFromDefinition(self.parameter.Definition)
 
 	@property
 	def unit(self):
@@ -283,11 +283,10 @@ class ParameterUtils:
 			group = paramFile.Groups.get_Item('REVITRON')
 			if not group:
 				group = paramFile.Groups.Create('REVITRON')
-			pt = getattr(revitron.DB.ParameterType, paramType)
-			ExternalDefinitionCreationOptions = revitron.DB.ExternalDefinitionCreationOptions(
-			    paramName, pt
+			options = ParameterUtils.externalDefinitionCreationOptions(
+			    paramName, paramType
 			)
-			definition = group.Definitions.Create(ExternalDefinitionCreationOptions)
+			definition = group.Definitions.Create(options)
 
 		# Try to get the parameter binding for the definition.
 		binding = revitron.DOC.ParameterBindings[definition]
@@ -324,6 +323,74 @@ class ParameterUtils:
 		return True
 
 	@staticmethod
+	def externalDefinitionCreationOptions(paramName, paramType):
+		"""
+		Create proper definition creation options based on a given name and type, that is passed as string.
+
+		Args:
+			paramName (string): The name of the parameter definition
+			paramType (string): The name of the type
+
+		Returns:
+			ExternalDefinitionCreationOptions: The ExternalDefinitionCreationOptions object
+		"""
+		import revitron
+		dataType = None
+		try:
+			dataType = getattr(revitron.DB.SpecTypeId, paramType)
+		except:
+			pass
+		try:
+			dataType = getattr(revitron.DB.SpecTypeId.String, paramType)
+		except:
+			pass
+		try:
+			dataType = getattr(revitron.DB.SpecTypeId.Int, paramType)
+		except:
+			pass
+		try:
+			dataType = getattr(revitron.DB.SpecTypeId.Boolean, paramType)
+		except:
+			pass
+		try:
+			dataType = getattr(revitron.DB.SpecTypeId.Reference, paramType)
+		except:
+			pass
+		if dataType:
+			try:
+				return revitron.DB.ExternalDefinitionCreationOptions(paramName, dataType)
+			except:
+				pass
+		try:
+			return revitron.DB.ExternalDefinitionCreationOptions(
+			    paramName, getattr(revitron.DB.ParameterType, paramType)
+			)
+		except:
+			pass
+
+	@staticmethod
+	def getParameterTypeFromDefinition(definition):
+		"""
+		Get the parameter type as string from a definition.
+
+		Args:
+			definition (object): The parameter definition
+
+		Returns:
+			string: The name of the type
+		"""
+		try:
+			return definition.ParameterType.ToString()
+		except:
+			pass
+		try:
+			import revitron
+			return revitron.DB.LabelUtils.GetLabelForSpec(definition.GetDataType()
+			                                              ).replace('/', '')
+		except:
+			pass
+
+	@staticmethod
 	def getStorageType(name):
 		"""
 		Get the storage type of a parameter definition by name.
@@ -341,7 +408,7 @@ class ParameterUtils:
 			definition = ParameterUtils._findSharedParameterDefinition(name)
 		if definition:
 			storageType = ParameterUtils._convertParameterTypeToStorageType(
-			    definition.ParameterType.ToString()
+			    ParameterUtils.getParameterTypeFromDefinition(definition)
 			)
 			if storageType:
 				return storageType

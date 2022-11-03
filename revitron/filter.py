@@ -106,7 +106,10 @@ class Filter:
 			elif 'Integer' in str(filterRule):
 				rule = filterRule(valueProvider, evaluator, value)
 			else:
-				rule = filterRule(valueProvider, evaluator, value, True)
+				try:
+					rule = filterRule(valueProvider, evaluator, value, True)
+				except:
+					rule = filterRule(valueProvider, evaluator, value)
 			_ids = self.getElementIds()
 			if _ids:
 				_filter = Filter()

@@ -34,8 +34,8 @@ class CatergoryTests(utils.RevitronTestCase):
 		    revitron.DB.BuiltInCategory.OST_DSR_ArrowHeadStyleId
 		)
 		self.assertEqual(
-		    revitron.BuiltInCategory('Analytical Beam Tags').get(),
-		    revitron.DB.BuiltInCategory.OST_BeamAnalyticalTags
+		    revitron.BuiltInCategory('Roof Tags').get(),
+		    revitron.DB.BuiltInCategory.OST_RoofTags
 		)
 
 
