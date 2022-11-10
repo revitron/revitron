@@ -43,6 +43,9 @@ class Config:
 			print('Invalid model configuration')
 			sys.exit(1)
 
+	def get(self):
+		return self._config
+
 	@property
 	def config(self):
 		return self._config

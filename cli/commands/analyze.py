@@ -1,19 +1,10 @@
-import sys
-from os.path import dirname
-from pyrevit import HOST_APP
-
-sys.path.append(dirname(dirname(dirname(__file__))))
-
 import revitron
-from cli import getLogFromEnv
-from cli.config import Config
+from cli import App, Config, getLogFromEnv
 
 config = Config()
 cliLog = getLogFromEnv()
 
-revitron.DOC = HOST_APP.uiapp.Application.OpenDocumentFile(
-    config.modelPath, config.openOptions
-)
+revitron.DOC = App.open(True)
 
 analyzer = revitron.ModelAnalyzer(config.file, cliLog)
 analyzer.snapshot()

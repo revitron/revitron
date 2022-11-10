@@ -3,7 +3,7 @@ from os.path import dirname
 
 sys.path.append(dirname(dirname(__file__)))
 
-import cli
+from command import Command
 
-cmd = cli.Command(sys.argv[1])
+cmd = Command(sys.argv[1])
 cmd.run()

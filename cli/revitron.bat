@@ -11,9 +11,5 @@ set args=%*
 if "%~1" == "" (
 	echo No command specified!
 ) else (
-	if exist %command% (
-		python %run% %args%
-	) else (
-		echo Command "%1" not found!
-	)
+	python %run% %args%
 )
