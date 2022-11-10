@@ -42,3 +42,12 @@ th {
 .buttons-small a:after {
 	display: none;
 }
+
+.wy-menu .reference code {
+	background-color: transparent !important;
+}
+
+.wy-menu .reference code .pre {
+	font-size: 0.85rem !important;
+	line-height: 1.2 !important;
+}

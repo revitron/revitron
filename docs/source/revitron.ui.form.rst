@@ -1,7 +1,7 @@
-revitron.view
-=============
+revitron.ui.form
+================
 
-.. automodule:: revitron.view
+.. automodule:: revitron.ui.form
    :members:
    :inherited-members:
    :show-inheritance:

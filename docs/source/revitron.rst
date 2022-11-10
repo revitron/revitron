@@ -14,6 +14,7 @@ Subpackages
    :maxdepth: 4
 
    revitron.analyze
+   revitron.ui
 
 Submodules
 ----------

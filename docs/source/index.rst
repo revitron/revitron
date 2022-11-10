@@ -22,6 +22,7 @@ Revitron
 
    get-started
    revitron
+   cli
    analyze
    cheat-sheet
    genindex

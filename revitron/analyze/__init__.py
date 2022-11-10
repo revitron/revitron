@@ -1,5 +1,5 @@
 """
-The ``analyze`` module helps you to automate analysing the health and status of a model and to extract 
+The ``revitron.analyze`` module helps you to automate analysing the health and status of a model and to extract 
 several types of data and statistics in order to simplifiy BIM quality control. Extracted data is stored 
 as snapshots in a SQLite database to be consumed by other applications or dashboards.
 """
