@@ -26,6 +26,8 @@ class Button(RPWButton):
 		self.Content = text
 		self.window = window
 		self.cancel = cancel
+		if cancel:
+			self.IsCancel = True
 
 	def OnClick(self):
 		"""
@@ -50,11 +52,11 @@ class Button(RPWButton):
 		"""
 		container = window.getContainer(containerName)
 		if cancel:
-			color = System.Windows.Media.Colors.SteelBlue
-			bgColor = System.Windows.Media.Colors.GhostWhite
+			color = System.Windows.Media.Colors.Black
+			bgColor = System.Windows.Media.Colors.White
 		else:
-			color = System.Windows.Media.Colors.GhostWhite
-			bgColor = System.Windows.Media.Colors.SteelBlue
+			color = System.Windows.Media.Colors.Black
+			bgColor = System.Windows.Media.Colors.Gainsboro
 		container.Children.Add(
 		    Button(
 		        text,
@@ -66,7 +68,7 @@ class Button(RPWButton):
 		        Foreground=System.Windows.Media.SolidColorBrush(color),
 		        Background=System.Windows.Media.SolidColorBrush(bgColor),
 		        BorderBrush=System.Windows.Media.SolidColorBrush(
-		            System.Windows.Media.Colors.SteelBlue
+		            System.Windows.Media.Colors.DarkGray
 		        )
 		    )
 		)
