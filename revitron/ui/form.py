@@ -43,7 +43,7 @@ class CheckBox():
 		        key,
 		        title,
 		        state,
-		        Width=window.width - 50,
+		        Width=window.widthForm,
 		        Margin=System.Windows.Thickness(0, 10, 0, 10)
 		    )
 		)
@@ -102,7 +102,7 @@ class SelectBox():
 		container = window.getContainer(containerName)
 		container.Children.Add(RPWLabel(title))
 		container.Children.Add(
-		    RPWComboBox(key, options, selected, Width=window.width - 50, Margin=MARGIN)
+		    RPWComboBox(key, options, selected, Width=window.widthForm, Margin=MARGIN)
 		)
 
 
@@ -139,7 +139,7 @@ class TextBox():
 		    RPWTextBox(
 		        key,
 		        value,
-		        Width=window.width - 50,
+		        Width=window.widthForm,
 		        Height=28,
 		        Padding=System.Windows.Thickness(4),
 		        Margin=MARGIN

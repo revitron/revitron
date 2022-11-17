@@ -14,6 +14,8 @@ class AbstractWindow(FlexForm):
 	__metaclass__ = ABCMeta
 
 	width = None
+	widthForm = None
+	widthDeltaForm = 33
 	height = None
 	ok = False
 	values = {}
@@ -29,6 +31,7 @@ class AbstractWindow(FlexForm):
 			height (int, optional): The window height. Defaults to 620.
 		"""
 		self.width = width
+		self.widthForm = width - self.widthDeltaForm
 		self.height = height
 		self.ui = wpf.LoadComponent(self, StringReader(self._renderLayout()))
 		self.ui.Title = title
@@ -64,6 +67,71 @@ class AbstractWindow(FlexForm):
 		pass
 
 
+class SimpleWindow(AbstractWindow):
+	"""
+	A simple window.
+	"""
+
+	layout = """
+		<Window
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			xmlns:local="clr-namespace:WpfApplication1" mc:Ignorable="d"
+			Height="{height}" Width="{width}"
+			WindowStartupLocation="CenterScreen"
+			Topmost="True"
+			>
+			<StackPanel Margin="0,10,0,10">
+				<StackPanel Name="Main" Margin="10,10,10,10"></StackPanel>
+				<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Name="Buttons" Margin="10,10,10,0"></StackPanel>
+			</StackPanel>
+		</Window>
+		"""
+
+	def __init__(
+	    self,
+	    title,
+	    width=520,
+	    height=620,
+	    cancelButtonText='Cancel',
+	    okButtonText='OK',
+	    **kwargs
+	):
+		"""
+		Init a new simple window.
+
+		Args:
+			title (string): The window title
+			width (int, optional): The window width. Defaults to 520.
+			height (int, optional): The window height. Defaults to 620.
+			cancelButtonText (str, optional): The cancel button text. Defaults to 'Cancel'.
+			okButtonText (str, optional): The OK button text. Defaults to 'OK'.
+		"""
+		from revitron.ui import Button
+		AbstractWindow.__init__(self, title, width=width, height=height, **kwargs)
+		Button.create(self, 'Buttons', cancelButtonText, True)
+		Button.create(self, 'Buttons', okButtonText, False)
+
+	def _renderLayout(self):
+		return self.layout.format(width=self.width, height=self.height)
+
+	def getValues(self):
+		"""
+		Get the values of all form elements in the window and store them in the ``values`` dictionary.
+		"""
+		values = {}
+		container = self.getContainer('Main')
+		for component in container.Children:
+			try:
+				values[component.Name] = component.value
+			except AttributeError:
+				pass
+		self.values = values
+		self.close()
+
+
 class TabWindow(AbstractWindow):
 	"""
 	A window where the content is split into multiple custom tabs.
@@ -80,7 +148,7 @@ class TabWindow(AbstractWindow):
 			WindowStartupLocation="CenterScreen"
 			Topmost="True"
 			>
-			<StackPanel Name="MainGrid" Margin="0,10,0,10">
+			<StackPanel Margin="0,10,0,10">
 				<TabControl Name="Tabs" TabStripPlacement="Top" Margin="10,10,10,10">
 					{tabs}
 				</TabControl>
@@ -88,6 +156,8 @@ class TabWindow(AbstractWindow):
 			</StackPanel>
 		</Window>
 		"""
+
+	widthDeltaForm = 50
 
 	def __init__(
 	    self,
@@ -103,12 +173,12 @@ class TabWindow(AbstractWindow):
 		Init a new tabbed window.
 
 		Args:
-			title (_type_): _description_
-			tabs (_type_): _description_
-			width (int, optional): _description_. Defaults to 520.
-			height (int, optional): _description_. Defaults to 620.
-			cancelButtonText (str, optional): _description_. Defaults to 'Cancel'.
-			okButtonText (str, optional): _description_. Defaults to 'OK'.
+			title (string): The window title
+			tabs (list): The list of tab names
+			width (int, optional): The window width. Defaults to 520.
+			height (int, optional): The window height. Defaults to 620.
+			cancelButtonText (str, optional): The cancel button text. Defaults to 'Cancel'.
+			okButtonText (str, optional): The OK button text. Defaults to 'OK'.
 		"""
 		from revitron.ui import Button
 		self.tabs = tabs
