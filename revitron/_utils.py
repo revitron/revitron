@@ -32,6 +32,19 @@ class AttrDict(dict):
 		self.__dict__ = self
 
 
+class Color:
+
+	@staticmethod
+	def fromHex(hex):
+		import revitron
+		hex = hex.replace('#', '')
+		rgb = []
+		for i in (0, 2, 4):
+			decimal = int(hex[i:i + 2], 16)
+			rgb.append(decimal)
+		return revitron.DB.Color(rgb[0], rgb[1], rgb[2])
+
+
 class Date:
 
 	@staticmethod
