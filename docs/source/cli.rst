@@ -117,3 +117,5 @@ that includes synching as well.
         log('Synching failed')
 
     revitron.DOC.Close(False)
+
+You can take a look at the included `commands <https://github.com/revitron/revitron/tree/develop/cli/commands>`_ as simple but fully working examples for command files.
