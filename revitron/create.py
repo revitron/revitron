@@ -78,7 +78,7 @@ class Create:
 			return extrusion
 
 	@staticmethod
-	def familyInstance(familySymbolId, location, structuralType=False):
+	def familyInstance(familySymbolId, location, structuralType=False, view=None):
 		"""
 		Creates a new family instance.
 
@@ -92,20 +92,22 @@ class Create:
 			familySymbolId (object): A Revit API family symbol ID.
 			location (object): A Revit API ``XYZ`` point.
 			structuralType (object, optional): A Revit API structural type of False for ``NonStructural``. Defaults to False.
+			view (object, optional): A Revit view, Defaults to None. Note that ``structuralType`` and ``view`` can not be used together.
 
 		Returns:
 			object: The family instance.
 		"""
 		import revitron
 		from revitron import _
-		if not structuralType:
-			structuralType = revitron.DB.Structure.StructuralType.NonStructural
+		create = revitron.DOC.Create.NewFamilyInstance
 		familySymbol = _(familySymbolId).element
 		if not familySymbol.IsActive:
 			familySymbol.Activate()
-		return revitron.DOC.Create.NewFamilyInstance(
-		    location, familySymbol, structuralType
-		)
+		if view:
+			return create(location, familySymbol, view)
+		if not structuralType:
+			structuralType = revitron.DB.Structure.StructuralType.NonStructural
+		return create(location, familySymbol, structuralType)
 
 	@staticmethod
 	def GridLineLinear(start, end, name):

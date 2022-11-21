@@ -134,7 +134,7 @@ except:
 DB = Autodesk.Revit.DB
 LIB_DIR = parent(parent(__file__))
 REVIT_VERSION = pyrevit.HOST_APP.uiapp.Application.VersionNumber
-REVITRON_VERSION = '0.3.1'
+REVITRON_VERSION = '0.4.0'
 
 
 def _(element):
@@ -147,10 +147,10 @@ def _(element):
 	Returns:
 		mixed: A Revitron element instance
 	"""
-	category = Element(element).getParameter('Category').getValueString()
-
-	switcher = {'RVT Links': LinkRvt, 'Rooms': Room}
-
-	wrapper = switcher.get(category, Element)
-
-	return wrapper(element)
+	try:
+		category = Element(element).getParameter('Category').getValueString()
+		switcher = {'RVT Links': LinkRvt, 'Rooms': Room}
+		wrapper = switcher.get(category, Element)
+		return wrapper(element)
+	except:
+		return Element(element)

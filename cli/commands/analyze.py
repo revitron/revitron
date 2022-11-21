@@ -1,9 +1,12 @@
-import sys
-from os.path import dirname
+import revitron
+from cli import App, Config, getLogFromEnv
 
-sys.path.append(dirname(dirname(dirname(__file__))))
+config = Config()
+cliLog = getLogFromEnv()
 
-import cli
+revitron.DOC = App.open(True)
 
-cmd = cli.Command('analyze')
-cmd.run()
+analyzer = revitron.ModelAnalyzer(config.file, cliLog)
+analyzer.snapshot()
+
+revitron.DOC.Close(False)

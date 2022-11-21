@@ -1,5 +1,5 @@
 """
-The ``analyze`` module helps you to automate analysing the health and status of a model and to extract 
+The ``revitron.analyze`` module helps you to automate analysing the health and status of a model and to extract 
 several types of data and statistics in order to simplifiy BIM quality control. Extracted data is stored 
 as snapshots in a SQLite database to be consumed by other applications or dashboards.
 """
@@ -20,13 +20,15 @@ class ModelAnalyzer:
 	and creates snapshots with the extracted statistics in a given SQLite database.
 	"""
 
-	def __init__(self, configJson):
+	def __init__(self, configJson, cliLog):
 		"""
 		Init a ``ModelAnalyzer`` instance.
 
 		Args:
 			configJson (string): The configuration JSON file
+			cliLog (CliLog): The CLI log instance
 		"""
+		self.log = cliLog.write
 		file = open(configJson)
 		config = json.load(file)
 		file.close()
@@ -37,7 +39,7 @@ class ModelAnalyzer:
 			self.model = self._getLocalPath(config['model'])
 		except:
 			from revitron import Log
-			Log().error('Invalid analyzer configuration JSON file')
+			self.log('Invalid analyzer configuration JSON file')
 			sys.exit(1)
 		self.history = DirectusHistorySynchronizer(config)
 
@@ -46,7 +48,6 @@ class ModelAnalyzer:
 		Create a snapshot and store the given ``DataProviderResult`` list along with a 
 		timestamp using a given storage driver.
 		"""
-		logger = Log()
 		results = []
 		try:
 			storageDriverModule = __import__(__name__)
@@ -55,7 +56,7 @@ class ModelAnalyzer:
 			)
 			storageDriverInstance = storageDriverClass(self.storageConfig)
 		except:
-			logger.error('Error instanciating the storage driver')
+			self.log('Error instanciating the storage driver')
 			sys.exit(1)
 		for provider in self.providers:
 			providerClass = provider.get('class')
@@ -70,6 +71,7 @@ class ModelAnalyzer:
 			modelSize = 0
 		storageDriverInstance.add(results, modelSize)
 		self.history.sync()
+		self.log('Finished snapshot')
 
 	def _getLocalPath(self, model):
 		if model['type'] == 'local':

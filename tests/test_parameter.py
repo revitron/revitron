@@ -36,31 +36,63 @@ class ParameterTests(utils.RevitronTestCase):
 
 		self.assertEquals(
 		    'Text',
-		    str(revitron.Parameter(wall, 'text').parameter.Definition.ParameterType)
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'text').parameter.Definition
+		    )
 		)
 		self.assertEquals(
 		    'Integer',
-		    str(revitron.Parameter(wall, 'integer').parameter.Definition.ParameterType)
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'integer').parameter.Definition
+		    )
 		)
 		self.assertEquals(
 		    'Integer',
-		    str(
-		        revitron.Parameter(wall, 'integerAuto').parameter.Definition.ParameterType
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'integerAuto').parameter.Definition
 		    )
 		)
 		self.assertEquals(
 		    'Number',
-		    str(revitron.Parameter(wall, 'number').parameter.Definition.ParameterType)
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'number').parameter.Definition
+		    )
 		)
 		self.assertEquals(
 		    'Number',
-		    str(
-		        revitron.Parameter(wall, 'numberAuto').parameter.Definition.ParameterType
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'numberAuto').parameter.Definition
 		    )
 		)
 		self.assertEquals(
 		    'Length',
-		    str(revitron.Parameter(wall, 'length').parameter.Definition.ParameterType)
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'length').parameter.Definition
+		    )
+		)
+		self.assertEquals(
+		    'Area',
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'Area').parameter.Definition
+		    )
+		)
+		self.assertEquals(
+		    'Length',
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'Length').parameter.Definition
+		    )
+		)
+		self.assertEquals(
+		    'Length',
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'WALL_TOP_OFFSET').parameter.Definition
+		    )
+		)
+		self.assertEquals(
+		    'YesNo',
+		    revitron.ParameterUtils.getParameterTypeFromDefinition(
+		        revitron.Parameter(wall, 'WALL_ATTR_ROOM_BOUNDING').parameter.Definition
+		    )
 		)
 
 		self.assertEquals(_(wall).get('text'), 'some text')

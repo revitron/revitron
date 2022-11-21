@@ -2,7 +2,6 @@
 import re
 import os
 from pyrevit.coreutils import logger
-from cli import CliLog
 from datetime import datetime
 
 
@@ -33,6 +32,19 @@ class AttrDict(dict):
 		self.__dict__ = self
 
 
+class Color:
+
+	@staticmethod
+	def fromHex(hex):
+		import revitron
+		hex = hex.replace('#', '')
+		rgb = []
+		for i in (0, 2, 4):
+			decimal = int(hex[i:i + 2], 16)
+			rgb.append(decimal)
+		return revitron.DB.Color(rgb[0], rgb[1], rgb[2])
+
+
 class Date:
 
 	@staticmethod
@@ -53,11 +65,9 @@ class Log:
 
 	def error(self, message):
 		self.logger.error(message)
-		CliLog.append('Error: {}'.format(message))
 
 	def warning(self, message):
 		self.logger.warning(message)
-		CliLog.append('Warning: {}'.format(message))
 
 
 class String:

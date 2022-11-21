@@ -1,7 +1,7 @@
-revitron.view
-=============
+revitron.ui.button
+==================
 
-.. automodule:: revitron.view
+.. automodule:: revitron.ui.button
    :members:
    :inherited-members:
    :show-inheritance:

@@ -161,6 +161,31 @@ class Document:
 			pass
 		return False
 
+	def synchronize(self, compact=True, comment=''):
+		"""
+		Synchronize the document.
+
+		Args:
+			compact (bool, optional): Compact while synchronizing. Defaults to True.
+			comment (str, optional): A comment for the synch that shows up in the log. Defaults to ''.
+		
+		Returns:
+			boolean: True on success
+		"""
+		try:
+			import revitron
+			syncOptions = revitron.DB.SynchronizeWithCentralOptions()
+			syncOptions.Compact = compact
+			syncOptions.Comment = comment
+			syncOptions.SaveLocalAfter = False
+			syncOptions.SaveLocalBefore = False
+			revitron.DOC.SynchronizeWithCentral(
+			    revitron.DB.TransactWithCentralOptions(), syncOptions
+			)
+			return True
+		except:
+			return False
+
 
 class DocumentConfigStorage:
 	"""
