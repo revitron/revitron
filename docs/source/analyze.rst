@@ -27,8 +27,9 @@ However, for the time being, only `Directus <https://directus.io/>`_ is supporte
 Setup
 -----
 
-In order to be able to run the **Revitron CLI** from anywhere it has to be added to your *path* environment variable. 
-You can do that manually or by running the following command once:
+In order to be able to run the `revitron <cli.html>`_ command from anywhere it has to be added 
+to your *path* environment variable. 
+You can do that manually or by running the following commands once:
 
 .. code-block::
 

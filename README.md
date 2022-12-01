@@ -15,6 +15,7 @@ Revitron is a [Revit API](https://www.revitapidocs.com/) wrapper written in Pyth
 	- [Using the pyRevit UI](#using-the-pyrevit-ui)
 	- [Using the pyRevit CLI](#using-the-pyrevit-cli)
 	- [Bundled Version](#bundled-version)
+- [Revitron CLI Setup](#revitron-cli-setup)
 - [Documentation](#documentation)
 
 ## Installation
@@ -42,6 +43,15 @@ There is also a bundle installer available that will install *pyRevit* including
 2. Move the `install.bat` to the directory, where you want to install *pyRevit*.
 3. Double-click the `install.bat` file.
 4. Start *Revit*.
+
+## Revitron CLI Setup
+
+In order to use the `revitron` command on the Windows CLI, its location has to be added to the environment as follows:
+
+	cd path\to\revitron.lib
+	cli\setup
+
+Now you can use the `revitron` everywhere on the system.
 
 ## Documentation
 

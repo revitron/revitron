@@ -8,6 +8,18 @@ ability to handle cloud models and to pass configuration files.
 
     revitron [command] "path\to\config.json"
 
+Setup
+-----
+
+In order to be able to run the ``revitron`` command from anywhere it has to be added 
+to your *path* environment variable. 
+You can do that manually or by running the following commands once:
+
+.. code-block::
+
+    cd path\to\revitron.lib
+    cli\setup
+
 Standard Commands
 -----------------
 

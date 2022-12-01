@@ -32,7 +32,6 @@ the `Revitron UI <https://revitron-ui.readthedocs.io/>`_, use the following comm
     pyrevit extend lib revitron https://github.com/revitron/revitron.git
     pyrevit extend ui revitron https://github.com/revitron/revitron-ui.git
 
-
 Bundled Version
 ~~~~~~~~~~~~~~~
 
@@ -45,3 +44,14 @@ including the *Revitron* and the *Revitron UI* packages.
 3. Double-click the ``install.bat`` file to start the installation and wait until it has finished.
 4. Start **Revit**.
 
+Revitron CLI Setup
+------------------
+
+In order to be able to run the `revitron <cli.html>`_ command from anywhere it has to be 
+added to your *path* environment variable. 
+You can do that manually or by running the following commands once:
+
+.. code-block::
+
+    cd path\to\revitron.lib
+    cli\setup
