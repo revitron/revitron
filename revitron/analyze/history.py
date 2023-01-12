@@ -3,7 +3,7 @@ This submodule provides an synchronizer class for mirroring hsitory data to Dire
 """
 import sqlite3
 import re
-from revitron.analyze.storage import DirectusAPI
+from revitron.analyze.storage import DirectusAPI, parseToken
 
 
 class DirectusHistorySynchronizer():
@@ -26,7 +26,7 @@ class DirectusHistorySynchronizer():
 			    )
 			)
 			host = config['storage']['config']['host'].rstrip('/')
-			token = config['storage']['config']['token']
+			token = parseToken(config['storage']['config']['token'])
 			self.collection = collection
 			self.directus = DirectusAPI(host, token, collection)
 		except:

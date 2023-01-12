@@ -196,6 +196,22 @@ give **Revitron** write access.
         }
     }
 
+.. note:: Storing the token in plain text in your configuration might not be the best solution. Alternatively it is therefore possible to reference any environment variable instead: 
+
+.. code-block:: json
+    :emphasize-lines: 5
+
+    {
+        "storage": {
+            "driver": "Directus",
+            "config": {
+                "token": "{{ ENV_VARIABLE }}",
+                "host": "http://domain.com/url/to/directus",
+                "collection": "Project Name"
+            }
+        }
+    }
+
 .. _data-providers:
 
 Data Providers
