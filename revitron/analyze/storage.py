@@ -3,6 +3,7 @@ This submodule is a collection of storage drivers that can be used to store extr
 in different types of formats such as SQLite, JSON or API based databases.
 """
 import json
+import os
 import re
 import sqlite3
 import sys
@@ -12,6 +13,14 @@ from time import time
 from datetime import datetime
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
+
+
+def reTokenCallback(match):
+	return os.getenv(match.group(1))
+
+
+def parseToken(token):
+	return re.sub(r'\{\{\s*(\w+)\s*\}\}', reTokenCallback, token)
 
 
 class AbstractStorageDriver:
@@ -205,7 +214,7 @@ class DirectusStorageDriver(AbstractStorageDriver):
 			    re.sub(r'[^a-z0-9]+', '_', config['collection'].lower())
 			)
 			host = config['host'].rstrip('/')
-			token = config['token']
+			token = parseToken(config['token'])
 		except:
 			Log().error('Invalid Directus configuration')
 			sys.exit(1)

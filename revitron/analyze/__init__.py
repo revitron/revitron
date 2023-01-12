@@ -94,7 +94,6 @@ class ModelAnalyzer:
 					return files[0]
 				except:
 					return ''
-			return ''
 
 
 class DataProviderResult:
