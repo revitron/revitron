@@ -90,7 +90,9 @@ class DirectusAPI():
 			dict: The reponse dictionary
 		"""
 		response = requests.get(
-		    '{}/{}'.format(self.host, endpoint), headers=self._headers
+		    '{}/{}'.format(self.host, endpoint),
+		    headers=self._headers,
+		    allow_redirects=True
 		)
 		try:
 			responseJson = response.json()
@@ -115,7 +117,8 @@ class DirectusAPI():
 		response = requests.post(
 		    '{}/{}'.format(self.host, endpoint),
 		    headers=self._headers,
-		    data=json.dumps(data)
+		    data=json.dumps(data),
+		    allow_redirects=True
 		)
 		try:
 			responseJson = response.json()
